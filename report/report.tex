@@ -1,0 +1,275 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage[tmargin=2.0cm, lmargin=4cm, rmargin=4cm]{geometry}
+\usepackage{listings}             % Include the listings-package
+\usepackage{textcomp}
+\usepackage{listings}
+%\usepackage{minted}      % (requires -shell-escape)
+\usepackage{xcolor}
+\usepackage{filecontents}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{subfig}
+
+\newcolumntype{L}{>{\centering\arraybackslash}m{3cm}}
+
+% --- ugly internals for language definition ---
+%
+\makeatletter
+
+% initialisation of user macros
+\newcommand\PrologPredicateStyle{}
+\newcommand\PrologVarStyle{}
+\newcommand\PrologAnonymVarStyle{}
+\newcommand\PrologAtomStyle{}
+\newcommand\PrologOtherStyle{}
+\newcommand\PrologCommentStyle{}
+
+% useful switches (to keep track of context)
+\newif\ifpredicate@prolog@
+\newif\ifwithinparens@prolog@
+
+% save definition of underscore for test
+\lst@SaveOutputDef{`_}\underscore@prolog
+
+% local variables
+\newcount\currentchar@prolog
+
+\newcommand\@testChar@prolog%
+{%
+  % if we're in processing mode...
+  \ifnum\lst@mode=\lst@Pmode%
+    \detectTypeAndHighlight@prolog%
+  \else
+    % ... or within parentheses
+    \ifwithinparens@prolog@%
+      \detectTypeAndHighlight@prolog%
+    \fi
+  \fi
+  % Some housekeeping...
+  \global\predicate@prolog@false%
+}
+
+% helper macros
+\newcommand\detectTypeAndHighlight@prolog
+{%
+  % First, assume that we have an atom.
+  \def\lst@thestyle{\PrologAtomStyle}%
+  % Test whether we have a predicate and modify the style accordingly.
+  \ifpredicate@prolog@%
+    \def\lst@thestyle{\PrologPredicateStyle}%
+  \else
+    % Test whether we have a predicate and modify the style accordingly.
+    \expandafter\splitfirstchar@prolog\expandafter{\the\lst@token}%
+    % Check whether the identifier starts by an underscore.
+    \expandafter\ifx\@testChar@prolog\underscore@prolog%
+      % Check whether the identifier is '_' (anonymous variable)
+      \ifnum\lst@length=1%
+        \let\lst@thestyle\PrologAnonymVarStyle%
+      \else
+        \let\lst@thestyle\PrologVarStyle%
+      \fi
+    \else
+      % Check whether the identifier starts by a capital letter.
+      \currentchar@prolog=65
+      \loop
+        \expandafter\ifnum\expandafter`\@testChar@prolog=\currentchar@prolog%
+          \let\lst@thestyle\PrologVarStyle%
+          \let\iterate\relax
+        \fi
+        \advance \currentchar@prolog by 1
+        \unless\ifnum\currentchar@prolog>90
+      \repeat
+    \fi
+  \fi
+}
+\newcommand\splitfirstchar@prolog{}
+\def\splitfirstchar@prolog#1{\@splitfirstchar@prolog#1\relax}
+\newcommand\@splitfirstchar@prolog{}
+\def\@splitfirstchar@prolog#1#2\relax{\def\@testChar@prolog{#1}}
+
+% helper macro for () delimiters
+\def\beginlstdelim#1#2%
+{%
+  \def\endlstdelim{\PrologOtherStyle #2\egroup}%
+  {\PrologOtherStyle #1}%
+  \global\predicate@prolog@false%
+  \withinparens@prolog@true%
+  \bgroup\aftergroup\endlstdelim%
+}
+
+% language name
+\newcommand\lang@prolog{Prolog-pretty}
+% ``normalised'' language name
+\expandafter\lst@NormedDef\expandafter\normlang@prolog%
+  \expandafter{\lang@prolog}
+
+% language definition
+\expandafter\expandafter\expandafter\lstdefinelanguage\expandafter%
+{\lang@prolog}
+{%
+  language            = Prolog,
+  keywords            = {},      % reset all preset keywords
+  showstringspaces    = false,
+  linewidth			  = 15.5cm,
+  numbers			   =left,
+  alsoletter          = (,
+  alsoother           = @\$,
+  %moredelim           = **[is][\beginlstdelim{(}{)}]{(}{)},
+  MoreSelectCharTable =
+    \lst@DefSaveDef{`(}\opparen@prolog{\global\predicate@prolog@true\opparen@prolog},
+}
+
+% Hooking into listings to test each ``identifier''
+\newcommand\@ddedToOutput@prolog\relax
+\lst@AddToHook{Output}{\@ddedToOutput@prolog}
+
+\lst@AddToHook{PreInit}
+{%
+  \ifx\lst@language\normlang@prolog%
+    \let\@ddedToOutput@prolog\@testChar@prolog%
+  \fi
+}
+
+\lst@AddToHook{DeInit}{\renewcommand\@ddedToOutput@prolog{}}
+
+\makeatother
+%
+% --- end of ugly internals ---
+
+
+% --- definition of a custom style similar to that of Pygments ---
+% custom colors
+\definecolor{PrologPredicate}{RGB}{000,031,255}
+\definecolor{PrologVar}      {RGB}{024,021,125}
+\definecolor{PrologAnonymVar}{RGB}{000,127,000}
+\definecolor{PrologAtom}     {RGB}{186,032,032}
+\definecolor{PrologComment}  {RGB}{063,128,127}
+\definecolor{PrologOther}    {RGB}{000,000,000}
+
+% redefinition of user macros for Prolog style
+\renewcommand\PrologPredicateStyle{\color{PrologPredicate}}
+\renewcommand\PrologVarStyle{\color{PrologVar}}
+\renewcommand\PrologAnonymVarStyle{\color{PrologAnonymVar}}
+\renewcommand\PrologAtomStyle{\color{PrologAtom}}
+\renewcommand\PrologCommentStyle{\itshape\color{PrologComment}}
+\renewcommand\PrologOtherStyle{\color{PrologOther}}
+
+% custom style definition
+\lstdefinestyle{Prolog-pygsty}
+{
+  language     = Prolog-pretty,
+  upquote      = true,
+  stringstyle  = \PrologAtomStyle,
+  commentstyle = \PrologCommentStyle,
+  literate     =
+    {:-}{{\PrologOtherStyle :-}}2
+    {,}{{\PrologOtherStyle ,}}1
+    {.}{{\PrologOtherStyle .}}1
+}
+
+% global settings
+\lstset
+{
+  captionpos = below,
+  frame      = single,
+  breaklines          = true,
+  %postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}},
+  columns    = fullflexible,
+  basicstyle = \ttfamily,
+}
+
+%\titlespacing*{\chapter}{0pt}{-19pt}{18pt}
+
+\newcommand{\mychapter}[2]{
+    \setcounter{chapter}{#1}
+    \setcounter{section}{0}
+    \chapter*{#2}
+    \addcontentsline{toc}{chapter}{#2}
+}
+% \topskip 50pt
+%\titlespacing*{\mychapter}{0cm}{-50pt}{0pt}[0pt]
+
+\begin{document}
+\lstset{language=Prolog}          % Set your language (you can change the language for each code-block optionally)
+
+\begin{titlepage}
+	\newpage
+	\thispagestyle{empty}
+	\frenchspacing
+	\hspace{-0.2cm}
+	\includegraphics[height=3.4cm]{sedes}
+	\hspace{0.2cm}
+	\rule{0.5pt}{3.4cm}
+	\hspace{0.2cm}
+	\begin{minipage}[b]{8cm}
+		\Large{Katholieke\newline Universiteit\newline Leuven}\smallskip\newline
+		\large{}\smallskip\newline
+		\textbf{Department of\newline Computer Science}\smallskip
+	\end{minipage}
+	\hspace{\stretch{1}}
+	\vspace*{3.2cm}\vfill
+	\begin{center}
+		\begin{minipage}[t]{\textwidth}
+			\begin{center}
+				\LARGE{\rm{\textbf{\uppercase{Project}}}}\\
+				\Large{\rm{Genetic Algorithms and Evolutionary Computing (B-KUL-H02D1A) }}\\
+				\vspace{0.5cm}
+
+			    \large{\textsc{Verbois-Halilovic}}%
+
+			\end{center}
+		\end{minipage}
+	\end{center}
+	\vfill
+	\hfill\makebox[8.5cm][l]{%
+		\vbox to 7cm{\vfill\noindent
+				{\rm \textbf{Sten Verbois (??)}}\\
+				{\rm \textbf{Armin Halilovic (r0679689)}}\\[2mm]
+				{\rm Academic year 2017-2018}
+
+		}
+	}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+\mychapter{0}{Introduction}
+
+\mychapter{1}{Tasks}
+
+\section{Task 1}
+\subsection{Bla bla}
+\newpage
+
+\section{Task 2}
+\subsection{Bla bla bla}
+\newpage
+
+\mychapter{2}{Conclusion}
+
+\section{Weak points}
+There are a couple of weak points in our report:
+\begin{itemize}
+    \item The speed of our Sudoku implementations in CHR are not that great. We did try to improve it with the heuristics, but we feel it is still too slow. We think this was more due to the fact that we were still novices with how CHR worked as our Hashiwokakero CHR implementation is quite fast.
+    \item The implementation of the connectivity constraint in ECLiPSe for Hashiwokakero is also a rather weak point. Ideally we should have implemented it using disjoint sets like in CHR but we couldn't figure out how to do this correctly.
+    \item We think that implementing a Hashiwokakero solver using a graph representation is a more logical approach than the one we have used, but we had problems with ECLiPSe and how to express the no crossing bridges constraint.
+\end{itemize}
+\section{Strong points}
+The strong points in our report are:
+\begin{itemize}
+    \item Our Hashiwokakero CHR implementation is quite fast thanks to our improvements set.
+    \item We think we have good heuristics for Sudoku in CHR. Certainly the heuristic for the alternative viewpoint has made good improvements on the speed of the search.
+\end{itemize}
+
+\section{Lessons learned}
+We have learned a lot of things during this project due to the fact we often had to re-track our steps. If we would now have to do an other project with these systems we think we would have a better idea for how to start and what to think about. We spent quite some time with both ECLiPSe and CHR so we now have a much better idea of what the strong points are and the weak points are for each system.
+
+\mychapter{4}{Appendix}
+We started working on this project before the Easter holiday. In the beginning we often lost quite some time, since we didn't really know how the systems worked. During the second week of the Easter holiday, we continued to work on the project each evening and we finished the Sudoku task and the ECLiPSe part of hashiwokakero before the end of the holiday. We then had to halt our work for a while since we had a deadline for a ridiculously large project for another course. As the semester was coming to an end other deadlines and an exam were coming up so we had to manage those first. Thus it was only at the start of the study period that we could continue working. From the start of the study period we tried to spend around 6 hours of work each day for this project. The work was not really divided since we were doing pair programming most of the time. Sometimes someone made individual changes when they had time but most of our work was done online using Hangouts and its screen sharing functionality. We could argue that by doing pair programming we lost quite some time, which is true, but by doing this we worked very closely together and we learned quite a lot. We have each individually put more than 100 hours in this project.
+\end{document}

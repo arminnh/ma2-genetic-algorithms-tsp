@@ -46,8 +46,11 @@ CROSSOVER = 'xalt_edges';  % default crossover operator
 
 % load the data sets
 datasetslist = dir('datasets/');datasetslist = dir('datasets/');
+datasetslist
 datasets=cell( size(datasetslist,1)-2,1);datasets=cell( size(datasetslist,1)-2 ,1);
+datasets
 for i=1:size(datasets,1);
+    datasetslist(i+2).name
     datasets{i} = datasetslist(i+2).name;
 end
 
