@@ -56,7 +56,10 @@ end
 
 % start with first dataset
 data = load(['datasets/' datasets{1}]);
-x=data(:,1)/max([data(:,1);data(:,2)]);y=data(:,2)/max([data(:,1);data(:,2)]);
+x=data(:,1)/max([data(:,1);data(:,2)]);
+%x=data(:,1);
+y=data(:,2)/max([data(:,1);data(:,2)]);
+%y=data(:,2);
 NVAR=size(data,1);
 
 datasets
