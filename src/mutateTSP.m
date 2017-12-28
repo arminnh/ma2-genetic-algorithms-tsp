@@ -16,17 +16,22 @@
 %                after mutation in the same format as OldChrom.
 
 
-function NewChrom = mutateTSP(MUT_F, OldChrom, MutOpt, Representation)
+function NewChrom = mutateTSP(MUT_F, OldChrom, MutOpt, Representation, SUBPOP)
 
 % Check parameter consistency
 if nargin < 4,  error('Not enough input parameters'); end
 
-[rows, ~] = size(OldChrom);
-NewChrom = OldChrom;
+[Nind, ~] = size(OldChrom);
+Nind = Nind / SUBPOP;
 
-for r = 1:rows
-    if rand < MutOpt
-        NewChrom(r,:) = feval(MUT_F, OldChrom(r,:), Representation);
+NewChrom = OldChrom;
+for irun = 1:SUBPOP
+    ChromSub = OldChrom((irun-1)*Nind+1:irun*Nind,:);
+    [irows, ~] = size(ChromSub);
+    for r = 1:irows
+        if rand < MutOpt
+            NewChrom(r,:) = feval(MUT_F, ChromSub(r,:), Representation);
+        end
     end
 end
 % End of function

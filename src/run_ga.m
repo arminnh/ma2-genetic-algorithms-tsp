@@ -24,6 +24,10 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
     % TODO: add option for parent selection in gui
     SELECTION = 'sus';
     SELECTION = 'tournament';
+    SELECTION = 'fitpropsel';
+    
+    SUBPOP = 2;
+    
     GGAP = 1 - ELITIST;
     mean_fits = zeros(1,MAXGEN+1);
     worst = zeros(1,MAXGEN+1);
@@ -79,16 +83,16 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
         
         %recombine individuals (crossover)
         if (representation == 1) 
-            SelCh = recombin(CROSSOVER, SelCh, PR_CROSS);
-            SelCh = mutateTSP('inversion', SelCh, PR_MUT, representation);
+            SelCh = recombin(CROSSOVER, SelCh, PR_CROSS, SUBPOP);
+            SelCh = mutateTSP('inversion', SelCh, PR_MUT, representation, SUBPOP);
         else 
             [selX, ~] = size(SelCh);
             for i = 1:selX
                 SelCh(i, :) = adj2path(SelCh(i, :));
             end
             
-            SelCh = recombin('cross_order', SelCh, PR_CROSS);
-            SelCh = mutateTSP('inversion', SelCh, PR_MUT, representation);
+            SelCh = recombin('cross_order', SelCh, PR_CROSS, SUBPOP);
+            SelCh = mutateTSP('inversion', SelCh, PR_MUT, representation, SUBPOP);
             
             for i = 1:selX
                 SelCh(i, :) = path2adj(SelCh(i, :));
@@ -97,8 +101,11 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
         %evaluate offspring, call objective function
         ObjVSel = tspfun(SelCh, Dist);
         %reinsert offspring into population
-        [Chrom ObjV] = reins(Chrom, SelCh, 1, 1, ObjV, ObjVSel);
-
+        
+        
+        [Chrom, ObjV] = reins(Chrom, SelCh, SUBPOP, 1, ObjV, ObjVSel);
+        % [Chrom, ObjV] = sstournament(Chrom, SelCh, ObjV, ObjVSel, 10);
+        
         Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom, LOCALLOOP, Dist);
         %increment generation counter
         gen = gen+1;            
