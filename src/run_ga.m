@@ -1,4 +1,4 @@
-function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3)
+function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, ah1, ah2, ah3)
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -16,7 +16,7 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
 % CROSSOVER: the crossover operator
 % calculate distance matrix between each pair of cities
 % ah1, ah2, ah3: axes handles to visualise tsp
-{NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP}
+% {NIND MAXGEN NVAR ELITIST STOP_PERCENTAGE PR_CROSS PR_MUT CROSSOVER LOCALLOOP}
 
     % TODO: add option to select representation in gui
     % 1: adjacency representation, 2: path representation
@@ -26,7 +26,7 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
     SELECTION = 'tournament';
     SELECTION = 'fitpropsel';
     
-    SUBPOP = 2;
+    SUBPOP = 1;
     
     GGAP = 1 - ELITIST;
     mean_fits = zeros(1,MAXGEN+1);
@@ -67,14 +67,23 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
             end
         end
 
-        visualizeTSP(x, y, adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
-
+        if nargin == 15
+            visualizeTSP(x, y, adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
+        end
+        
         % stopping criterion: stop when the minimum of the last X%
         % generations has not improved
-        if ((gen-0.1*MAXGEN > 1) & ((best(floor(gen-0.1*MAXGEN:gen)) - minimum) <= 1e-15))
-            break;
-        end  
+        if CUSTOMSTOP == 1
+            if ((gen-0.1*MAXGEN > 1) && ((best(floor(gen-0.1*MAXGEN:gen)) - minimum) <= 1e-15))
+                break;
+            end  
+        else
+            if (sObjV(stopN)-sObjV(1) <= 1e-15)
+                break;
+            end
+        end
 
+        
         %assign fitness values to entire population
         FitnV = ranking(ObjV);
         
@@ -102,9 +111,11 @@ function run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR
         ObjVSel = tspfun(SelCh, Dist);
         %reinsert offspring into population
         
-        
-        [Chrom, ObjV] = reins(Chrom, SelCh, SUBPOP, 1, ObjV, ObjVSel);
-        % [Chrom, ObjV] = sstournament(Chrom, SelCh, ObjV, ObjVSel, 10);
+        if CUSTOMSS == 0
+            [Chrom, ObjV] = reins(Chrom, SelCh, SUBPOP, 1, ObjV, ObjVSel);
+        else
+            [Chrom, ObjV] = sstournament(Chrom, SelCh, ObjV, ObjVSel, 10);
+        end
         
         Chrom = tsp_ImprovePopulation(NIND, NVAR, Chrom, LOCALLOOP, Dist);
         %increment generation counter

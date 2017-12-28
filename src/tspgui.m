@@ -57,9 +57,9 @@ end
 % start with first dataset
 data = load(['datasets/' datasets{1}]);
 x=data(:,1)/max([data(:,1);data(:,2)]);
-%x=data(:,1);
+% x=data(:,1);
 y=data(:,2)/max([data(:,1);data(:,2)]);
-%y=data(:,2);
+% y=data(:,2);
 NVAR=size(data,1);
 
 datasets
@@ -184,7 +184,7 @@ set(fh,'Visible','on');
         set(mutslider,'Visible','off');
         set(crossslider,'Visible','off');
         set(elitslider,'Visible','off');
-        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, ah1, ah2, ah3);
+        run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, 0, 0, ah1, ah2, ah3);
         end_run();
     end
     function inputbutton_Callback(hObject,eventdata)
