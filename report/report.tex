@@ -243,12 +243,38 @@
 
 \mychapter{1}{Tasks}
 
-\section{Task 1}
-\subsection{Bla bla}
+\section{Task 2: Initial experiments}
 \newpage
 
-\section{Task 2}
-\subsection{Bla bla bla}
+\section{Task 3: Stopping criterion}
+To implement a new stopping criterion, we looked at the commonly used termination conditions outlined by the book. There we see the following suggestions:
+\begin{enumerate}
+	\item Maximally allowed CPU time elapses.
+	\item Total number of fitness evaluations reaches limit.
+	\item Fitness improvement remains under threshold for a given period of time.
+	\item Population diverisity drops under threshold.
+\end{enumerate}
+The first and second citerion are useful, either to guarantee the evaluations do not go on forever, or when there is some kind of constraint on system resource usage. In the project template, we already have the guarantee of eventual termination because of the limit on the number of generations, and we do not have to account for system resource constraints.
+
+The fourth criterion is also already present in the template and can be adjusted via the GUI. The default value is so strict (95\% equal individuals), it practically is never reached.
+
+So we decided to implement the fourth criterion. Termination occurs when the fitness of the best individual does not improve above a treshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be a percentage of the specified maximum number of generations.
+
+\newpage
+
+\section{Task 4: Path representation}
+\newpage
+
+\section{Task 5: Local optimisation}
+\newpage
+
+\section{Task 6: Benchmark problems}
+\newpage
+
+\section{Task 7: Optional tasks}
+\subsection{7a: Parent selection}
+\subsection{7b: Survivor selection}
+\subsection{7c: Diversity preservation}
 \newpage
 
 \mychapter{2}{Conclusion}
