@@ -2,7 +2,7 @@
 %
 % This function performs fitness proportional selection.
 %
-% Syntax:  NewChrIx = tournament(FitnV, NSel)
+% Syntax:  NewChrIx = fitpropsel(FitnV, NSel)
 %
 % Input parameters:
 %    FitnV     - Column vector containing the fitness values of the
@@ -28,4 +28,3 @@ for i = 1:NSel
 end
 
 end
-

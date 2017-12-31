@@ -258,7 +258,7 @@ The first and second citerion are useful, either to guarantee the evaluations do
 
 The fourth criterion is also already present in the template and can be adjusted via the GUI. The default value is so strict (95\% equal individuals), it practically is never reached.
 
-So we decided to implement the fourth criterion. Termination occurs when the fitness of the best individual does not improve above a treshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be a percentage of the specified maximum number of generations.
+So we decided to implement the fourth criterion. Termination occurs when the fitness of the best individual does not improve above a treshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be a percentage of the specified maximum number of generations. When testing this termination condition, we see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time.
 
 \newpage
 
@@ -273,8 +273,12 @@ So we decided to implement the fourth criterion. Termination occurs when the fit
 
 \section{Task 7: Optional tasks}
 \subsection{7a: Parent selection}
+Additional parent selection methods we implemented are Fitness Proportional Selection and Tournament Selection. Both of them use the same parameters as the existing implementation of Stochastic Universal Sampling so we could easily swap them in.
+
 \subsection{7b: Survivor selection}
 \subsection{7c: Diversity preservation}
+For preserving population diversity we adapted a few of the functions in the template to work with subpopulations, simulating the island model.
+
 \newpage
 
 \mychapter{2}{Conclusion}
