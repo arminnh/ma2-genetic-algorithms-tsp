@@ -73,6 +73,7 @@ function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, ST
         
         % stopping criterion: stop when the minimum of the last X%
         % generations has not improved
+
         if CUSTOMSTOP == 1
             if ((gen-0.1*MAXGEN > 1) && ((best(floor(gen-0.1*MAXGEN:gen)) - minimum) <= 1e-15))
                 break;

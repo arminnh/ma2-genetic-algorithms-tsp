@@ -38,7 +38,7 @@ for ds = 1:Ndatasets
     NVAR=size(data,1);
     
     for i = 0:RUNS
-        [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, CUSTOMSS, LOCALLOOP, CUSTOMSTOP);
+        [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS);
         Ngen = find(best, 1, 'last');
         B = best(Ngen);
         M = mean(Ngen);
