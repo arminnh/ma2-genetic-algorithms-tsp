@@ -1,4 +1,4 @@
-function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, ah1, ah2, ah3)
+function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, ah1, ah2, ah3)
 % usage: run_ga(x, y, 
 %               NIND, MAXGEN, NVAR, 
 %               ELITIST, STOP_PERCENTAGE, 
@@ -22,9 +22,9 @@ function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, ST
     % 1: adjacency representation, 2: path representation
     representation = 2;
     % TODO: add option for parent selection in gui
-    SELECTION = 'sus';
-    SELECTION = 'tournament';
-    SELECTION = 'fitpropsel';
+    % SELECTION = 'sus';
+    % SELECTION = 'tournament';
+    % SELECTION = 'fitpropsel';
     
     SUBPOP = 1;
     
@@ -67,7 +67,7 @@ function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, ST
             end
         end
 
-        if nargin == 15
+        if nargin == 17
             visualizeTSP(x, y, adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
         end
         
@@ -75,7 +75,7 @@ function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, ST
         % generations has not improved
 
         if CUSTOMSTOP == 1
-            if ((gen-0.1*MAXGEN > 1) && ((best(floor(gen-0.1*MAXGEN:gen)) - minimum) <= 1e-15))
+            if (gen-0.1*MAXGEN > 1) && ((best(floor(gen-0.1*MAXGEN)) - minimum) <= 1e-15)
                 break;
             end  
         else

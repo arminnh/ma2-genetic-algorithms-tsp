@@ -9,6 +9,7 @@ PR_CROSS=.95;     % probability of crossover
 PR_MUT=.05;       % probability of mutation
 LOCALLOOP=0;      % local loop removal
 CROSSOVER = 'xalt_edges';  % default crossover operator
+SELECTION = 'sus';
 
 SCALING = 1;        % City location scaling on/off
 RUNS = 2;          % Number of ga runs in tests
@@ -21,7 +22,7 @@ Ndatasets = size(datasetslist, 1) - 2;
 results = zeros([Ndatasets 4]);
 
 out = fopen('./table.tex', 'w');
-fprintf(out, 'A & B & C & D & E\n\midrule\n');
+fprintf(out, 'A & B & C & D & E\n\\midrule\n');
 
 for ds = 1:Ndatasets
     datasetslist(ds + 2).name
@@ -38,7 +39,7 @@ for ds = 1:Ndatasets
     NVAR=size(data,1);
     
     for i = 0:RUNS
-        [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS);
+        [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION);
         Ngen = find(best, 1, 'last');
         B = best(Ngen);
         M = mean(Ngen);
