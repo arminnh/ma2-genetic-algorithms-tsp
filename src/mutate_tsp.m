@@ -19,20 +19,20 @@
 %                     after mutation in the same format as OldChrom.
 
 
-function NewChrom = mutate_tsp(MUT_F, OldChrom, Representation, PR_MUT, SUBPOP)
+function NewChrom = mutate_tsp(MUT_F, OldChrom, PR_MUT, SUBPOP)
 
 % Check parameter consistency
-if nargin < 3,  error('Not enough input parameters'); end
+if nargin < 2,  error('Not enough input parameters'); end
 
 % Probability of mutation
-if nargin < 4, PR_MUT = 0.05; end
+if nargin < 3, PR_MUT = 0.05; end
 
 % Population size
 [rows, cols] = size(OldChrom);
 NewChrom = zeros(rows, cols);
 
-if nargin < 5, SUBPOP = 1;
-elseif nargin > 4
+if nargin < 4, SUBPOP = 1;
+elseif nargin > 3
   if isempty(SUBPOP), SUBPOP = 1;
   elseif isnan(SUBPOP), SUBPOP = 1;
   elseif length(SUBPOP) ~= 1, error('SUBPOP must be a scalar'); 
@@ -51,12 +51,11 @@ for subpop = 1:SUBPOP
     
     for row = 1:rows
         if rand < PR_MUT
-            % NewChrom(r,:) = feval(MUT_F, ChromSub(r,:), Representation);
-            NewChrom((subpop-1)*rows + row, :) = feval(MUT_F, SubChrom(row, :), Representation);
+            NewChrom((subpop-1)*rows + row, :) = feval(MUT_F, SubChrom(row, :));
         else
             NewChrom((subpop-1)*rows + row, :) = SubChrom(row, :);
         end
     end
 end
-NewChrom
+
 end

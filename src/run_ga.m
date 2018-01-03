@@ -21,11 +21,8 @@
 %   mean_fits       - A vector(?) of the mean result of every iteration
 %   worst           - A vector(?) of the worst result of every iteration
 
-function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, ah1, ah2, ah3)
+function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP, ah1, ah2, ah3)
 
-    % representations: 1 = adjacency, 2 = path
-    REPRESENTATION = 2;
-    SUBPOP = 1;
     GGAP = 1 - ELITIST;
     
     best = zeros(1, MAXGEN);
@@ -64,7 +61,7 @@ function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, ST
             end
         end
 
-        if nargin == 17
+        if nargin == 18
             visualizeTSP(x, y, adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
         end
         
@@ -87,12 +84,8 @@ function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, ST
         SelCh = select(SELECTION, Chrom, FitnV, GGAP);
         
         %recombine individuals (crossover)
-        if (REPRESENTATION == 2) 
-            CROSSOVER = 'cross_order';
-        end
-        
-        %SelCh = crossover_tsp(CROSSOVER, SelCh, REPRESENTATION, PR_CROSS, SUBPOP);
-        SelCh = mutate_tsp('mut_inversion', SelCh, REPRESENTATION, PR_MUT, SUBPOP);        
+        SelCh = crossover_tsp(CROSSOVER, SelCh, PR_CROSS, SUBPOP);
+        SelCh = mutate_tsp('mut_inversion', SelCh, PR_MUT, SUBPOP);        
         
         %evaluate offspring, call objective function
         ObjVSel = tspfun(SelCh, Dist);

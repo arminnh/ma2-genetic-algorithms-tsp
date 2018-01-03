@@ -13,12 +13,12 @@ if Representation==1
 	NewChrom=adj2path(NewChrom);
 end
 
-% swap two random cities in the tour
 rndi=zeros(1,2);
 while rndi(1)==rndi(2)
 	rndi=rand_int(1,2,[1 size(NewChrom,2)]);
 end
 
+% swap two random cities in the tour
 buffer=NewChrom(rndi(1));
 NewChrom(rndi(1))=NewChrom(rndi(2));
 NewChrom(rndi(2))=buffer;

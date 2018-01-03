@@ -13,13 +13,10 @@
 %                           mutated and/or evaluated, in the same format 
 %                           as OldChrom.
 
-function [ChildOne, ChildTwo] = cross_order(ParentOne, ParentTwo, Representation)
+function [ChildOne, ChildTwo] = cross_order(ParentOne, ParentTwo)
 
-if nargin < 3, Representation = 2; end
-if Representation == 1 
-	ParentOne = adj2path(ParentOne);
-	ParentTwo = adj2path(ParentTwo);
-end
+ParentOne = adj2path(ParentOne);
+ParentTwo = adj2path(ParentTwo);
 
 [~, cols] = size(ParentOne);
 ChildOne = zeros(1, cols);
@@ -48,10 +45,8 @@ for i = 1:cols
     end
 end
 
-if Representation == 1 
-	ChildOne = path2adj(ChildOne);
-	ChildTwo = path2adj(ChildTwo);
-end
+ChildOne = path2adj(ChildOne);
+ChildTwo = path2adj(ChildTwo);
 
 end
 
