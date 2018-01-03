@@ -8,34 +8,24 @@ STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
 PR_CROSS=.95;     % probability of crossover
 PR_MUT=.05;       % probability of mutation
 LOCALLOOP=0;      % local loop removal
-CROSSOVER = 'xalt_edges';  % default crossover operator
-% Gets handled by the loop
-% SELECTION = 'sus';
+CROSSOVER = 'cross_alternate_edges';  % default crossover operator
+SELECTION='sus';
 
 SCALING = 1;        % City location scaling on/off
 RUNS = 10;          % Number of ga runs in tests
-
-CUSTOMSTOP = 0;     % Custom stopping criterion on/off
+% Gets handled by the loop
+% CUSTOMSTOP = 0;     % Custom stopping criterion on/off
 CUSTOMSS = 0;       % Custom survivor selection on/off
 
 datasetslist = dir('datasets/');
 Ndatasets = size(datasetslist, 1) - 2;
 
-results = zeros([Ndatasets 4 3]);
+results = zeros([Ndatasets 4 2]);
 
-out = fopen('./tableparentsel.tex', 'w');
+out = fopen('./tablecustomstop.tex', 'w');
 fprintf(out, 'A & B & C & D & E\n\\midrule\n');
 
-for selectionidx = 1:3
-    SELECTION = '';
-    if selectionidx == 1
-        SELECTION = 'sus';
-    elseif selectionidx == 2
-        SELECTION = 'tournament';
-    elseif selectionidx == 3
-        SELECTION = 'fitpropsel';
-    end
-    
+for CUSTOMSTOP = 0:1
     for ds = 1:Ndatasets
         datasetslist(ds + 2).name
         data = load(['datasets/' datasetslist(ds + 2).name]);
@@ -56,13 +46,13 @@ for selectionidx = 1:3
             B = best(Ngen);
             M = mean(Ngen);
             W = worst(Ngen);
-
-            results(ds, :, selectionidx) = results(ds, :, selectionidx) + [Ngen B M W];
+            
+            results(ds, :, CUSTOMSTOP + 1) = results(ds, :, CUSTOMSTOP + 1) + [Ngen B M W];
         end
 
-        results(ds, :, selectionidx) = results(ds, :, selectionidx) / RUNS;
+        results(ds, :, CUSTOMSTOP + 1) = results(ds, :, CUSTOMSTOP + 1) / RUNS;
 
-        fprintf(out, '%s & %d & %d & %d & %d \\\\\n', datasetslist(ds + 2).name, results(ds, 1, selectionidx), results(ds, 2, selectionidx), results(ds, 3, selectionidx), results(ds, 4, selectionidx));
+        fprintf(out, '%s & %.4f & %.4f & %.4f & %.4f \\\\\n', datasetslist(ds + 2).name, results(ds, 1, CUSTOMSTOP + 1), results(ds, 2, CUSTOMSTOP + 1), results(ds, 3, CUSTOMSTOP + 1), results(ds, 4, CUSTOMSTOP + 1));
 
     end
 end
