@@ -58,5 +58,5 @@ for subpop = 1:SUBPOP
         end
     end
 end
-NewChrom
+
 end
