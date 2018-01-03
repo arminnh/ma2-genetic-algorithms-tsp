@@ -5,7 +5,7 @@
 %	2 : path representation
 %
 
-function NewChrom = reciprocal_exchange(OldChrom,Representation);
+function NewChrom = mut_reciprocal_exchange(OldChrom,Representation)
 
 NewChrom=OldChrom;
 

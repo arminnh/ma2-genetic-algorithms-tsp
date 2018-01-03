@@ -5,7 +5,7 @@
 %	2 : path representation
 %
 
-function NewChrom = inversion(OldChrom, Representation)
+function NewChrom = mut_inversion(OldChrom, Representation)
 
 NewChrom = OldChrom;
 
@@ -14,23 +14,17 @@ if Representation == 1
 end
 
 % select two positions in the tour
-
 rndi = zeros(1,2);
-
 while rndi(1) == rndi(2)
-	rndi = rand_int(1, 2, [1 size(NewChrom, 2)]);
+	rndi = randi(size(NewChrom, 2), [1, 2]);
 end
 rndi = sort(rndi);
 
 % reverse a subpath in the chrom
-NewChrom(rndi(1):rndi(2)) = NewChrom(rndi(2):-1:rndi(1));
-%buffer=NewChrom(rndi(1));
-%NewChrom(rndi(1))=NewChrom(rndi(2));
-%NewChrom(rndi(2))=buffer;
+NewChrom(rndi(1) : rndi(2)) = NewChrom(rndi(2) : -1 : rndi(1));
 
 if Representation == 1
 	NewChrom = path2adj(NewChrom);
 end
 
-
-% End of function
+end

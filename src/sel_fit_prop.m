@@ -1,4 +1,4 @@
-% FITPROPSEL.m (FITNESS PROPORTIONAL SELECTION)
+% SEL_FIT_PROP.m (FITNESS PROPORTIONAL SELECTION)
 %
 % This function performs fitness proportional selection.
 %
@@ -15,7 +15,7 @@
 %                The new population, ready for mating, can be obtained
 %                by calculating OldChrom(NewChrIx,:).
 
-function NewChrIx = fitpropsel(FitnV, NSel)
+function NewChrIx = sel_fit_prop(FitnV, NSel)
 
 NewChrIx = zeros(NSel, 1);
 

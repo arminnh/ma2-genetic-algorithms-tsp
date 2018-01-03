@@ -1,4 +1,5 @@
-function result = SwapSubpath(ncities, path, start, length)
+function result = tsp_swap_subpath(ncities, path, start, length)
+
 i = start;
 j = mod(start-1 + length - 1, ncities)+1;
 

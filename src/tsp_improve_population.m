@@ -1,10 +1,10 @@
-% tsp_ImprovePopulation.m
+% tsp_improve_population.m
 % Author: Mike Matton
 % 
 % This function improves a tsp population by removing local loops from
 % each individual.
 %
-% Syntax: improvedPopulation = tsp_ImprovePopulation(popsize, ncities, pop, improve, dists)
+% Syntax: improved_population = tsp_improve_population(popsize, ncities, pop, improve, dists)
 %
 % Input parameters:
 %   popsize           - The population size
@@ -17,7 +17,7 @@
 %   improvedPopulation  - the new population after loop removal (if improve
 %                          <> 0, else the unchanged population).
 
-function newpop = tsp_ImprovePopulation(popsize, ncities, pop, improve,dists)
+function newpop = tsp_improve_population(popsize, ncities, pop, improve,dists)
 
 if (improve)
    for i=1:popsize

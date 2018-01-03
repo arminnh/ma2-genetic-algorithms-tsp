@@ -1,5 +1,4 @@
-function result = improve_path (ncities,path,Dist)
-% improve_path.m
+% tsp_improve_path.m
 % Author: Mike Matton 
 % Date: October 2008
 %
@@ -13,6 +12,7 @@ function result = improve_path (ncities,path,Dist)
 % Output parameter:
 %    result          - The improved path
 
+function result = tsp_improve_path(ncities,path,Dist)
 
 maxlen =  min(3, ncities / 2) ;
 

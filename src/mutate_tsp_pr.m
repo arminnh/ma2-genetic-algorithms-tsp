@@ -1,4 +1,4 @@
-% MUTATETSP.M       (MUTATion for TSP high-level function)
+% MUTATE_TSP_PR.M (Mutation for TSP high-level function)
 %
 % This function takes a matrix OldChrom containing the 
 % representation of the individuals in the current population,
@@ -16,22 +16,19 @@
 %                after mutation in the same format as OldChrom.
 
 
-function NewChrom = mutateTSP(MUT_F, OldChrom, MutOpt, Representation, SUBPOP)
+function NewChrom = mutate_tsp_pr(MUT_F, OldChrom, MutOpt)
 
 % Check parameter consistency
-if nargin < 4,  error('Not enough input parameters'); end
+   if nargin < 2,  error('Not enough input parameters'); end
 
-[Nind, ~] = size(OldChrom);
-Nind = Nind / SUBPOP;
+[rows,cols]=size(OldChrom);
+NewChrom=OldChrom;
 
-NewChrom = OldChrom;
-for irun = 1:SUBPOP
-    ChromSub = OldChrom((irun-1)*Nind+1:irun*Nind,:);
-    [irows, ~] = size(ChromSub);
-    for r = 1:irows
-        if rand < MutOpt
-            NewChrom(r,:) = feval(MUT_F, ChromSub(r,:), Representation);
-        end
-    end
+for r=1:rows
+	if rand<MutOpt
+		NewChrom(r,:) = feval(MUT_F, OldChrom(r,:), 2);
+	end
 end
+
 % End of function
+
