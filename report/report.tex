@@ -13,6 +13,8 @@
 \usepackage{multirow}
 \usepackage{hyperref}
 \usepackage{subfig}
+\usepackage{booktabs}
+\usepackage{float}
 
 \newcolumntype{L}{>{\centering\arraybackslash}m{3cm}}
 
@@ -244,7 +246,7 @@
 	\vfill
 	\hfill\makebox[8.5cm][l]{%
 		\vbox to 7cm{\vfill\noindent
-				{\rm \textbf{Sten Verbois (??)}}\\
+				{\rm \textbf{Sten Verbois (r0680459)}}\\
 				{\rm \textbf{Armin Halilovic (r0679689)}}\\[2mm]
 				{\rm Academic year 2017-2018}
 
@@ -275,7 +277,36 @@ The first and second citerion are useful, either to guarantee the evaluations do
 
 The fourth criterion is also already present in the template and can be adjusted via the GUI. The default value is so strict (95\% equal individuals), it practically is never reached.
 
-So we decided to implement the fourth criterion. Termination occurs when the fitness of the best individual does not improve above a treshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be a percentage of the specified maximum number of generations. When testing this termination condition, we see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time.
+We decided to implement the fourth criterion. Here, termination occurs when the fitness of the best individual does not improve above a treshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be a percentage of the specified maximum number of generations. When testing this termination condition, we see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time.		 +So we decided to implement the fourth criterion. Termination occurs when the fitness of the best individual does not improve above a treshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be a percentage of the specified maximum number of generations. When testing this termination condition, we see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time.
+	
+The results of our experiments with this new termination condition are displayed in Table~\ref{tab:customstop}		
+
+\begin{table}[H]		
+	\centering		
+	\makebox[\textwidth]{		
+		\begin{tabular}{l rrrr c rrrr}		
+			\toprule		
+			& \multicolumn{4}{c}{Default stopping criterion} & \phantom{abc} &  \multicolumn{4}{c}{Custom stopping criterion} \\		
+			\cmidrule{2-5} \cmidrule{7-10}		
+			Dataset & \# Generations & Min & Mean & Max && \# Generations & Min & Mean & Max \\		
+			\midrule		
+			rondrit016.tsp & 60.6000 & 3.8289 & 3.8405 & 4.3167 && 51.9000 & 3.8598 & 4.0645 & 4.9485 \\		
+			rondrit018.tsp & 59.9000 & 3.6123 & 3.6526 & 4.3262 && 62.4000 & 3.5116 & 3.7063 & 4.6899 \\		
+			rondrit023.tsp & 92.8000 & 3.9902 & 4.2086 & 5.2684 && 77.5000 & 4.3064 & 4.4586 & 5.5427 \\		
+			rondrit025.tsp & 82.0000 & 5.3085 & 5.4600 & 6.4753 && 79.2000 & 5.3707 & 5.7207 & 7.3034 \\		
+			rondrit048.tsp & 108.7000 & 7.8736 & 8.2540 & 9.5729 && 109.2000 & 8.1605 & 8.9541 & 10.9159 \\		
+			rondrit050.tsp & 101.5000 & 12.3558 & 12.9267 & 14.6198 && 104.0000 & 12.0748 & 12.8018 & 14.4246 \\		
+			rondrit051.tsp & 109.6000 & 11.8400 & 12.3779 & 13.6785 && 108.9000 & 11.7734 & 12.2508 & 13.6669 \\		
+			rondrit067.tsp & 110.0000 & 11.5868 & 12.2748 & 13.8317 && 107.2000 & 11.4511 & 12.4336 & 14.0862 \\		
+			rondrit070.tsp & 110.0000 & 17.8292 & 18.6919 & 20.5209 && 109.6000 & 18.3206 & 18.9595 & 20.7340 \\		
+			rondrit100.tsp & 110.0000 & 29.6034 & 31.6596 & 34.6374 && 108.7000 & 29.1263 & 30.6127 & 33.1294 \\		
+			rondrit127.tsp & 110.0000 & 19.6930 & 20.5928 & 21.9205 && 110.0000 & 19.0723 & 20.0230 & 21.4847 \\		
+			\bottomrule		
+			\end{tabular}		
+		}		
+	\caption{Comparison between default and custom stopping cirterion.}		
+	\label{tab:customstop}		
+\end{table}		
 
 \newpage
 
