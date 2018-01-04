@@ -314,6 +314,37 @@ The results of our experiments with this new termination condition are displayed
 \newpage
 
 \section{Task 5: Local optimisation}
+For this task, we are testing the local optimization already present in the template. This optimization takes a path and tries to remove local loops up to path length 3. With default values for other parameters, this results in major improvements to the score.
+
+The results of our experiments with local optimisation disabled and enabled are displayed in Table~\ref{tab:localopt}.
+
+\begin{table}[H]		
+	\centering		
+	\makebox[\textwidth]{		
+		\begin{tabular}{l rrrr c rrrr}		
+			\toprule		
+			& \multicolumn{4}{c}{Local optimisation disabled} & \phantom{abc} &  \multicolumn{4}{c}{Local optimisation enabled} \\		
+			\cmidrule{2-5} \cmidrule{7-10}		
+			Dataset & \# Generations & Min & Mean & Max && \# Generations & Min & Mean & Max \\		
+			\midrule		
+rondrit016.tsp & 108.8 & 3.9087 & 5.3409 & 6.6707 & 63.4 & 3.6923 & 3.7783 & 4.4343 \\
+rondrit018.tsp & 109.0 & 3.8205 & 5.9391 & 7.9101 & 82.7 & 3.2285 & 3.8159 & 4.8886 \\
+rondrit023.tsp & 109.0 & 5.2503 & 8.0243 & 10.4586 & 109.0 & 3.6688 & 6.0516 & 8.2630 \\
+rondrit025.tsp & 109.0 & 6.8383 & 10.5710 & 13.9566 & 109.0 & 4.6353 & 7.9255 & 11.2084 \\
+rondrit048.tsp & 109.0 & 12.9322 & 17.3083 & 21.2216 & 109.0 & 7.4032 & 12.2117 & 15.8290 \\
+rondrit050.tsp & 109.0 & 17.5460 & 23.0187 & 27.4702 & 109.0 & 10.6862 & 16.3413 & 19.9854 \\
+rondrit051.tsp & 109.0 & 17.0520 & 21.6487 & 25.5342 & 109.0 & 9.8788 & 15.0773 & 19.2524 \\
+rondrit067.tsp & 109.0 & 17.2930 & 21.6320 & 25.0256 & 109.0 & 9.4921 & 14.8637 & 18.2992 \\
+rondrit070.tsp & 109.0 & 27.0916 & 33.4376 & 38.6964 & 109.0 & 14.9605 & 22.7446 & 27.9257 \\
+rondrit100.tsp & 109.0 & 41.7305 & 49.6807 & 55.5533 & 109.0 & 22.4411 & 32.7396 & 38.8860 \\
+rondrit127.tsp & 109.0 & 26.5206 & 30.3975 & 33.3563 & 109.0 & 15.3001 & 20.8402 & 24.3830 \\
+			\bottomrule		
+		\end{tabular}		
+	}		
+	\caption{Comparison between local optimisation disabled (left) and local optimisation enabled (right).}		
+	\label{tab:localopt}		
+\end{table}		
+
 \newpage
 
 \section{Task 6: Benchmark problems}
@@ -323,9 +354,199 @@ The results of our experiments with this new termination condition are displayed
 \subsection{7a: Parent selection}
 Additional parent selection methods we implemented are Fitness Proportional Selection and Tournament Selection. Both of them use the same parameters as the existing implementation of Stochastic Universal Sampling so we could easily swap them in.
 
+\begin{table}[H]		
+	\centering		
+	\makebox[\textwidth]{		
+		\begin{tabular}{l rrrr}		
+			\toprule		
+			& \multicolumn{4}{c}{Stochastic Universal Sampling} \\		
+			\cmidrule{2-5}	
+			Dataset & \# Generations & Min & Mean & Max \\		
+			\midrule		
+			rondrit016.tsp & 109.0 & 3.9268 & 5.5816 & 6.95230040943754 \\
+			rondrit018.tsp & 109.0 & 3.8098 & 5.8874 & 7.64505139464696 \\
+			rondrit023.tsp & 109.0 & 5.2107 & 8.1510 & 10.66363338096259 \\
+			rondrit025.tsp & 109.0 & 6.9584 & 10.6573 & 13.64919455732690 \\
+			rondrit048.tsp & 109.0 & 12.5354 & 17.1587 & 20.98354804718375 \\
+			rondrit050.tsp & 109.0 & 17.6555 & 23.3466 & 27.70294938389831 \\
+			rondrit051.tsp & 109.0 & 16.8619 & 21.5905 & 24.99887566024666 \\
+			rondrit067.tsp & 109.0 & 17.3626 & 21.8921 & 25.01576819902206 \\
+			rondrit070.tsp & 109.0 & 27.3491 & 33.7980 & 39.02844367980951 \\
+			rondrit100.tsp & 109.0 & 42.5563 & 50.3468 & 56.14968388227629 \\
+			rondrit127.tsp & 109.0 & 26.3171 & 30.1653 & 32.82588637833199 \\
+			\bottomrule		
+		\end{tabular}		
+	}		
+	\caption{Results when using Stochastic Universal Sampling as parent selection method.}		
+	\label{tab:selparentsus}		
+\end{table}
+
+\begin{table}[H]		
+	\centering		
+	\makebox[\textwidth]{		
+		\begin{tabular}{l rrrr}		
+			\toprule		
+			& \multicolumn{4}{c}{Tournament Selection} \\		
+			\cmidrule{2-5}	
+			Dataset & \# Generations & Min & Mean & Max \\		
+			\midrule		
+			rondrit016.tsp & 109.0 & 3.8584 & 5.2429 & 6.65136434345961 \\
+			rondrit018.tsp & 109.0 & 3.8044 & 5.8175 & 7.60837957298278 \\
+			rondrit023.tsp & 109.0 & 5.0251 & 7.8150 & 10.25462477584426 \\
+			rondrit025.tsp & 109.0 & 6.8520 & 10.6018 & 13.97083528139636 \\
+			rondrit048.tsp & 109.0 & 12.3467 & 16.3804 & 20.33995051462599 \\
+			rondrit050.tsp & 109.0 & 17.7767 & 23.0010 & 26.94691760670842 \\
+			rondrit051.tsp & 109.0 & 16.6423 & 21.4503 & 24.88148805771897 \\
+			rondrit067.tsp & 109.0 & 17.4205 & 21.8030 & 24.91090949012749 \\
+			rondrit070.tsp & 109.0 & 27.0049 & 33.5066 & 38.57674586236878 \\
+			rondrit100.tsp & 109.0 & 42.1082 & 49.7688 & 55.34138052048054 \\
+			rondrit127.tsp & 109.0 & 26.5709 & 30.3721 & 33.34923179147698 \\
+			\bottomrule		
+		\end{tabular}		
+	}		
+	\caption{Results when using Tournament Selection as parent selection method.}		
+	\label{tab:selparenttournament}		
+\end{table}		
+
+\begin{table}[H]		
+	\centering		
+	\makebox[\textwidth]{		
+		\begin{tabular}{l rrrr}		
+			\toprule		
+			& \multicolumn{4}{c}{Fitness Proportional Selection} \\		
+			\cmidrule{2-5}	
+			Dataset & \# Generations & Min & Mean & Max \\		
+			\midrule		
+			rondrit016.tsp & 109.0 & 3.9268 & 5.5816 & 6.95230040943754 \\
+			rondrit018.tsp & 109.0 & 3.8098 & 5.8874 & 7.64505139464696 \\
+			rondrit023.tsp & 109.0 & 5.2107 & 8.1510 & 10.66363338096259 \\
+			rondrit025.tsp & 109.0 & 6.9584 & 10.6573 & 13.64919455732690 \\
+			rondrit048.tsp & 109.0 & 12.5354 & 17.1587 & 20.98354804718375 \\
+			rondrit050.tsp & 109.0 & 17.6555 & 23.3466 & 27.70294938389831 \\
+			rondrit051.tsp & 109.0 & 16.8619 & 21.5905 & 24.99887566024666 \\
+			rondrit067.tsp & 109.0 & 17.3626 & 21.8921 & 25.01576819902206 \\
+			rondrit070.tsp & 109.0 & 27.3491 & 33.7980 & 39.02844367980951 \\
+			rondrit100.tsp & 109.0 & 42.5563 & 50.3468 & 56.14968388227629 \\
+			rondrit127.tsp & 109.0 & 26.3171 & 30.1653 & 32.82588637833199 \\
+			\bottomrule		
+		\end{tabular}		
+	}		
+	\caption{Results when using Fitness Proportional Selection as parent selection method.}		
+	\label{tab:selparentfitprop}		
+\end{table}		
+
 \subsection{7b: Survivor selection}
 \subsection{7c: Diversity preservation}
-For preserving population diversity we adapted a few of the functions in the template to work with subpopulations, simulating the island model.
+For preserving population diversity we adapted a few of the functions in the template to work with subpopulations, simulating the island model. The results displayed in Table~\ref{tab:diversity1} through Table~\ref{tab:diversity20} show tests performed with 1, 2, 5, 10 and 20 subpopulations or islands.
+
+\begin{table}[H]		
+	\centering		
+	\makebox[\textwidth]{		
+		\begin{tabular}{l rrrr}		
+			\toprule		
+			& \multicolumn{4}{c}{\# subpopulations = 1} \\		
+			\cmidrule{2-5}	
+			Dataset & \# Generations & Min & Mean & Max \\		
+			\midrule		
+			rondrit016.tsp & 99.9 & 3.7370 & 5.3014 & 7.3443 \\
+			rondrit018.tsp & 120.7 & 3.4504 & 5.5736 & 7.9594 \\
+			rondrit023.tsp & 124.4 & 4.6149 & 7.6039 & 10.7075 \\
+			rondrit025.tsp & 134.5 & 5.8402 & 9.9015 & 13.9843 \\
+			rondrit048.tsp & 129.7 & 10.9175 & 16.1203 & 21.3953 \\
+			rondrit050.tsp & 194.6 & 14.7423 & 21.4762 & 26.9975 \\
+			rondrit051.tsp & 169.1 & 14.7132 & 20.3833 & 25.4901 \\
+			rondrit067.tsp & 139.0 & 15.3320 & 20.6747 & 25.3712 \\
+			rondrit070.tsp & 187.9 & 23.1837 & 31.6961 & 39.3717 \\
+			rondrit100.tsp & 174.5 & 38.1144 & 48.0221 & 55.8977 \\
+			rondrit127.tsp & 195.0 & 23.8434 & 29.0456 & 33.1707 \\
+			\bottomrule		
+		\end{tabular}		
+	}		
+	\caption{Results when using a single subpopulation.}		
+	\label{tab:diversity1}		
+\end{table}
+
+\begin{table}[H]		
+	\centering		
+	\makebox[\textwidth]{		
+		\begin{tabular}{l rrrr}		
+			\toprule		
+			& \multicolumn{4}{c}{\# subpopulations = 2} \\		
+			\cmidrule{2-5}	
+			Dataset & \# Generations & Min & Mean & Max \\		
+			\midrule		
+			rondrit016.tsp & 118.9 & 4.1112 & 5.6874 & 7.9026 \\
+			rondrit018.tsp & 147.5 & 3.8393 & 6.0843 & 8.5831 \\
+			rondrit023.tsp & 159.4 & 5.0312 & 8.3282 & 11.8303 \\
+			rondrit025.tsp & 152.9 & 6.6344 & 10.9143 & 15.5315 \\
+			rondrit048.tsp & 204.9 & 11.4129 & 17.6468 & 23.8143 \\
+			rondrit050.tsp & 216.0 & 16.5176 & 23.7049 & 29.4113 \\
+			rondrit051.tsp & 168.2 & 16.6110 & 22.5015 & 27.8662 \\
+			rondrit067.tsp & 203.0 & 16.4217 & 22.3292 & 27.4292 \\
+			rondrit070.tsp & 129.3 & 27.3049 & 35.4823 & 42.9792 \\
+			rondrit100.tsp & 251.9 & 40.3992 & 51.8574 & 60.8410 \\
+			rondrit127.tsp & 265.4 & 25.6029 & 31.5892 & 36.3884 \\
+			\bottomrule		
+		\end{tabular}		
+	}		
+	\caption{Results when using two subpopulations.}		
+	\label{tab:diversity2}		
+\end{table}		
+
+\begin{table}[H]		
+	\centering		
+	\makebox[\textwidth]{		
+		\begin{tabular}{l rrrr}		
+			\toprule		
+			& \multicolumn{4}{c}{\# subpopulations = 5} \\		
+			\cmidrule{2-5}	
+			Dataset & \# Generations & Min & Mean & Max \\		
+			\midrule		
+			rondrit016.tsp & 126.6 & 4.1295 & 5.8593 & 7.9499 \\
+			rondrit018.tsp & 121.0 & 4.0043 & 6.2663 & 8.9579 \\
+			rondrit023.tsp & 138.2 & 5.1783 & 8.4623 & 12.0132 \\
+			rondrit025.tsp & 166.0 & 6.4178 & 11.0127 & 15.7281 \\
+			rondrit048.tsp & 117.9 & 12.4779 & 18.4335 & 24.2895 \\
+			rondrit050.tsp & 164.8 & 17.1913 & 24.2682 & 30.5998 \\
+			rondrit051.tsp & 166.4 & 17.3803 & 23.2727 & 28.6140 \\
+			rondrit067.tsp & 225.4 & 16.5562 & 22.6888 & 27.6837 \\
+			rondrit070.tsp & 183.2 & 26.8295 & 35.8003 & 42.9375 \\
+			rondrit100.tsp & 199.2 & 41.8170 & 53.1547 & 62.3695 \\
+			rondrit127.tsp & 218.5 & 26.4587 & 32.1475 & 36.5978 \\
+			\bottomrule		
+		\end{tabular}		
+	}		
+	\caption{Results when using five subpopulations.}		
+	\label{tab:diversity5}		
+\end{table}
+
+\begin{table}[H]		
+	\centering		
+	\makebox[\textwidth]{		
+		\begin{tabular}{l rrrr}		
+			\toprule		
+			& \multicolumn{4}{c}{\# subpopulations = 10} \\		
+			\cmidrule{2-5}	
+			Dataset & \# Generations & Min & Mean & Max \\		
+			\midrule		
+			rondrit016.tsp & 97.4 & 4.1405 & 5.5019 & 7.7501 \\
+			rondrit018.tsp & 140.1 & 3.8233 & 5.5875 & 8.1174 \\
+			rondrit023.tsp & 180.4 & 4.7633 & 7.8333 & 11.6950 \\
+			rondrit025.tsp & 186.0 & 6.1102 & 10.4032 & 15.4008 \\
+			rondrit048.tsp & 276.3 & 10.6240 & 17.0398 & 23.1415 \\
+			rondrit050.tsp & 245.8 & 15.9304 & 22.8300 & 29.9988 \\
+			rondrit051.tsp & 190.7 & 16.0860 & 21.8967 & 27.5143 \\
+			rondrit067.tsp & 254.4 & 15.8431 & 21.9523 & 27.1892 \\
+			rondrit070.tsp & 272.4 & 24.4098 & 33.8360 & 41.4091 \\
+			rondrit100.tsp & 250.7 & 39.4631 & 51.1833 & 61.1145 \\
+			rondrit127.tsp & 282.1 & 25.3591 & 31.1691 & 36.3321 \\
+			\bottomrule		
+		\end{tabular}		
+	}		
+	\caption{Results when using ten subpopulations.}		
+	\label{tab:diversity10}		
+\end{table}
+
 
 \newpage
 

@@ -8,7 +8,7 @@ STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
 PR_CROSS=.95;     % probability of crossover
 PR_MUT=.05;       % probability of mutation
 LOCALLOOP=0;      % local loop removal
-CROSSOVER = 'xalt_edges';  % default crossover operator
+CROSSOVER = 'cross_alternate_edges';  % default crossover operator
 % Gets handled by the loop
 % SELECTION = 'sus';
 SUBPOP = 1;         % Amount of subpopulations
@@ -32,9 +32,9 @@ for selectionidx = 1:3
     if selectionidx == 1
         SELECTION = 'sus';
     elseif selectionidx == 2
-        SELECTION = 'tournament';
+        SELECTION = 'sel_tournament';
     elseif selectionidx == 3
-        SELECTION = 'fitpropsel';
+        SELECTION = 'sel_fit_prop';
     end
     
     for ds = 1:Ndatasets
@@ -63,7 +63,7 @@ for selectionidx = 1:3
 
         results(ds, :, selectionidx) = results(ds, :, selectionidx) / RUNS;
 
-        fprintf(out, '%s & %d & %d & %d & %d \\\\\n', datasetslist(ds + 2).name, results(ds, 1, selectionidx) - 1, results(ds, 2, selectionidx), results(ds, 3, selectionidx), results(ds, 4, selectionidx));
+        fprintf(out, '%s & %.1f & %.4f & %.4f & %.14f \\\\\n', datasetslist(ds + 2).name, results(ds, 1, selectionidx), results(ds, 2, selectionidx), results(ds, 3, selectionidx), results(ds, 4, selectionidx));
 
     end
 end

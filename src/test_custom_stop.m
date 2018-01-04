@@ -54,7 +54,7 @@ for CUSTOMSTOP = 0:1
 
         results(ds, :, CUSTOMSTOP + 1) = results(ds, :, CUSTOMSTOP + 1) / RUNS;
 
-        fprintf(out, '%s & %.1f & %.4f & %.4f & %.4f \\\\\n', datasetslist(ds + 2).name, results(ds, 1, CUSTOMSTOP + 1) - 1, results(ds, 2, CUSTOMSTOP + 1), results(ds, 3, CUSTOMSTOP + 1), results(ds, 4, CUSTOMSTOP + 1));
+        fprintf(out, '%s & %.1f & %.4f & %.4f & %.4f \\\\\n', datasetslist(ds + 2).name, results(ds, 1, CUSTOMSTOP + 1), results(ds, 2, CUSTOMSTOP + 1), results(ds, 3, CUSTOMSTOP + 1), results(ds, 4, CUSTOMSTOP + 1));
 
     end
 end

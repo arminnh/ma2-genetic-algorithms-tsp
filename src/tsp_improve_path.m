@@ -24,7 +24,7 @@ for len = 2:maxlen
                - Dist(path(1,mod(start -1 +ncities-1,ncities)+1),path(1,stop)) ...
                - Dist(path(1,start),path(1,mod(stop+1 -1 ,ncities)+1));
         if ( gain > 0.0 ) 
-            path = SwapSubpath(ncities, path, start, len);
+            path = tsp_swap_subpath(ncities, path, start, len);
         end
     end
 end

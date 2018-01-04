@@ -53,7 +53,7 @@ for CUSTOMSS = 0:1
 
         results(ds, :, CUSTOMSS + 1) = results(ds, :, CUSTOMSS + 1) / RUNS;
 
-        fprintf(out, '%s & %d & %d & %d & %d \\\\\n', datasetslist(ds + 2).name, results(ds, 1, CUSTOMSS + 1) - 1, results(ds, 2, CUSTOMSS + 1), results(ds, 3, CUSTOMSS + 1), results(ds, 4, CUSTOMSS + 1));
+        fprintf(out, '%s & %d & %d & %d & %d \\\\\n', datasetslist(ds + 2).name, results(ds, 1, CUSTOMSS + 1), results(ds, 2, CUSTOMSS + 1), results(ds, 3, CUSTOMSS + 1), results(ds, 4, CUSTOMSS + 1));
 
     end
 end

@@ -1,5 +1,5 @@
-NIND=50;		% Number of individuals
-MAXGEN=100;		% Maximum no. of generations
+NIND=200;		% Number of individuals
+MAXGEN=300;		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
 ELITIST=0.05;    % percentage of the elite population
@@ -7,26 +7,26 @@ GGAP=1-ELITIST;		% Generation gap
 STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
 PR_CROSS=.95;     % probability of crossover
 PR_MUT=.05;       % probability of mutation
-% Gets handled by the loop
-% LOCALLOOP=0;      % local loop removal
+LOCALLOOP=0;      % local loop removal
 CROSSOVER = 'cross_alternate_edges';  % default crossover operator
-SELECTION='sus';
-SUBPOP = 1;         % Amount of subpopulations
+SELECTION = 'sus';
+% Gets handled by the loop
+% SUBPOP = 1;         % Amount of subpopulations
 
 SCALING = 1;        % City location scaling on/off
 RUNS = 10;          % Number of ga runs in tests
-CUSTOMSTOP = 0;     % Custom stopping criterion on/off
+CUSTOMSTOP = 1;     % Custom stopping criterion on/off
 CUSTOMSS = 0;       % Custom survivor selection on/off
 
 datasetslist = dir('datasets/');
 Ndatasets = size(datasetslist, 1) - 2;
 
-results = zeros([Ndatasets 4 2]);
+results = zeros([Ndatasets 4]);
 
-out = fopen('./tablelocalopt.tex', 'w');
+out = fopen('./tablediversity.tex', 'w');
 fprintf(out, 'A & B & C & D & E\n\\midrule\n');
 
-for LOCALLOOP = 0:1
+for SUBPOP = [1 2 5 10 20]
     for ds = 1:Ndatasets
         datasetslist(ds + 2).name
         data = load(['datasets/' datasetslist(ds + 2).name]);
@@ -48,12 +48,12 @@ for LOCALLOOP = 0:1
             M = mean(Ngen);
             W = worst(Ngen);
 
-            results(ds, :, LOCALLOOP + 1) = results(ds, :, LOCALLOOP + 1) + [Ngen B M W];
+            results(ds, :) = results(ds, :) + [Ngen B M W];
         end
 
-        results(ds, :, LOCALLOOP + 1) = results(ds, :, LOCALLOOP + 1) / RUNS;
+        results(ds, :) = results(ds, :) / RUNS;
 
-        fprintf(out, '%s & %.1f & %.4f & %.4f & %.4f \\\\\n', datasetslist(ds + 2).name, results(ds, 1, LOCALLOOP + 1), results(ds, 2, LOCALLOOP + 1), results(ds, 3, LOCALLOOP + 1), results(ds, 4, LOCALLOOP + 1));
+        fprintf(out, '%s & %.1f & %.4f & %.4f & %.4f \\\\\n', datasetslist(ds + 2).name, results(ds, 1) - 1, results(ds, 2), results(ds, 3), results(ds, 4));
 
     end
 end
