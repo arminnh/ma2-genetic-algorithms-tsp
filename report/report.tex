@@ -277,9 +277,9 @@ The first and second citerion are useful, either to guarantee the evaluations do
 
 The fourth criterion is also already present in the template and can be adjusted via the GUI. The default value is so strict (95\% equal individuals), it practically is never reached.
 
-We decided to implement the fourth criterion. Here, termination occurs when the fitness of the best individual does not improve above a treshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be a percentage of the specified maximum number of generations. When testing this termination condition, we see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time.		 +So we decided to implement the fourth criterion. Termination occurs when the fitness of the best individual does not improve above a treshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be a percentage of the specified maximum number of generations. When testing this termination condition, we see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time.
+We decided to implement the fourth criterion. With this condition, termination occurs when the fitness of the best individual does not improve above a treshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be a percentage of the specified maximum number of generations. When testing this termination condition, we see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time. Because of the fact that improvements may still happen at a later point in time, the score will be slightly worse with this new condition.
 	
-The results of our experiments with this new termination condition are displayed in Table~\ref{tab:customstop}		
+The results of our experiments with this new termination condition are displayed in Table~\ref{tab:customstop}.
 
 \begin{table}[H]		
 	\centering		

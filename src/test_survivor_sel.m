@@ -10,6 +10,7 @@ PR_MUT=.05;       % probability of mutation
 LOCALLOOP=0;      % local loop removal
 CROSSOVER = 'cross_alternate_edges';  % default crossover operator
 SELECTION='sus';
+SUBPOP = 1;         % Amount of subpopulations
 
 SCALING = 1;        % City location scaling on/off
 RUNS = 10;          % Number of ga runs in tests
@@ -41,7 +42,7 @@ for CUSTOMSS = 0:1
         NVAR=size(data,1);
 
         for i = 0:RUNS
-            [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION);
+            [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
             Ngen = find(best, 1, 'last');
             B = best(Ngen);
             M = mean(Ngen);
@@ -52,7 +53,7 @@ for CUSTOMSS = 0:1
 
         results(ds, :, CUSTOMSS + 1) = results(ds, :, CUSTOMSS + 1) / RUNS;
 
-        fprintf(out, '%s & %d & %d & %d & %d \\\\\n', datasetslist(ds + 2).name, results(ds, 1, CUSTOMSS + 1), results(ds, 2, CUSTOMSS + 1), results(ds, 3, CUSTOMSS + 1), results(ds, 4, CUSTOMSS + 1));
+        fprintf(out, '%s & %d & %d & %d & %d \\\\\n', datasetslist(ds + 2).name, results(ds, 1, CUSTOMSS + 1) - 1, results(ds, 2, CUSTOMSS + 1), results(ds, 3, CUSTOMSS + 1), results(ds, 4, CUSTOMSS + 1));
 
     end
 end
