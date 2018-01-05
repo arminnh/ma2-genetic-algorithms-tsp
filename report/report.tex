@@ -102,6 +102,22 @@
 \newpage
 
 \mychapter{0}{Introduction}
+In this report we discuss our solutions and results for the given tasks. For each task, experiments were ran to evaluate our solutions. Unless stated otherwise, the experiments were executed with a certain set of parameters and functions. This was done so that we would have a consistent basis to compare results on. The parameters were also chosen in order to leave enough room for improvement so that the effects of different methods can be compared, while at the same time avoiding the negative effects of experiments that are too short or do too little to populations. The default parameters and functions are as follows:
+\begin{itemize}
+	\item number of individuals = 100
+	\item maximum number of generations = 250
+	\item probability of mutation = 0.1
+	\item probability of crossover = 0.95
+	\item percentage of elite population = 0.1
+	\item subpopulations = 2
+	\item loop detection = off
+	\item crossover function = cross\_alternate\_edges
+	\item mutation function = mut\_inversion
+	\item parent selection function = sus
+\end{itemize}
+The results shown in tables are the average results of 10 runs. Every experiment is ran 10 times, so that the effects of local optima would be reduced.
+
+The appendix includes tables that contain results of experiments and our code that is relevant to the tasks.
 
 \mychapter{1}{Tasks}
 
@@ -115,37 +131,30 @@ The impact of the following parameters on the results of the existing genetic al
 	\item probability of mutation (PR\_MUT)
 	\item local loop removal (LOCALLOOP)
 \end{itemize}
-The tests for this task were executed on a subset of the given datasets to keep the tables readable. 
+The parameter values were chosen so that evenly spread out options from low to high could be tested. The experiments for this task were executed on a subset of the given datasets to keep the tables readable. The datasets range from ones with a small amount of cities to ones with a large amount of cities. The tables for the results of the experiments can be found in appendix~\ref{app:task2}.
 
 \subsection{Individuals}
-TODO: COMMENTS
-\input{task2_individuals}
+The mininum path lengths clearly decrease as the number of individuals increases. This is to be expected, as a larger amount of individuals causes a larger amount of mutations and crossover which can positively impact path lengths. Analogously, the maximum path lengths slightly increase as the number of individuals increases. Because of this effect, the mean path lengths remain relatively constant after 100 individuals.
 
 \subsection{Generations}
 TODO: COMMENTS
-\input{task2_generations}
 
 \subsection{Elitism}
 TODO: COMMENTS
-\input{task2_elitism}
 
 \subsection{Crossover}
 TODO: COMMENTS
-\input{task2_crossover}
 
 \subsection{Mutation}
 TODO: COMMENTS
-\input{task2_mutation}
 
 \subsection{Loop removal}
-TODO: COMMENTS
-\input{task2_loop}
+See section~\ref{sec:local}
 
 \subsection{Mix}
-TODO: some results with mixed amounts of parameters?
+After some parameter tuning with the above information in mind, we have come up with a configuration of parameters that performs very well. The results can be seen in table~\ref{tab:todo}. The parameters were: 
 
 
-\newpage
 
 \section{Task 3: Stopping criterion}
 To implement a new stopping criterion, we looked at the commonly used termination conditions outlined by the book. There we see the following suggestions:
@@ -190,10 +199,24 @@ The results of our experiments with this new termination condition are displayed
 	\label{tab:customstop}		
 \end{table}		
 
-\newpage
+
+
 \section{Task 4: Other representation}
-\newpage
+The given project template uses adjacency representation by default for TSP paths. We have chosen to use path representation as the alternative one. Conversion between the two representations was already possible thanks to the 'adj2path' and 'path2adj' functions in the template. To do crossover with path representation, we implemented the Order Crossover method (function 'cross\_order') as described in the textbook. Simple Inversion Mutation, which is a mutation operator for path representation, was already provided in the template ('mut\_inversion'). We have decided to extend this and have added a function for Inversion Mutation ('mut\_inversion2').
+
+Table~\ref{tab:path_repr_crossover} contains the results of experiments with different crossover operators. The 'cross\_alternate\_edges' function implements Alternating Edge Crossover and is provided in the template. It is clear that Order Crossover performs significantly better than Alternating Edge Crossover; all of the path lengths with Order Crossover are lower for every dataset.
+\input{task4_crossover}
+
+Table~\ref{tab:path_repr_mutation} contains the results of experiments with different mutation operators. The 'mut\_inversion' function implements Simple Inversion Mutation and is provided in the template. There is no clear difference between the two methods in these results.
+\input{task4_mutation}
+
+Table~\ref{tab:path_repr_tuning} shows results after some parameter tuning with the 'cross\_order' and 'mut\_inversion2' operators. The parameters used were: a = b, c = d, ... TODO  check tuning
+\input{task4_tuning}
+
+
+
 \section{Task 5: Local optimisation}
+\label{sec:local}
 For this task, we are testing the local optimization already present in the template. This optimization takes a path and tries to remove local loops up to path length 3. With default values for other parameters, this results in major improvements to the score.
 
 The results of our experiments with local optimisation disabled and enabled are displayed in Table~\ref{tab:localopt}.
@@ -225,14 +248,15 @@ rondrit127.tsp & 109.0 & 26.5206 & 30.3975 & 33.3563 && 109.0 & 15.3001 & 20.840
 	\label{tab:localopt}		
 \end{table}		
 
-\newpage
+
 
 \section{Task 6: Benchmark problems}
-\newpage
+
+
 
 \section{Task 7: Optional tasks}
 \subsection{7a: Parent selection}
-Additional parent selection methods we implemented are Fitness Proportional Selection and Tournament Selection. Both of them use the same parameters as the existing implementation of Stochastic Universal Sampling so we could easily swap them in.
+Additional parent selection methods we implemented are Fitness Proportional Selection ('sel\_fit\_prop') and Tournament Selection ('sel\_tournament'). Both of them use the same parameters as the existing implementation of Stochastic Universal Sampling so we could easily swap them in.
 
 \begin{table}[H]		
 	\centering		
@@ -316,8 +340,10 @@ Additional parent selection methods we implemented are Fitness Proportional Sele
 \end{table}		
 
 \subsection{7b: Survivor selection}
+TODO
+
 \subsection{7c: Diversity preservation}
-For preserving population diversity we adapted a few of the functions in the template to work with subpopulations, simulating the island model. The results displayed in Table~\ref{tab:diversity1} through Table~\ref{tab:diversity20} show tests performed with 1, 2, 5, 10 and 20 subpopulations or islands.
+In order to preserve population diversity, we adapted a few of the functions in the template to work with subpopulations, simulating the island model. The results displayed in Table~\ref{tab:diversity1} through Table~\ref{tab:diversity20} show tests performed with 1, 2, 5, 10 and 20 subpopulations or islands.
 
 \begin{table}[H]		
 	\centering		
@@ -427,30 +453,17 @@ For preserving population diversity we adapted a few of the functions in the tem
 	\label{tab:diversity10}		
 \end{table}
 
-
-\newpage
-
-\mychapter{2}{Conclusion}
-
-\section{Weak points}
-There are a couple of weak points in our report:
-\begin{itemize}
-    \item The speed of our Sudoku implementations in CHR are not that great. We did try to improve it with the heuristics, but we feel it is still too slow. We think this was more due to the fact that we were still novices with how CHR worked as our Hashiwokakero CHR implementation is quite fast.
-    \item The implementation of the connectivity constraint in ECLiPSe for Hashiwokakero is also a rather weak point. Ideally we should have implemented it using disjoint sets like in CHR but we couldn't figure out how to do this correctly.
-    \item We think that implementing a Hashiwokakero solver using a graph representation is a more logical approach than the one we have used, but we had problems with ECLiPSe and how to express the no crossing bridges constraint.
-\end{itemize}
-\section{Strong points}
-The strong points in our report are:
-\begin{itemize}
-    \item Our Hashiwokakero CHR implementation is quite fast thanks to our improvements set.
-    \item We think we have good heuristics for Sudoku in CHR. Certainly the heuristic for the alternative viewpoint has made good improvements on the speed of the search.
-\end{itemize}
-
-\section{Lessons learned}
-We have learned a lot of things during this project due to the fact we often had to re-track our steps. If we would now have to do an other project with these systems we think we would have a better idea for how to start and what to think about. We spent quite some time with both ECLiPSe and CHR so we now have a much better idea of what the strong points are and the weak points are for each system.
-
 \mychapter{4}{Appendix}
-We started working on this project before the Easter holiday. In the beginning we often lost quite some time, since we didn't really know how the systems worked. During the second week of the Easter holiday, we continued to work on the project each evening and we finished the Sudoku task and the ECLiPSe part of hashiwokakero before the end of the holiday. We then had to halt our work for a while since we had a deadline for a ridiculously large project for another course. As the semester was coming to an end other deadlines and an exam were coming up so we had to manage those first. Thus it was only at the start of the study period that we could continue working. From the start of the study period we tried to spend around 6 hours of work each day for this project. The work was not really divided since we were doing pair programming most of the time. Sometimes someone made individual changes when they had time but most of our work was done online using Hangouts and its screen sharing functionality. We could argue that by doing pair programming we lost quite some time, which is true, but by doing this we worked very closely together and we learned quite a lot. We have each individually put more than 100 hours in this project.
+\section{Tables}
+\subsection{Task 2}
+\label{app:task2}
+\input{task2_individuals}
+\input{task2_generations}
+\input{task2_elitism}
+\input{task2_crossover}
+\input{task2_mutation}
 
-\lstinputlisting[language=matlab]{"../src/run_ga.m"}
+\section{Code}
+\lstinputlisting[language=matlab]{../src/run_ga.m}
+
 \end{document}

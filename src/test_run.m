@@ -19,7 +19,7 @@ for ds = 1:Ndatasets
     NVAR=size(data,1); % No. of variables (cities)
 
     for i = 0:RUNS
-        [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
+        [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, 'mut_inversion', LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
         Ngen = find(best, 1, 'last');
         B = best(Ngen);
         M = mean(Ngen);

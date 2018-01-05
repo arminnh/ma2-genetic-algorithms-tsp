@@ -9,19 +9,20 @@
 %   PR_CROSS        - probability for crossover
 %   PR_MUT          - probability for mutation
 %   CROSSOVER       - the crossover operator
-%   LOCALLOOP       - ...
-%   CUSTOMSTOP      - ...
-%   CUSTOMSS        - ...
+%   MUTATION        - the mutation operator
+%   LOCALLOOP       - local loop removal on/off
+%   CUSTOMSTOP      - custom stopping criterion on/off
+%   CUSTOMSS        - custom survivor selection on/off
 %   SELECTION       - the parent selection function (sus, sel_tournament,
 %                     sel_fit_prop, ...)
 %   ah1, ah2, ah3   - axes handles to visualise tsp
 %
 % Output parameter:
-%   best            - A vector(?) of the best result of every iteration
-%   mean_fits       - A vector(?) of the mean result of every iteration
-%   worst           - A vector(?) of the worst result of every iteration
+%   best            - vector of the best result of every iteration
+%   mean_fits       - vector of the mean result of every iteration
+%   worst           - vector of the worst result of every iteration
 
-function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP, ah1, ah2, ah3)
+function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, MUTATION, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP, ah1, ah2, ah3)
 
     GGAP = 1 - ELITIST;
     
@@ -61,7 +62,7 @@ function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, ST
             end
         end
 
-        if nargin == 18
+        if nargin == 19
             visualizeTSP(x, y, adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
         end
         
@@ -85,7 +86,7 @@ function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, ST
         
         %recombine individuals (crossover)
         SelCh = crossover_tsp(CROSSOVER, SelCh, PR_CROSS, SUBPOP);
-        SelCh = mutate_tsp('mut_inversion', SelCh, PR_MUT, SUBPOP);        
+        SelCh = mutate_tsp(MUTATION, SelCh, PR_MUT, SUBPOP);        
         
         %evaluate offspring, call objective function
         ObjVSel = tspfun(SelCh, Dist);

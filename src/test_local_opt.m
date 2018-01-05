@@ -9,7 +9,7 @@ PR_CROSS=.95;     % probability of crossover
 PR_MUT=.05;       % probability of mutation
 % Gets handled by the loop
 % LOCALLOOP=0;      % local loop removal
-CROSSOVER = 'cross_alternate_edges';  % default crossover operator
+CROSSOVER = 'cross_alternating_edges';  % default crossover operator
 SELECTION='sus';
 SUBPOP = 1;         % Amount of subpopulations
 
@@ -42,7 +42,7 @@ for LOCALLOOP = 0:1
         NVAR=size(data,1);
 
         for i = 0:RUNS
-            [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
+            [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, 'mut_inversion', LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
             Ngen = find(best, 1, 'last');
             B = best(Ngen);
             M = mean(Ngen);
