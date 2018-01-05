@@ -7,7 +7,6 @@ MAXGEN=100;		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
 ELITIST=0.05;    % percentage of the elite population
-GGAP=1-ELITIST;		% Generation gap
 STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
 PR_CROSS=.95;     % probability of crossover
 PR_MUT=.05;       % probability of mutation
@@ -59,11 +58,10 @@ end
 
 % start with first dataset
 data = load(['datasets/' datasets{1}]);
-% x=data(:,1)/max([data(:,1);data(:,2)]);
 x=data(:,1);
+y=data(:,2);
+x=data(:,1)/max([data(:,1);data(:,2)]);
 y=data(:,2)/max([data(:,1);data(:,2)]);
-% y=data(:,2);
-% x
 NVAR=size(data,1);
 
 datasets
@@ -183,7 +181,6 @@ set(fh,'Visible','on');
         set(hObject,'Value',slider_value);
         set(elitsliderv,'String',slider_value);
         ELITIST = round(slider_value)/100;
-        GGAP = 1-ELITIST;
     end
     function subpopulations_Callback(hObject,eventdata)
         fslider_value = get(hObject,'Value');

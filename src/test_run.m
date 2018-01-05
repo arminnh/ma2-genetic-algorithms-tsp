@@ -1,4 +1,4 @@
-function test_run(datasetslist, out, SCALING, RUNS, NIND, MAXGEN, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP)
+function test_run(datasetslist, out, SCALING, RUNS, NIND, MAXGEN, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, MUTATION LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP)
 
 Ndatasets = size(datasetslist, 1) - 2;
 results = zeros([Ndatasets 4]);
@@ -18,8 +18,8 @@ for ds = 1:Ndatasets
 
     NVAR=size(data,1); % No. of variables (cities)
 
-    for i = 0:RUNS
-        [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, 'mut_inversion', LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
+    for i = 1:RUNS
+        [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, MUTATION, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
         Ngen = find(best, 1, 'last');
         B = best(Ngen);
         M = mean(Ngen);

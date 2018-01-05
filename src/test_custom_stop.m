@@ -3,12 +3,12 @@ MAXGEN=100;             % Maximum no. of generations
 NVAR=26;                % No. of variables
 PRECI=1;                % Precision of variables
 ELITIST=0.05;           % percentage of the elite population
-GGAP=1-ELITIST;         % Generation gap
 STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
 PR_CROSS=.95;           % probability of crossover
 PR_MUT=.05;             % probability of mutation
 LOCALLOOP=0;            % local loop removal
 CROSSOVER = 'cross_alternating_edges';  % default crossover operator
+MUTATION = 'mut_inversion'; % mutation operators
 SELECTION='sus';    % Selection function
 SUBPOP = 1;         % Amount of subpopulations
 
@@ -43,7 +43,7 @@ for CUSTOMSTOP = 0:1
         NVAR=size(data,1);
 
         for i = 0:RUNS
-            [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, 'mut_inversion', LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
+            [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, MUTATION, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
             Ngen = find(best, 1, 'last');
             B = best(Ngen);
             M = mean(Ngen);

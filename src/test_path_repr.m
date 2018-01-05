@@ -1,36 +1,17 @@
-% Number of individuals
-NIND=50;	
-% Maximum no. of generations
-MAXGEN=100;
-% percentage of the elite population
-ELITIST=0.05;    
-% Generation gap
-GGAP=1-ELITIST;		
-% percentage of equal fitness individuals for stopping
-STOP_PERCENTAGE=.95;    
-% probability of crossover
-PR_CROSS=.95;     
-% probability of mutation
-PR_MUT=.05;       
-% local loop removal
-LOCALLOOP=0;   
-% crossover operators
-CROSSOVER = ["cross_alternating_edges", "cross_order"];     
-% mutation operators
-MUTATION = ["mut_inversion", "mut_inversion2"];
-% parent selection algorithm
-SELECTION = 'sus';
-% Amount of subpopulations
-SUBPOP = 1;
-% City location scaling on/off
-SCALING = 1;        
-% Custom stopping criterion on/off
-CUSTOMSTOP = 0;     
-% Custom survivor selection on/off
-CUSTOMSS = 0;       
-
-% Number of ga runs in tests
-RUNS = 10;          
+NIND=100;            % Number of individuals
+MAXGEN=250;          % Maximum no. of generations
+ELITIST=0.05;        % percentage of the elite population
+STOP_PERCENTAGE=.95; % percentage of equal fitness individuals for stopping
+PR_CROSS=.95;        % probability of crossover
+PR_MUT=.05;          % probability of mutation
+LOCALLOOP=1;         % local loop removal
+CROSSOVER = ["cross_alternating_edges", "cross_order"]; % crossover operators
+MUTATION = ["mut_inversion", "mut_inversion2"]; % mutation operators
+SELECTION = 'sus';   % parent selection algorithm
+SUBPOP = 1;          % Amount of subpopulations
+CUSTOMSTOP = 0;      % Custom stopping criterion on/off
+CUSTOMSS = 0;        % Custom survivor selection on/off
+RUNS = 10;           % Number of ga runs in tests
 
 datasetslist = dir('datasets/');
 Ndatasets = size(datasetslist, 1) - 2;
@@ -45,13 +26,13 @@ results = zeros([Ndatasets 4 2]);
 for ds = 1:Ndatasets
     fprintf('crossover %s\n', datasetslist(ds + 2).name)
     data = load(['datasets/' datasetslist(ds + 2).name]);
-    x = data(:,1); y = data(:,2);
-    if SCALING == 1; x = x / max([data(:,1); data(:,2)]); y = y / max([data(:,1); data(:,2)]); end
+    x = data(:,1) / max([data(:,1); data(:,2)]); 
+    y = data(:,2) / max([data(:,1); data(:,2)]);
     NVAR=size(data,1);
     
     for c = 1:length(CROSSOVER)
-        for i = 0:RUNS
-            [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER(c), 'mut_inversion', LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
+        for i = 1:RUNS
+            [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER(c), MUTATION, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
             Ngen = find(best, 1, 'last'); B = best(Ngen); M = mean(Ngen); W = worst(Ngen);
             results(ds, :, c) = results(ds, :, c) + [Ngen B M W];
         end
@@ -76,11 +57,10 @@ for ds = 1:Ndatasets
     fprintf('mutation %s\n', datasetslist(ds + 2).name)
     data = load(['datasets/' datasetslist(ds + 2).name]);
     x = data(:,1); y = data(:,2);
-    if SCALING == 1; x = x / max([data(:,1); data(:,2)]); y = y / max([data(:,1); data(:,2)]); end
     NVAR=size(data,1);
     
     for m = 1:length(MUTATION)
-        for i = 0:RUNS
+        for i = 1:RUNS
             [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, 'cross_alternating_edges', MUTATION(m), LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
             Ngen = find(best, 1, 'last'); B = best(Ngen); M = mean(Ngen); W = worst(Ngen);
             results(ds, :, m) = results(ds, :, m) + [Ngen B M W];
@@ -104,10 +84,9 @@ for ds = 1:Ndatasets
     fprintf('tuning %s\n', datasetslist(ds + 2).name)
     data = load(['datasets/' datasetslist(ds + 2).name]);
     x = data(:,1); y = data(:,2);
-    if SCALING == 1; x = x / max([data(:,1); data(:,2)]); y = y / max([data(:,1); data(:,2)]); end
     NVAR=size(data,1);
     
-    for i = 0:RUNS
+    for i = 1:RUNS
         [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, 'cross_order', 'mut_inversion2', LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
         Ngen = find(best, 1, 'last'); B = best(Ngen); M = mean(Ngen); W = worst(Ngen);
         results(ds, :) = results(ds, :) + [Ngen B M W];
@@ -116,7 +95,7 @@ for ds = 1:Ndatasets
     fprintf(out, '%s & %.1f & %.2f & %.2f & %.2f \\\\\n', datasetslist(ds + 2).name, results(ds, 1), results(ds, 2), results(ds, 3), results(ds, 4));
 end
 fprintf(out, '\\bottomrule \n\\end{tabular} \n}\n');
-fprintf(out, '\\caption{Results with operators for path representation after parameter tuning.}\n');
+fprintf(out, '\\caption{Results for operators for path representation after parameter tuning.}\n');
 fprintf(out, '\\label{tab:path_repr_tuning}\n');	
 fprintf(out, '\\end{table}\n');
 fclose(out);

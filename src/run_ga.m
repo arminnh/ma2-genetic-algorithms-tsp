@@ -17,7 +17,7 @@
 %                     sel_fit_prop, ...)
 %   ah1, ah2, ah3   - axes handles to visualise tsp
 %
-% Output parameter:
+% Output parameters:
 %   best            - vector of the best result of every iteration
 %   mean_fits       - vector of the mean result of every iteration
 %   worst           - vector of the worst result of every iteration

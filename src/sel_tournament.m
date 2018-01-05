@@ -7,7 +7,7 @@
 %                individuals in the population.
 %    Nsel      - number of individuals to be selected
 %
-% Output parameters:
+% Output parameter:
 %    NewChrIx  - column vector containing the indexes of the selected
 %                individuals relative to the original population, shuffled.
 %                The new population, ready for mating, can be obtained

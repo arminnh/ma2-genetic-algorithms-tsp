@@ -4,7 +4,7 @@
 % representation of the individuals in the current population,
 % mutates the individuals and returns the resulting population.
 %
-% Input parameter:
+% Input parameters:
 %    MUT_F          - String containing the name of the mutation function
 %    OldChrom       - Matrix containing the chromosomes of the old
 %                     population. Each line corresponds to one individual.

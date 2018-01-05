@@ -8,7 +8,7 @@
 %    Representation       - The representation the given parents are in.
 %                           If omitted, 2 (path) is assumed.
 %
-% Output parameter:
+% Output parameters:
 %    ChildOne, ChildTwo   - Chromosomes created by mating, ready to be       
 %                           mutated and/or evaluated, in the same format 
 %                           as OldChrom.
