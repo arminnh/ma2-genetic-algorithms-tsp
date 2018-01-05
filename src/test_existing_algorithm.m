@@ -25,7 +25,7 @@ fprintf(out, 'Dataset & \\# Generations & Min & Mean & Max\\\\ \n\\midrule\n');
 for x = NIND
     fprintf('nind = %i\n', x)
     fprintf(out, '\\multicolumn{5}{c}{number of individuals = %i}\\\\ \n\\midrule\n', x);
-    test_run(datasetslist, out, SCALING, RUNS, x, MAXGEN(2), ELITIST(2), STOP_PERCENTAGE, PR_CROSS(6), PR_MUT(2), CROSSOVER, MUTATION, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP)
+    test_run(datasetslist, out, SCALING, RUNS, x, MAXGEN(2), ELITIST(2), STOP_PERCENTAGE, PR_CROSS(6), PR_MUT(2), CROSSOVER, MUTATION, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
     if x ~= NIND(end); fprintf(out, '\\midrule\n'); end
 end		
 fprintf(out, '\\bottomrule \n\\end{tabular} \n}\n');
