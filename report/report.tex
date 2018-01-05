@@ -30,7 +30,7 @@
 	numberstyle={\tiny \color{black}},% size of the numbers
 	numbersep=9pt, % this defines how far the numbers are from the text
 	emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
-	%emph=[2]{word1,word2}, emphstyle=[2]{style},    
+	%emph=[2]{word1,word2}, emphstyle=[2]{style},
 }
 
 % global settings
@@ -102,18 +102,20 @@
 \newpage
 
 \mychapter{0}{Introduction}
-In this report we discuss our solutions and results for the given tasks. For each task, experiments were ran to evaluate our solutions. Unless stated otherwise, the experiments were executed with a certain set of parameters and functions. This was done so that we would have a consistent basis to compare results on. The parameters were also chosen in order to leave enough room for improvement so that the effects of different methods can be compared, while at the same time avoiding the negative effects of experiments that are too short or do too little to populations. The default parameters and functions are as follows:
+In this report we discuss our solutions and results for the given tasks. For each task, experiments were ran to evaluate our solutions. Unless stated otherwise, the experiments were executed with a certain set of parameters and functions. This was done so that we would have a consistent basis to compare results on. The parameters were also chosen in order to leave enough room for improvement so that the effects of different methods can be compared, while at the same time reducing variation of experiments that are too short or do too little work. The default parameters and functions are as follows:
 \begin{itemize}
 	\item number of individuals = 100
 	\item maximum number of generations = 250
-	\item probability of mutation = 0.1
+	\item probability of mutation = 0.05
 	\item probability of crossover = 0.95
-	\item percentage of elite population = 0.1
-	\item subpopulations = 2
+	\item percentage of elite population = 0.05
+	\item subpopulations = 1
 	\item loop detection = off
-	\item crossover function = cross\_alternate\_edges
-	\item mutation function = mut\_inversion
 	\item parent selection function = sus
+	\item crossover function = cross\_alternating\_edges
+	\item mutation function = mut\_inversion
+	\item custom stopping criterion = on
+	\item custom survivor selection function = off
 \end{itemize}
 The results shown in tables are the average results of 10 runs. Every experiment is ran 10 times, so that the effects of local optima would be reduced.
 
@@ -152,7 +154,7 @@ TODO: COMMENTS
 See section~\ref{sec:local}
 
 \subsection{Mix}
-After some parameter tuning with the above information in mind, we have come up with a configuration of parameters that performs very well. The results can be seen in table~\ref{tab:todo}. The parameters were: 
+After some parameter tuning with the above information in mind, we have come up with a configuration of parameters that performs very well. The results can be seen in table~\ref{tab:todo}. The parameters were:
 
 
 
@@ -169,35 +171,35 @@ The first and second criteria are useful, either to guarantee the evaluations do
 The fourth criterion is also already present in the template and can be adjusted via the GUI. The default value is so strict (95\% equal individuals), it practically is never reached.
 
 We decided to implement the third criterion. With this condition, termination occurs when the fitness of the best individual does not improve above a threshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be a percentage of the specified maximum number of generations. When testing this termination condition, we see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time. Because of the fact that improvements may still happen at a later point in time, the score will be slightly worse with this new condition.
-	
+
 The results of our experiments with this new termination condition are displayed in Table~\ref{tab:customstop}.
 
-\begin{table}[H]		
-	\centering		
-	\makebox[\textwidth]{		
-		\begin{tabular}{l rrrr c rrrr}		
-			\toprule		
-			& \multicolumn{4}{c}{Default stopping criterion} & \phantom{abc} &  \multicolumn{4}{c}{Custom stopping criterion} \\		
-			\cmidrule{2-5} \cmidrule{7-10}		
-			Dataset & \# Generations & Min & Mean & Max && \# Generations & Min & Mean & Max \\		
-			\midrule		
-			rondrit016.tsp & 60.6000 & 3.8289 & 3.8405 & 4.3167 && 51.9000 & 3.8598 & 4.0645 & 4.9485 \\		
-			rondrit018.tsp & 59.9000 & 3.6123 & 3.6526 & 4.3262 && 62.4000 & 3.5116 & 3.7063 & 4.6899 \\		
-			rondrit023.tsp & 92.8000 & 3.9902 & 4.2086 & 5.2684 && 77.5000 & 4.3064 & 4.4586 & 5.5427 \\		
-			rondrit025.tsp & 82.0000 & 5.3085 & 5.4600 & 6.4753 && 79.2000 & 5.3707 & 5.7207 & 7.3034 \\		
-			rondrit048.tsp & 108.7000 & 7.8736 & 8.2540 & 9.5729 && 109.2000 & 8.1605 & 8.9541 & 10.9159 \\		
-			rondrit050.tsp & 101.5000 & 12.3558 & 12.9267 & 14.6198 && 104.0000 & 12.0748 & 12.8018 & 14.4246 \\		
-			rondrit051.tsp & 109.6000 & 11.8400 & 12.3779 & 13.6785 && 108.9000 & 11.7734 & 12.2508 & 13.6669 \\		
-			rondrit067.tsp & 110.0000 & 11.5868 & 12.2748 & 13.8317 && 107.2000 & 11.4511 & 12.4336 & 14.0862 \\		
-			rondrit070.tsp & 110.0000 & 17.8292 & 18.6919 & 20.5209 && 109.6000 & 18.3206 & 18.9595 & 20.7340 \\		
-			rondrit100.tsp & 110.0000 & 29.6034 & 31.6596 & 34.6374 && 108.7000 & 29.1263 & 30.6127 & 33.1294 \\		
-			rondrit127.tsp & 110.0000 & 19.6930 & 20.5928 & 21.9205 && 110.0000 & 19.0723 & 20.0230 & 21.4847 \\		
-			\bottomrule		
-			\end{tabular}		
-		}		
-	\caption{Comparison between default and custom stopping criteria.}		
-	\label{tab:customstop}		
-\end{table}		
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth]{
+		\begin{tabular}{l rrrr c rrrr}
+			\toprule
+			& \multicolumn{4}{c}{Default stopping criterion} & \phantom{abc} &  \multicolumn{4}{c}{Custom stopping criterion} \\
+			\cmidrule{2-5} \cmidrule{7-10}
+			Dataset & \# Generations & Min & Mean & Max && \# Generations & Min & Mean & Max \\
+			\midrule
+			rondrit016.tsp & 60.6000 & 3.8289 & 3.8405 & 4.3167 && 51.9000 & 3.8598 & 4.0645 & 4.9485 \\
+			rondrit018.tsp & 59.9000 & 3.6123 & 3.6526 & 4.3262 && 62.4000 & 3.5116 & 3.7063 & 4.6899 \\
+			rondrit023.tsp & 92.8000 & 3.9902 & 4.2086 & 5.2684 && 77.5000 & 4.3064 & 4.4586 & 5.5427 \\
+			rondrit025.tsp & 82.0000 & 5.3085 & 5.4600 & 6.4753 && 79.2000 & 5.3707 & 5.7207 & 7.3034 \\
+			rondrit048.tsp & 108.7000 & 7.8736 & 8.2540 & 9.5729 && 109.2000 & 8.1605 & 8.9541 & 10.9159 \\
+			rondrit050.tsp & 101.5000 & 12.3558 & 12.9267 & 14.6198 && 104.0000 & 12.0748 & 12.8018 & 14.4246 \\
+			rondrit051.tsp & 109.6000 & 11.8400 & 12.3779 & 13.6785 && 108.9000 & 11.7734 & 12.2508 & 13.6669 \\
+			rondrit067.tsp & 110.0000 & 11.5868 & 12.2748 & 13.8317 && 107.2000 & 11.4511 & 12.4336 & 14.0862 \\
+			rondrit070.tsp & 110.0000 & 17.8292 & 18.6919 & 20.5209 && 109.6000 & 18.3206 & 18.9595 & 20.7340 \\
+			rondrit100.tsp & 110.0000 & 29.6034 & 31.6596 & 34.6374 && 108.7000 & 29.1263 & 30.6127 & 33.1294 \\
+			rondrit127.tsp & 110.0000 & 19.6930 & 20.5928 & 21.9205 && 110.0000 & 19.0723 & 20.0230 & 21.4847 \\
+			\bottomrule
+			\end{tabular}
+		}
+	\caption{Comparison between default and custom stopping criteria.}
+	\label{tab:customstop}
+\end{table}
 
 
 
@@ -221,15 +223,15 @@ For this task, we are testing the local optimization already present in the temp
 
 The results of our experiments with local optimisation disabled and enabled are displayed in Table~\ref{tab:localopt}.
 
-\begin{table}[H]		
-	\centering		
-	\makebox[\textwidth]{		
-		\begin{tabular}{l rrrr c rrrr}		
-			\toprule		
-			& \multicolumn{4}{c}{Local optimisation disabled} & \phantom{abc} &  \multicolumn{4}{c}{Local optimisation enabled} \\		
-			\cmidrule{2-5} \cmidrule{7-10}		
-			Dataset & \# Generations & Min & Mean & Max && \# Generations & Min & Mean & Max \\		
-			\midrule		
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth]{
+		\begin{tabular}{l rrrr c rrrr}
+			\toprule
+			& \multicolumn{4}{c}{Local optimisation disabled} & \phantom{abc} &  \multicolumn{4}{c}{Local optimisation enabled} \\
+			\cmidrule{2-5} \cmidrule{7-10}
+			Dataset & \# Generations & Min & Mean & Max && \# Generations & Min & Mean & Max \\
+			\midrule
 rondrit016.tsp & 108.8 & 3.9087 & 5.3409 & 6.6707 && 63.4 & 3.6923 & 3.7783 & 4.4343 \\
 rondrit018.tsp & 109.0 & 3.8205 & 5.9391 & 7.9101 && 82.7 & 3.2285 & 3.8159 & 4.8886 \\
 rondrit023.tsp & 109.0 & 5.2503 & 8.0243 & 10.4586 && 109.0 & 3.6688 & 6.0516 & 8.2630 \\
@@ -241,32 +243,27 @@ rondrit067.tsp & 109.0 & 17.2930 & 21.6320 & 25.0256 && 109.0 & 9.4921 & 14.8637
 rondrit070.tsp & 109.0 & 27.0916 & 33.4376 & 38.6964 && 109.0 & 14.9605 & 22.7446 & 27.9257 \\
 rondrit100.tsp & 109.0 & 41.7305 & 49.6807 & 55.5533 && 109.0 & 22.4411 & 32.7396 & 38.8860 \\
 rondrit127.tsp & 109.0 & 26.5206 & 30.3975 & 33.3563 && 109.0 & 15.3001 & 20.8402 & 24.3830 \\
-			\bottomrule		
-		\end{tabular}		
-	}		
-	\caption{Comparison between local optimisation disabled (left) and local optimisation enabled (right).}		
-	\label{tab:localopt}		
-\end{table}		
-
-
-
-\section{Task 6: Benchmark problems}
-
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Comparison between local optimisation disabled (left) and local optimisation enabled (right).}
+	\label{tab:localopt}
+\end{table}
 
 
 \section{Task 7: Optional tasks}
 \subsection{7a: Parent selection}
 Additional parent selection methods we implemented are Fitness Proportional Selection ('sel\_fit\_prop') and Tournament Selection ('sel\_tournament'). Both of them use the same parameters as the existing implementation of Stochastic Universal Sampling so we could easily swap them in.
 
-\begin{table}[H]		
-	\centering		
-	\makebox[\textwidth]{		
-		\begin{tabular}{l rrrr}		
-			\toprule		
-			& \multicolumn{4}{c}{Stochastic Universal Sampling} \\		
-			\cmidrule{2-5}	
-			Dataset & \# Generations & Min & Mean & Max \\		
-			\midrule		
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth]{
+		\begin{tabular}{l rrrr}
+			\toprule
+			& \multicolumn{4}{c}{Stochastic Universal Sampling} \\
+			\cmidrule{2-5}
+			Dataset & \# Generations & Min & Mean & Max \\
+			\midrule
 			rondrit016.tsp & 109.0 & 3.9268 & 5.5816 & 6.95230040943754 \\
 			rondrit018.tsp & 109.0 & 3.8098 & 5.8874 & 7.64505139464696 \\
 			rondrit023.tsp & 109.0 & 5.2107 & 8.1510 & 10.66363338096259 \\
@@ -278,22 +275,22 @@ Additional parent selection methods we implemented are Fitness Proportional Sele
 			rondrit070.tsp & 109.0 & 27.3491 & 33.7980 & 39.02844367980951 \\
 			rondrit100.tsp & 109.0 & 42.5563 & 50.3468 & 56.14968388227629 \\
 			rondrit127.tsp & 109.0 & 26.3171 & 30.1653 & 32.82588637833199 \\
-			\bottomrule		
-		\end{tabular}		
-	}		
-	\caption{Results when using Stochastic Universal Sampling as parent selection method.}		
-	\label{tab:selparentsus}		
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Results when using Stochastic Universal Sampling as parent selection method.}
+	\label{tab:selparentsus}
 \end{table}
 
-\begin{table}[H]		
-	\centering		
-	\makebox[\textwidth]{		
-		\begin{tabular}{l rrrr}		
-			\toprule		
-			& \multicolumn{4}{c}{Tournament Selection} \\		
-			\cmidrule{2-5}	
-			Dataset & \# Generations & Min & Mean & Max \\		
-			\midrule		
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth]{
+		\begin{tabular}{l rrrr}
+			\toprule
+			& \multicolumn{4}{c}{Tournament Selection} \\
+			\cmidrule{2-5}
+			Dataset & \# Generations & Min & Mean & Max \\
+			\midrule
 			rondrit016.tsp & 109.0 & 3.8584 & 5.2429 & 6.65136434345961 \\
 			rondrit018.tsp & 109.0 & 3.8044 & 5.8175 & 7.60837957298278 \\
 			rondrit023.tsp & 109.0 & 5.0251 & 7.8150 & 10.25462477584426 \\
@@ -305,22 +302,22 @@ Additional parent selection methods we implemented are Fitness Proportional Sele
 			rondrit070.tsp & 109.0 & 27.0049 & 33.5066 & 38.57674586236878 \\
 			rondrit100.tsp & 109.0 & 42.1082 & 49.7688 & 55.34138052048054 \\
 			rondrit127.tsp & 109.0 & 26.5709 & 30.3721 & 33.34923179147698 \\
-			\bottomrule		
-		\end{tabular}		
-	}		
-	\caption{Results when using Tournament Selection as parent selection method.}		
-	\label{tab:selparenttournament}		
-\end{table}		
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Results when using Tournament Selection as parent selection method.}
+	\label{tab:selparenttournament}
+\end{table}
 
-\begin{table}[H]		
-	\centering		
-	\makebox[\textwidth]{		
-		\begin{tabular}{l rrrr}		
-			\toprule		
-			& \multicolumn{4}{c}{Fitness Proportional Selection} \\		
-			\cmidrule{2-5}	
-			Dataset & \# Generations & Min & Mean & Max \\		
-			\midrule		
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth]{
+		\begin{tabular}{l rrrr}
+			\toprule
+			& \multicolumn{4}{c}{Fitness Proportional Selection} \\
+			\cmidrule{2-5}
+			Dataset & \# Generations & Min & Mean & Max \\
+			\midrule
 			rondrit016.tsp & 109.0 & 3.9268 & 5.5816 & 6.95230040943754 \\
 			rondrit018.tsp & 109.0 & 3.8098 & 5.8874 & 7.64505139464696 \\
 			rondrit023.tsp & 109.0 & 5.2107 & 8.1510 & 10.66363338096259 \\
@@ -332,28 +329,29 @@ Additional parent selection methods we implemented are Fitness Proportional Sele
 			rondrit070.tsp & 109.0 & 27.3491 & 33.7980 & 39.02844367980951 \\
 			rondrit100.tsp & 109.0 & 42.5563 & 50.3468 & 56.14968388227629 \\
 			rondrit127.tsp & 109.0 & 26.3171 & 30.1653 & 32.82588637833199 \\
-			\bottomrule		
-		\end{tabular}		
-	}		
-	\caption{Results when using Fitness Proportional Selection as parent selection method.}		
-	\label{tab:selparentfitprop}		
-\end{table}		
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Results when using Fitness Proportional Selection as parent selection method.}
+	\label{tab:selparentfitprop}
+\end{table}
 
 \subsection{7b: Survivor selection}
-TODO
+Round robin tournament was chosen as the other strategy for survivor selection. The results for different values of the ELITISM parameter can be found in table~\ref{tab:vary_elitism}. To evaluate how round robin tournament performs compared to the already implemented elitism, the ELITIST parameter is set to 0 in an experiment. Also, an experiment is done where elitism is combined with round robin tournament. Table~\ref{tab:survivor_selection} contains the results of the experiments for this task. TODO: evaluate results after verifying they are correct. The custom stopping criterion needs to be updated first. Last X values should all be equal, instead of just current and current-X.
+\input{task7b}
 
 \subsection{7c: Diversity preservation}
 In order to preserve population diversity, we adapted a few of the functions in the template to work with subpopulations, simulating the island model. The results displayed in Table~\ref{tab:diversity1} through Table~\ref{tab:diversity20} show tests performed with 1, 2, 5, 10 and 20 subpopulations or islands.
 
-\begin{table}[H]		
-	\centering		
-	\makebox[\textwidth]{		
-		\begin{tabular}{l rrrr}		
-			\toprule		
-			& \multicolumn{4}{c}{\# subpopulations = 1} \\		
-			\cmidrule{2-5}	
-			Dataset & \# Generations & Min & Mean & Max \\		
-			\midrule		
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth]{
+		\begin{tabular}{l rrrr}
+			\toprule
+			& \multicolumn{4}{c}{\# subpopulations = 1} \\
+			\cmidrule{2-5}
+			Dataset & \# Generations & Min & Mean & Max \\
+			\midrule
 			rondrit016.tsp & 99.9 & 3.7370 & 5.3014 & 7.3443 \\
 			rondrit018.tsp & 120.7 & 3.4504 & 5.5736 & 7.9594 \\
 			rondrit023.tsp & 124.4 & 4.6149 & 7.6039 & 10.7075 \\
@@ -365,22 +363,22 @@ In order to preserve population diversity, we adapted a few of the functions in 
 			rondrit070.tsp & 187.9 & 23.1837 & 31.6961 & 39.3717 \\
 			rondrit100.tsp & 174.5 & 38.1144 & 48.0221 & 55.8977 \\
 			rondrit127.tsp & 195.0 & 23.8434 & 29.0456 & 33.1707 \\
-			\bottomrule		
-		\end{tabular}		
-	}		
-	\caption{Results when using a single subpopulation.}		
-	\label{tab:diversity1}		
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Results when using a single subpopulation.}
+	\label{tab:diversity1}
 \end{table}
 
-\begin{table}[H]		
-	\centering		
-	\makebox[\textwidth]{		
-		\begin{tabular}{l rrrr}		
-			\toprule		
-			& \multicolumn{4}{c}{\# subpopulations = 2} \\		
-			\cmidrule{2-5}	
-			Dataset & \# Generations & Min & Mean & Max \\		
-			\midrule		
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth]{
+		\begin{tabular}{l rrrr}
+			\toprule
+			& \multicolumn{4}{c}{\# subpopulations = 2} \\
+			\cmidrule{2-5}
+			Dataset & \# Generations & Min & Mean & Max \\
+			\midrule
 			rondrit016.tsp & 118.9 & 4.1112 & 5.6874 & 7.9026 \\
 			rondrit018.tsp & 147.5 & 3.8393 & 6.0843 & 8.5831 \\
 			rondrit023.tsp & 159.4 & 5.0312 & 8.3282 & 11.8303 \\
@@ -392,22 +390,22 @@ In order to preserve population diversity, we adapted a few of the functions in 
 			rondrit070.tsp & 129.3 & 27.3049 & 35.4823 & 42.9792 \\
 			rondrit100.tsp & 251.9 & 40.3992 & 51.8574 & 60.8410 \\
 			rondrit127.tsp & 265.4 & 25.6029 & 31.5892 & 36.3884 \\
-			\bottomrule		
-		\end{tabular}		
-	}		
-	\caption{Results when using two subpopulations.}		
-	\label{tab:diversity2}		
-\end{table}		
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Results when using two subpopulations.}
+	\label{tab:diversity2}
+\end{table}
 
-\begin{table}[H]		
-	\centering		
-	\makebox[\textwidth]{		
-		\begin{tabular}{l rrrr}		
-			\toprule		
-			& \multicolumn{4}{c}{\# subpopulations = 5} \\		
-			\cmidrule{2-5}	
-			Dataset & \# Generations & Min & Mean & Max \\		
-			\midrule		
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth]{
+		\begin{tabular}{l rrrr}
+			\toprule
+			& \multicolumn{4}{c}{\# subpopulations = 5} \\
+			\cmidrule{2-5}
+			Dataset & \# Generations & Min & Mean & Max \\
+			\midrule
 			rondrit016.tsp & 126.6 & 4.1295 & 5.8593 & 7.9499 \\
 			rondrit018.tsp & 121.0 & 4.0043 & 6.2663 & 8.9579 \\
 			rondrit023.tsp & 138.2 & 5.1783 & 8.4623 & 12.0132 \\
@@ -419,22 +417,22 @@ In order to preserve population diversity, we adapted a few of the functions in 
 			rondrit070.tsp & 183.2 & 26.8295 & 35.8003 & 42.9375 \\
 			rondrit100.tsp & 199.2 & 41.8170 & 53.1547 & 62.3695 \\
 			rondrit127.tsp & 218.5 & 26.4587 & 32.1475 & 36.5978 \\
-			\bottomrule		
-		\end{tabular}		
-	}		
-	\caption{Results when using five subpopulations.}		
-	\label{tab:diversity5}		
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Results when using five subpopulations.}
+	\label{tab:diversity5}
 \end{table}
 
-\begin{table}[H]		
-	\centering		
-	\makebox[\textwidth]{		
-		\begin{tabular}{l rrrr}		
-			\toprule		
-			& \multicolumn{4}{c}{\# subpopulations = 10} \\		
-			\cmidrule{2-5}	
-			Dataset & \# Generations & Min & Mean & Max \\		
-			\midrule		
+\begin{table}[H]
+	\centering
+	\makebox[\textwidth]{
+		\begin{tabular}{l rrrr}
+			\toprule
+			& \multicolumn{4}{c}{\# subpopulations = 10} \\
+			\cmidrule{2-5}
+			Dataset & \# Generations & Min & Mean & Max \\
+			\midrule
 			rondrit016.tsp & 97.4 & 4.1405 & 5.5019 & 7.7501 \\
 			rondrit018.tsp & 140.1 & 3.8233 & 5.5875 & 8.1174 \\
 			rondrit023.tsp & 180.4 & 4.7633 & 7.8333 & 11.6950 \\
@@ -446,12 +444,21 @@ In order to preserve population diversity, we adapted a few of the functions in 
 			rondrit070.tsp & 272.4 & 24.4098 & 33.8360 & 41.4091 \\
 			rondrit100.tsp & 250.7 & 39.4631 & 51.1833 & 61.1145 \\
 			rondrit127.tsp & 282.1 & 25.3591 & 31.1691 & 36.3321 \\
-			\bottomrule		
-		\end{tabular}		
-	}		
-	\caption{Results when using ten subpopulations.}		
-	\label{tab:diversity10}		
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Results when using ten subpopulations.}
+	\label{tab:diversity10}
 \end{table}
+
+\section{Task 6: Benchmark problems}
+For this task, we have selected a set of parameters and methods based on all of the results above. Our algorithm is evaluated by running it on given benchmark problems and calculating the relative error of the results of the algorithm to the known optimal paths of the benchmark problems.
+The parameters and methods used were as follows:
+\begin{itemize}
+	\item TODO
+\end{itemize}
+The results are shown in table~\ref{tab:benchmark}. Judging from the relative errors, we can conclude that our solutions are TODO
+\input{task6_benchmark}
 
 \mychapter{4}{Appendix}
 \section{Tables}
@@ -464,6 +471,14 @@ In order to preserve population diversity, we adapted a few of the functions in 
 \input{task2_mutation}
 
 \section{Code}
-\lstinputlisting[language=matlab]{../src/run_ga.m}
+\lstinputlisting[language=matlab,captionpos=t,caption=The main algorithm - src/run\_ga.m]{../src/run_ga.m}
+\lstinputlisting[language=matlab,captionpos=t,caption=Order crossover for task 4-  src/cross\_order.m]{../src/cross_order.m}
+\lstinputlisting[language=matlab,captionpos=t,caption=High level crossover function-  src/crossover\_tsp.m]{../src/crossover_tsp.m}
+\lstinputlisting[language=matlab,captionpos=t,caption=Inversion mutation for task 4 - src/mut\_inversion2.m]{../src/mut_inversion2.m}
+\lstinputlisting[language=matlab,captionpos=t,caption=High level mutation function - src/mutate\_tsp.m]{../src/mutate_tsp.m}
+\lstinputlisting[language=matlab,captionpos=t,caption=Fitness proportional selection for task 7a - src/sel\_fit\_prop.m]{../src/sel_fit_prop.m}
+\lstinputlisting[language=matlab,captionpos=t,caption=Tournament selection for task 7a - src/sel\_tournament.m]{../src/sel_tournament.m}
+\lstinputlisting[language=matlab,captionpos=t,caption=Round robin tournament survival selection for task 7b - src/sur\_sel\_rr\_tournament.m]{../src/sur_sel_rr_tournament.m}
+\lstinputlisting[language=matlab,captionpos=t,caption=Template function for testing the algorithm. Other testing functions are omitted because they are very similar to this one - src/test\_template.m]{../src/test_template.m} 
 
 \end{document}
