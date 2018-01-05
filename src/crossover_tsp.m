@@ -22,10 +22,10 @@
 function NewChrom = crossover_tsp(CROSS_F, OldChrom, PR_CROSS, SUBPOP)
 
 % Check parameter consistency
-if nargin < 2, error('Not enough input parameter'); end
+if nargin < 2; error('Not enough input parameter'); end
 
 % Probability of crossover
-if nargin < 3, PR_CROSS = 0.95;
+if nargin < 3; PR_CROSS = 0.95;
 elseif nargin > 2
   if isempty(PR_CROSS), PR_CROSS = 0.7;
   elseif isnan(PR_CROSS), PR_CROSS = 0.7;
@@ -38,7 +38,7 @@ end
 [rows, cols] = size(OldChrom);
 NewChrom = zeros(rows, cols);
 
-if nargin < 4, SUBPOP = 1;
+if nargin < 4; SUBPOP = 1;
 elseif nargin > 3
   if isempty(SUBPOP), SUBPOP = 1;
   elseif isnan(SUBPOP), SUBPOP = 1;

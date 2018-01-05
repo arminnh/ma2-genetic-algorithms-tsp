@@ -1,0 +1,26 @@
+\begin{table}[H] 
+\centering 
+\makebox[\textwidth]{
+\begin{tabular}{l rrrr} 
+\toprule
+Dataset & \# Generations & Min & Mean & Max\\ 
+\midrule
+\multicolumn{5}{c}{local loop removal = 0}\\ 
+\midrule
+rondrit016.tsp & 110.0 & 3.98 & 5.37 & 6.75 \\
+rondrit048.tsp & 110.0 & 12.44 & 17.36 & 21.27 \\
+rondrit067.tsp & 110.0 & 17.43 & 21.88 & 25.77 \\
+rondrit127.tsp & 110.0 & 26.63 & 30.33 & 33.14 \\
+\midrule
+\multicolumn{5}{c}{local loop removal = 1}\\ 
+\midrule
+rondrit016.tsp & 53.4 & 3.69 & 3.70 & 4.13 \\
+rondrit048.tsp & 110.0 & 7.48 & 12.15 & 16.14 \\
+rondrit067.tsp & 110.0 & 9.59 & 14.86 & 18.40 \\
+rondrit127.tsp & 110.0 & 15.47 & 20.90 & 24.15 \\
+\bottomrule 
+\end{tabular} 
+}
+\caption{Existing genetic algorithm with varying local loop removal.}
+\label{tab:vary_loop}
+\end{table}

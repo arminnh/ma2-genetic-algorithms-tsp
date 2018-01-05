@@ -22,16 +22,16 @@
 function NewChrom = mutate_tsp(MUT_F, OldChrom, PR_MUT, SUBPOP)
 
 % Check parameter consistency
-if nargin < 2,  error('Not enough input parameters'); end
+if nargin < 2; error('Not enough input parameters'); end
 
 % Probability of mutation
-if nargin < 3, PR_MUT = 0.05; end
+if nargin < 3; PR_MUT = 0.05; end
 
 % Population size
 [rows, cols] = size(OldChrom);
 NewChrom = zeros(rows, cols);
 
-if nargin < 4, SUBPOP = 1;
+if nargin < 4; SUBPOP = 1;
 elseif nargin > 3
   if isempty(SUBPOP), SUBPOP = 1;
   elseif isnan(SUBPOP), SUBPOP = 1;
