@@ -69,7 +69,10 @@ function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, ST
         % stopping criterion: stop when the minimum of the last stopN
         % generations has not improved
         if CUSTOMSTOP == 1
-            if (gen-0.1*MAXGEN > 1) && ((best(floor(gen-0.1*MAXGEN)) - minimum) <= 1e-15)
+            % Change in fitness over the last 0.1*MAXGEN generations is
+            % calculated by taking the sum of differences with the current
+            % best fitness on the interval
+            if (gen-0.1*MAXGEN > 1) && (sum(best(floor(gen-0.1*MAXGEN):gen) - minimum) <= 1e-15)
                 break;
             end  
         else
@@ -84,14 +87,14 @@ function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, ST
         % select individuals for breeding
         SelCh = select(SELECTION, Chrom, FitnV, GGAP);
         
-        %recombine individuals (crossover)
+        % recombine individuals (crossover)
         SelCh = crossover_tsp(CROSSOVER, SelCh, PR_CROSS, SUBPOP);
         SelCh = mutate_tsp(MUTATION, SelCh, PR_MUT, SUBPOP);        
         
-        %evaluate offspring, call objective function
+        % evaluate offspring, call objective function
         ObjVSel = tspfun(SelCh, Dist);
         
-        %reinsert offspring into population
+        % reinsert offspring into population
         if CUSTOMSS == 0
             [Chrom, ObjV] = reins(Chrom, SelCh, SUBPOP, 1, ObjV, ObjVSel);
         else
