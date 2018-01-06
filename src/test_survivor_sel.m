@@ -11,7 +11,7 @@ SUBPOP = 1;          % Amount of subpopulations
 CUSTOMSTOP = 1;      % Custom stopping criterion on/off
 RUNS = 10;           % Number of ga runs in tests
 
-ELITIST=[0 0.05];    % percentage of the elite population
+ELITIST=[0 0.30];    % percentage of the elite population
 CUSTOMSS = [1 1];    % Custom survivor selection on/off
 
 datasetslist = dir('datasets/');

@@ -155,7 +155,8 @@ The results don't change much for different values of mutation. Judging from the
 See section~\ref{sec:local}
 
 \subsection{Mix}
-After some parameter tuning with the above information in mind, we have come up with a configuration of parameters that performs very well. The results can be seen in table~\ref{tab:todo}. The parameters were:
+After some parameter tuning with the above information in mind, we have come up with a configuration of parameters that performs very well. The results can be seen in table~\ref{tab:existing_tuning}. The parameters were: TODO
+\input{task2_tuning}
 
 
 
@@ -170,7 +171,7 @@ To implement a new stopping criterion, we looked at the commonly used terminatio
 \end{enumerate}
 The first and second criteria are useful, either to guarantee the evaluations do not go on forever, or when there is some kind of constraint on system resource usage. In the project template, we already have the guarantee of eventual termination because of the limit on the number of generations, and we do not have to account for system resource constraints.
 
-The fourth criterion is also already present in the template and can be adjusted via the GUI. The default value is so strict (95\% equal individuals), it practically is never reached.
+The fourth criterion is also already present in the template. The default value is so strict (95\% equal individuals), it practically is never reached.
 
 We decided to implement the third criterion. With this condition, termination occurs when the fitness of the best individual does not improve above a threshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be a percentage of the specified maximum number of generations. When testing this termination condition, we see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time. Because of the fact that improvements may still happen at a later point in time, the score will be slightly worse with this new condition.
 
@@ -179,22 +180,21 @@ The results of our experiments with this new termination condition are displayed
 \include{task3_results}
 
 \section{Task 4: Other representation}
-The given project template uses adjacency representation by default for TSP paths. We have chosen to use path representation as the alternative one. Conversion between the two representations was already possible thanks to the 'adj2path' and 'path2adj' functions in the template. To do crossover with path representation, we implemented the Order Crossover method (function 'cross\_order') as described in the textbook. Simple Inversion Mutation, which is a mutation operator for path representation, was already provided in the template ('mut\_inversion'). We have decided to extend this and have added a function for Inversion Mutation ('mut\_inversion2').
+The given project template uses adjacency representation by default for TSP paths. We have chosen to use path representation as the alternative one. Conversion between the two representations was already possible thanks to the 'adj2path' and 'path2adj' functions in the template. To do crossover with path representation, we implemented the Order Crossover method (function 'cross\_order') as described in the textbook. Simple Inversion Mutation, which is a mutation operator for path representation, was already provided in the template ('mut\_inversion'). We have decided to extend this and have added a function for Inversion Mutation ('mut\_inversion2'). Our custom stopping criterion was not used during these experiments in order to allow for the different crossover and mutation operators to have a stronger impact.
 
-Table~\ref{tab:path_repr_crossover} contains the results of experiments with different crossover operators. The 'cross\_alternating\_edges' function implements Alternating Edge Crossover and is provided in the template. It is clear that Order Crossover performs significantly better than Alternating Edge Crossover; all of the path lengths with Order Crossover are lower for every dataset.
+Table~\ref{tab:path_repr_crossover} contains the results of experiments with different crossover operators. The function 'cross\_alternating\_edges' implements Alternating Edge Crossover and is provided in the template. Order Crossover performs significantly better than Alternating Edge Crossover; all of the path lengths with Order Crossover are lower for every dataset. Also, the path lengths converted to a value earlier with Order Crossover, which is why the numbers of generations are lower. This can be attributed to \textbf{... ???}
 \input{task4_crossover}
 
-Table~\ref{tab:path_repr_mutation} contains the results of experiments with different mutation operators. The 'mut\_inversion' function implements Simple Inversion Mutation and is provided in the template. There is no clear difference between the two methods in these results.
+Table~\ref{tab:path_repr_mutation} contains the results of experiments with different mutation functions. The 'mut\_inversion' function implements Simple Inversion Mutation and is provided in the template. While both functions perform roughly the same, the one provided in the template performs slightly better when looking at the minima, means, and maxima. This is likely due to Inversion Mutation changing genetic material more than Simple Inversion Mutation; moving the randomly chosen subpath to a different position in the path after reversing it is more likely to have a negative effect when the path is near a (local) optimum. 
 \input{task4_mutation}
 
-Table~\ref{tab:path_repr_tuning} shows results after some parameter tuning with the 'cross\_order' and 'mut\_inversion2' operators. The parameters used were: a = b, c = d, ... TODO  check tuning
+Table~\ref{tab:path_repr_tuning} shows results after some parameter tuning with the 'cross\_order' and 'mut\_inversion' operators. The parameters used were: number of individuals = 1000, maximum number of generations = 1000, probability of mutation = 0.30, probability of crossover = 0.50, percentage of elite population = 0, subpopulations = 1, loop detection = on, selection function = sel\_tournament, crossover function = cross\_order, mutation function = mut\_inversion, custom stopping criterion = on, custom survivor selection function = on (round robin tournament).
 \input{task4_tuning}
-
 
 
 \section{Task 5: Local optimisation}
 \label{sec:local}
-For this task, we are testing the local optimization already present in the template. This optimization takes a path and tries to remove local loops up to path length 3. With default values for other parameters, this results in major improvements to the score.
+For this task, we are testing the local optimization already present in the template. This optimization takes a path and tries to remove local loops with a path length of up to 3. With default values for other parameters, this results in major improvements to the score.
 
 The results of our experiments with local optimisation disabled and enabled are displayed in Table~\ref{tab:localopt}.
 
@@ -287,7 +287,9 @@ rondrit127.tsp & 114.7 & 22.9952 & 26.8508 & 29.97739386912141 \\
 \end{table}
 
 \subsection{7b: Survivor selection}
-Round robin tournament was chosen as the other strategy for survivor selection. The results for different values of the ELITISM parameter can be found in table~\ref{tab:vary_elitism}. To evaluate how round robin tournament performs compared to the already implemented elitism, the ELITIST parameter is set to 0 in an experiment. Also, an experiment is done where elitism is combined with round robin tournament. Table~\ref{tab:survivor_selection} contains the results of the experiments for this task. TODO: evaluate results after verifying they are correct. The custom stopping criterion needs to be updated first. Last X values should all be equal, instead of just current and current-X.
+Round robin tournament was chosen as the other strategy for survivor selection. The results for different percentages of elitism for survival selection can be found in the appendix in table~\ref{tab:vary_elitism}. To evaluate how round robin tournament performs compared to the already implemented elitism, the elitism percentage is set to 0\% in an experiment. Also, an experiment is done where round robin tournament is combined with an elitism percentage of 30\%. Table~\ref{tab:survivor_selection} contains the results of the experiments for this task. 
+
+The round robin tournament strategy outperforms every percentage of elitism. Combining round robin tournament with elitism results in longer path lengths overall. This happens because the elitism causes the round robin tournament to be executed on a smaller population. Therefore, it is better to set elitism to zero.
 \input{task7b}
 
 \subsection{7c: Diversity preservation}

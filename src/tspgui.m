@@ -2,10 +2,9 @@ function tspgui()
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-NIND=50;		% Number of individuals
-MAXGEN=100;		% Maximum no. of generations
+NIND=100;		% Number of individuals
+MAXGEN=250;		% Maximum no. of generations
 NVAR=26;		% No. of variables
-PRECI=1;		% Precision of variables
 ELITIST=0.05;    % percentage of the elite population
 STOP_PERCENTAGE=.95;    % percentage of equal fitness individuals for stopping
 PR_CROSS=.95;     % probability of crossover
@@ -17,6 +16,34 @@ SELECTION = 'sus';
 CUSTOMSTOP = 1;
 CUSTOMSS= 0;
 SUBPOP = 1;
+
+% testing for task 4
+NIND=1000;
+MAXGEN=1000;
+PR_MUT=0.3;
+PR_CROSS=0.5;
+ELITIST=0;
+SUBPOP=1;
+LOCALLOOP=1;
+SELECTION='sel_tournament';
+CROSSOVER='cross_order';
+MUTATION='mut_inversion';
+CUSTOMSTOP=1;
+CUSTOMSS=1;
+
+% testing for task 2 parameter tuning
+NIND=1000;
+MAXGEN=1000;
+PR_MUT=0.4;
+PR_CROSS=0.5;
+ELITIST=0.35;
+SUBPOP=1;
+LOCALLOOP=1;
+SELECTION='sus';
+CROSSOVER='cross_alternating_edges';
+MUTATION='mut_inversion';
+CUSTOMSTOP=0;
+CUSTOMSS=0;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % read an existing population

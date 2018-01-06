@@ -9,7 +9,7 @@ CROSSOVER = ["cross_alternating_edges", "cross_order"]; % crossover operators
 MUTATION = ["mut_inversion", "mut_inversion2"]; % mutation operators
 SELECTION = 'sus';   % parent selection algorithm
 SUBPOP = 1;          % Amount of subpopulations
-CUSTOMSTOP = 1;      % Custom stopping criterion on/off
+CUSTOMSTOP = 0;      % Custom stopping criterion on/off
 CUSTOMSS = 0;        % Custom survivor selection on/off
 RUNS = 10;           % Number of ga runs in tests
 
@@ -56,7 +56,8 @@ results = zeros([Ndatasets 4 2]);
 for ds = 1:Ndatasets
     fprintf('mutation %s\n', datasetslist(ds + 2).name)
     data = load(['datasets/' datasetslist(ds + 2).name]);
-    x = data(:,1); y = data(:,2);
+    x = data(:,1) / max([data(:,1); data(:,2)]); 
+    y = data(:,2) / max([data(:,1); data(:,2)]);
     NVAR=size(data,1);
     
     for m = 1:length(MUTATION)
@@ -72,30 +73,5 @@ end
 fprintf(out, '\\bottomrule \n\\end{tabular} \n}\n');
 fprintf(out, '\\caption{Results of different mutation functions.}\n');
 fprintf(out, '\\label{tab:path_repr_mutation}\n');	
-fprintf(out, '\\end{table}\n');
-fclose(out);
-
-out = fopen('../report/task4_tuning.tex', 'w');
-fprintf(out, '\\begin{table}[H] \n\\centering \n\\makebox[\\textwidth]{\n');
-fprintf(out, '\\begin{tabular}{l rrrr} \n\\toprule\n');
-fprintf(out, 'Dataset & \\# Generations & Min & Mean & Max\\\\ \n\\midrule\n');
-results = zeros([Ndatasets 4]);
-for ds = 1:Ndatasets
-    fprintf('tuning %s\n', datasetslist(ds + 2).name)
-    data = load(['datasets/' datasetslist(ds + 2).name]);
-    x = data(:,1); y = data(:,2);
-    NVAR=size(data,1);
-    
-    for i = 1:RUNS
-        [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, 'cross_order', 'mut_inversion2', LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
-        Ngen = find(best, 1, 'last'); B = best(Ngen); M = mean(Ngen); W = worst(Ngen);
-        results(ds, :) = results(ds, :) + [Ngen B M W];
-    end
-    results(ds, :) = results(ds, :) / RUNS;
-    fprintf(out, '%s & %.1f & %.2f & %.2f & %.2f \\\\\n', datasetslist(ds + 2).name, results(ds, 1), results(ds, 2), results(ds, 3), results(ds, 4));
-end
-fprintf(out, '\\bottomrule \n\\end{tabular} \n}\n');
-fprintf(out, '\\caption{Results for operators for path representation after parameter tuning.}\n');
-fprintf(out, '\\label{tab:path_repr_tuning}\n');	
 fprintf(out, '\\end{table}\n');
 fclose(out);
