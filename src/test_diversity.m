@@ -1,5 +1,5 @@
-NIND=200;		% Number of individuals
-MAXGEN=300;		% Maximum no. of generations
+NIND=315;		% Number of individuals
+MAXGEN=250;		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
 ELITIST=0.05;    % percentage of the elite population
@@ -23,7 +23,7 @@ Ndatasets = size(datasetslist, 1) - 2;
 
 results = zeros([Ndatasets 4]);
 
-out = fopen('./tablediversity.tex', 'w');
+out = fopen('../report/task7c_results.tex', 'w');
 fprintf(out, 'A & B & C & D & E\n\\midrule\n');
 
 for SUBPOP = [1 2 5 10 20]
@@ -41,7 +41,7 @@ for SUBPOP = [1 2 5 10 20]
 
         NVAR=size(data,1);
 
-        for i = 0:RUNS
+        for i = 0:RUNS-1
             [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, MUTATION, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
             Ngen = find(best, 1, 'last');
             B = best(Ngen);

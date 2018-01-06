@@ -161,7 +161,7 @@ After some parameter tuning with the above information in mind, we have come up 
 
 \section{Task 3: Stopping criterion}
 \label{sec:stopping_criterion}
-To implement a new stopping criterion, we looked at the commonly used termination conditions outlined by the book. There we see the following suggestions:
+To implement a new stopping criterion, we looked at the commonly used termination conditions outlined by the textbook. There we see the following suggestions:
 \begin{enumerate}
 	\item Maximally allowed CPU time elapses.
 	\item Total number of fitness evaluations reaches limit.
@@ -176,39 +176,12 @@ We decided to implement the third criterion. With this condition, termination oc
 
 The results of our experiments with this new termination condition are displayed in Table~\ref{tab:customstop}.
 
-\begin{table}[H]
-	\centering
-	\makebox[\textwidth]{
-		\begin{tabular}{l rrrr c rrrr}
-			\toprule
-			& \multicolumn{4}{c}{Default stopping criterion} & \phantom{abc} &  \multicolumn{4}{c}{Custom stopping criterion} \\
-			\cmidrule{2-5} \cmidrule{7-10}
-			Dataset & \# Generations & Min & Mean & Max && \# Generations & Min & Mean & Max \\
-			\midrule
-			rondrit016.tsp & 60.6000 & 3.8289 & 3.8405 & 4.3167 && 51.9000 & 3.8598 & 4.0645 & 4.9485 \\
-			rondrit018.tsp & 59.9000 & 3.6123 & 3.6526 & 4.3262 && 62.4000 & 3.5116 & 3.7063 & 4.6899 \\
-			rondrit023.tsp & 92.8000 & 3.9902 & 4.2086 & 5.2684 && 77.5000 & 4.3064 & 4.4586 & 5.5427 \\
-			rondrit025.tsp & 82.0000 & 5.3085 & 5.4600 & 6.4753 && 79.2000 & 5.3707 & 5.7207 & 7.3034 \\
-			rondrit048.tsp & 108.7000 & 7.8736 & 8.2540 & 9.5729 && 109.2000 & 8.1605 & 8.9541 & 10.9159 \\
-			rondrit050.tsp & 101.5000 & 12.3558 & 12.9267 & 14.6198 && 104.0000 & 12.0748 & 12.8018 & 14.4246 \\
-			rondrit051.tsp & 109.6000 & 11.8400 & 12.3779 & 13.6785 && 108.9000 & 11.7734 & 12.2508 & 13.6669 \\
-			rondrit067.tsp & 110.0000 & 11.5868 & 12.2748 & 13.8317 && 107.2000 & 11.4511 & 12.4336 & 14.0862 \\
-			rondrit070.tsp & 110.0000 & 17.8292 & 18.6919 & 20.5209 && 109.6000 & 18.3206 & 18.9595 & 20.7340 \\
-			rondrit100.tsp & 110.0000 & 29.6034 & 31.6596 & 34.6374 && 108.7000 & 29.1263 & 30.6127 & 33.1294 \\
-			rondrit127.tsp & 110.0000 & 19.6930 & 20.5928 & 21.9205 && 110.0000 & 19.0723 & 20.0230 & 21.4847 \\
-			\bottomrule
-			\end{tabular}
-		}
-	\caption{Comparison between default and custom stopping criteria.}
-	\label{tab:customstop}
-\end{table}
-
-
+\include{task3_results}
 
 \section{Task 4: Other representation}
 The given project template uses adjacency representation by default for TSP paths. We have chosen to use path representation as the alternative one. Conversion between the two representations was already possible thanks to the 'adj2path' and 'path2adj' functions in the template. To do crossover with path representation, we implemented the Order Crossover method (function 'cross\_order') as described in the textbook. Simple Inversion Mutation, which is a mutation operator for path representation, was already provided in the template ('mut\_inversion'). We have decided to extend this and have added a function for Inversion Mutation ('mut\_inversion2').
 
-Table~\ref{tab:path_repr_crossover} contains the results of experiments with different crossover operators. The 'cross\_alternate\_edges' function implements Alternating Edge Crossover and is provided in the template. It is clear that Order Crossover performs significantly better than Alternating Edge Crossover; all of the path lengths with Order Crossover are lower for every dataset.
+Table~\ref{tab:path_repr_crossover} contains the results of experiments with different crossover operators. The 'cross\_alternating\_edges' function implements Alternating Edge Crossover and is provided in the template. It is clear that Order Crossover performs significantly better than Alternating Edge Crossover; all of the path lengths with Order Crossover are lower for every dataset.
 \input{task4_crossover}
 
 Table~\ref{tab:path_repr_mutation} contains the results of experiments with different mutation operators. The 'mut\_inversion' function implements Simple Inversion Mutation and is provided in the template. There is no clear difference between the two methods in these results.
@@ -225,32 +198,7 @@ For this task, we are testing the local optimization already present in the temp
 
 The results of our experiments with local optimisation disabled and enabled are displayed in Table~\ref{tab:localopt}.
 
-\begin{table}[H]
-	\centering
-	\makebox[\textwidth]{
-		\begin{tabular}{l rrrr c rrrr}
-			\toprule
-			& \multicolumn{4}{c}{Local optimisation disabled} & \phantom{abc} &  \multicolumn{4}{c}{Local optimisation enabled} \\
-			\cmidrule{2-5} \cmidrule{7-10}
-			Dataset & \# Generations & Min & Mean & Max && \# Generations & Min & Mean & Max \\
-			\midrule
-rondrit016.tsp & 108.8 & 3.9087 & 5.3409 & 6.6707 && 63.4 & 3.6923 & 3.7783 & 4.4343 \\
-rondrit018.tsp & 109.0 & 3.8205 & 5.9391 & 7.9101 && 82.7 & 3.2285 & 3.8159 & 4.8886 \\
-rondrit023.tsp & 109.0 & 5.2503 & 8.0243 & 10.4586 && 109.0 & 3.6688 & 6.0516 & 8.2630 \\
-rondrit025.tsp & 109.0 & 6.8383 & 10.5710 & 13.9566 && 109.0 & 4.6353 & 7.9255 & 11.2084 \\
-rondrit048.tsp & 109.0 & 12.9322 & 17.3083 & 21.2216 && 109.0 & 7.4032 & 12.2117 & 15.8290 \\
-rondrit050.tsp & 109.0 & 17.5460 & 23.0187 & 27.4702 && 109.0 & 10.6862 & 16.3413 & 19.9854 \\
-rondrit051.tsp & 109.0 & 17.0520 & 21.6487 & 25.5342 && 109.0 & 9.8788 & 15.0773 & 19.2524 \\
-rondrit067.tsp & 109.0 & 17.2930 & 21.6320 & 25.0256 && 109.0 & 9.4921 & 14.8637 & 18.2992 \\
-rondrit070.tsp & 109.0 & 27.0916 & 33.4376 & 38.6964 && 109.0 & 14.9605 & 22.7446 & 27.9257 \\
-rondrit100.tsp & 109.0 & 41.7305 & 49.6807 & 55.5533 && 109.0 & 22.4411 & 32.7396 & 38.8860 \\
-rondrit127.tsp & 109.0 & 26.5206 & 30.3975 & 33.3563 && 109.0 & 15.3001 & 20.8402 & 24.3830 \\
-			\bottomrule
-		\end{tabular}
-	}
-	\caption{Comparison between local optimisation disabled (left) and local optimisation enabled (right).}
-	\label{tab:localopt}
-\end{table}
+\include{task5_results}
 
 
 \section{Task 7: Optional tasks}
@@ -266,17 +214,17 @@ Additional parent selection methods we implemented are Fitness Proportional Sele
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-			rondrit016.tsp & 109.0 & 3.9268 & 5.5816 & 6.95230040943754 \\
-			rondrit018.tsp & 109.0 & 3.8098 & 5.8874 & 7.64505139464696 \\
-			rondrit023.tsp & 109.0 & 5.2107 & 8.1510 & 10.66363338096259 \\
-			rondrit025.tsp & 109.0 & 6.9584 & 10.6573 & 13.64919455732690 \\
-			rondrit048.tsp & 109.0 & 12.5354 & 17.1587 & 20.98354804718375 \\
-			rondrit050.tsp & 109.0 & 17.6555 & 23.3466 & 27.70294938389831 \\
-			rondrit051.tsp & 109.0 & 16.8619 & 21.5905 & 24.99887566024666 \\
-			rondrit067.tsp & 109.0 & 17.3626 & 21.8921 & 25.01576819902206 \\
-			rondrit070.tsp & 109.0 & 27.3491 & 33.7980 & 39.02844367980951 \\
-			rondrit100.tsp & 109.0 & 42.5563 & 50.3468 & 56.14968388227629 \\
-			rondrit127.tsp & 109.0 & 26.3171 & 30.1653 & 32.82588637833199 \\
+rondrit016.tsp & 76.5 & 3.5071 & 4.7287 & 6.29733152234251 \\
+rondrit018.tsp & 112.0 & 3.2458 & 4.9674 & 6.91548211300174 \\
+rondrit023.tsp & 89.8 & 4.3998 & 6.9255 & 9.64269815478443 \\
+rondrit025.tsp & 81.6 & 5.8037 & 9.2203 & 12.46022806183646 \\
+rondrit048.tsp & 115.7 & 10.5298 & 15.0273 & 18.93401510803271 \\
+rondrit050.tsp & 74.1 & 15.5617 & 20.4526 & 24.58418303604441 \\
+rondrit051.tsp & 101.3 & 14.7763 & 19.2497 & 23.21947103058057 \\
+rondrit067.tsp & 98.2 & 14.7791 & 19.1254 & 22.65609716605926 \\
+rondrit070.tsp & 117.4 & 22.9912 & 29.3627 & 34.87830719868566 \\
+rondrit100.tsp & 91.4 & 37.0343 & 44.2892 & 51.06123059198230 \\
+rondrit127.tsp & 120.9 & 22.9939 & 26.6807 & 30.08382590490890 \\
 			\bottomrule
 		\end{tabular}
 	}
@@ -293,17 +241,17 @@ Additional parent selection methods we implemented are Fitness Proportional Sele
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-			rondrit016.tsp & 109.0 & 3.8584 & 5.2429 & 6.65136434345961 \\
-			rondrit018.tsp & 109.0 & 3.8044 & 5.8175 & 7.60837957298278 \\
-			rondrit023.tsp & 109.0 & 5.0251 & 7.8150 & 10.25462477584426 \\
-			rondrit025.tsp & 109.0 & 6.8520 & 10.6018 & 13.97083528139636 \\
-			rondrit048.tsp & 109.0 & 12.3467 & 16.3804 & 20.33995051462599 \\
-			rondrit050.tsp & 109.0 & 17.7767 & 23.0010 & 26.94691760670842 \\
-			rondrit051.tsp & 109.0 & 16.6423 & 21.4503 & 24.88148805771897 \\
-			rondrit067.tsp & 109.0 & 17.4205 & 21.8030 & 24.91090949012749 \\
-			rondrit070.tsp & 109.0 & 27.0049 & 33.5066 & 38.57674586236878 \\
-			rondrit100.tsp & 109.0 & 42.1082 & 49.7688 & 55.34138052048054 \\
-			rondrit127.tsp & 109.0 & 26.5709 & 30.3721 & 33.34923179147698 \\
+rondrit016.tsp & 47.6 & 3.4307 & 3.4489 & 4.11682588428370 \\
+rondrit018.tsp & 69.8 & 3.0751 & 3.1000 & 3.94962726552862 \\
+rondrit023.tsp & 97.2 & 3.4223 & 3.4448 & 4.36636737136705 \\
+rondrit025.tsp & 107.1 & 4.2080 & 4.2289 & 5.22930916811214 \\
+rondrit048.tsp & 220.2 & 5.2384 & 5.3288 & 6.70164030513469 \\
+rondrit050.tsp & 228.5 & 7.4060 & 7.4469 & 8.74950293351244 \\
+rondrit051.tsp & 223.4 & 7.7256 & 7.8091 & 9.00104215733518 \\
+rondrit067.tsp & 246.7 & 6.5806 & 6.6540 & 7.79291635925291 \\
+rondrit070.tsp & 250.0 & 10.4302 & 11.1550 & 14.05669608369397 \\
+rondrit100.tsp & 241.3 & 18.2543 & 19.2141 & 22.21694990667605 \\
+rondrit127.tsp & 250.0 & 13.2633 & 13.8539 & 15.84629676598155 \\
 			\bottomrule
 		\end{tabular}
 	}
@@ -320,17 +268,17 @@ Additional parent selection methods we implemented are Fitness Proportional Sele
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-			rondrit016.tsp & 109.0 & 3.9268 & 5.5816 & 6.95230040943754 \\
-			rondrit018.tsp & 109.0 & 3.8098 & 5.8874 & 7.64505139464696 \\
-			rondrit023.tsp & 109.0 & 5.2107 & 8.1510 & 10.66363338096259 \\
-			rondrit025.tsp & 109.0 & 6.9584 & 10.6573 & 13.64919455732690 \\
-			rondrit048.tsp & 109.0 & 12.5354 & 17.1587 & 20.98354804718375 \\
-			rondrit050.tsp & 109.0 & 17.6555 & 23.3466 & 27.70294938389831 \\
-			rondrit051.tsp & 109.0 & 16.8619 & 21.5905 & 24.99887566024666 \\
-			rondrit067.tsp & 109.0 & 17.3626 & 21.8921 & 25.01576819902206 \\
-			rondrit070.tsp & 109.0 & 27.3491 & 33.7980 & 39.02844367980951 \\
-			rondrit100.tsp & 109.0 & 42.5563 & 50.3468 & 56.14968388227629 \\
-			rondrit127.tsp & 109.0 & 26.3171 & 30.1653 & 32.82588637833199 \\
+rondrit016.tsp & 87.6 & 3.5253 & 4.7702 & 6.31735983363770 \\
+rondrit018.tsp & 106.5 & 3.1629 & 5.0059 & 6.88030465197992 \\
+rondrit023.tsp & 72.1 & 4.6849 & 7.0675 & 9.61113827405700 \\
+rondrit025.tsp & 115.5 & 5.7095 & 9.0493 & 12.57024535746879 \\
+rondrit048.tsp & 93.0 & 10.6731 & 15.1775 & 19.06378066242915 \\
+rondrit050.tsp & 84.1 & 15.6907 & 20.4983 & 24.46309616398185 \\
+rondrit051.tsp & 114.1 & 14.6637 & 19.0878 & 22.88529001223297 \\
+rondrit067.tsp & 101.7 & 14.8841 & 19.0997 & 22.56887763300833 \\
+rondrit070.tsp & 101.4 & 23.2645 & 29.7146 & 35.05263230223609 \\
+rondrit100.tsp & 95.0 & 37.2210 & 43.9292 & 50.80513760208527 \\
+rondrit127.tsp & 114.7 & 22.9952 & 26.8508 & 29.97739386912141 \\
 			\bottomrule
 		\end{tabular}
 	}
