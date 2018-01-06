@@ -15,7 +15,7 @@ SUBPOP = 1;         % Amount of subpopulations
 
 SCALING = 1;        % City location scaling on/off
 RUNS = 10;          % Number of ga runs in tests
-CUSTOMSTOP = 0;     % Custom stopping criterion on/off
+CUSTOMSTOP = 1;     % Custom stopping criterion on/off
 CUSTOMSS = 0;       % Custom survivor selection on/off
 
 datasetslist = dir('datasets/');
@@ -45,7 +45,7 @@ for LOCALLOOP = 0:1
 
         NVAR=size(data,1);
 
-        for i = 0:RUNS
+        for i = 0:RUNS-1
             [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, MUTATION, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
             Ngen = find(best, 1, 'last');
             B = best(Ngen);
