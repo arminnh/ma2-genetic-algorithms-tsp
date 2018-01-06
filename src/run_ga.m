@@ -66,19 +66,20 @@ function [best, mean_fits, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, ST
             visualizeTSP(x, y, adj2path(Chrom(t,:)), minimum, ah1, gen, best, mean_fits, worst, ah2, ObjV, NIND, ah3);
         end
         
-        % stopping criterion: stop when the minimum of the last stopN
-        % generations has not improved
+        % stopping criterion
         if CUSTOMSTOP == 1
-            % Change in fitness over the last 0.1*MAXGEN generations is
-            % calculated by taking the sum of differences with the current
-            % best fitness on the interval
-            if (gen-0.1*MAXGEN > 1) && (sum(best(floor(gen-0.1*MAXGEN):gen) - minimum) <= 1e-15)
+            % Stop if the minimum has not improved in the interval of the
+            % last 0.1*MAXGEN generations. The change in fitness is
+            % calculated by taking the sum of the differences between the 
+            % interval and the current best fitness.
+            idx = floor(gen-0.1*MAXGEN);
+            if (idx > 1) && (sum(abs(best(idx:gen) - minimum)) <= 1e-15)
                 break;
             end  
-        else
-            if (sObjV(stopN)-sObjV(1) <= 1e-15)
-                break;
-            end
+        elseif (sObjV(stopN)-sObjV(1) <= 1e-15)
+            % Stop if the difference between the best and the stopN'th 
+            % best fitness value is very small.
+            break;
         end
 
         % assign fitness values to entire population
