@@ -4,12 +4,12 @@ ELITIST=0.05;        % percentage of the elite population
 STOP_PERCENTAGE=.95; % percentage of equal fitness individuals for stopping
 PR_CROSS=.95;        % probability of crossover
 PR_MUT=.05;          % probability of mutation
-LOCALLOOP=1;         % local loop removal
+LOCALLOOP=0;         % local loop removal
 CROSSOVER = ["cross_alternating_edges", "cross_order"]; % crossover operators
 MUTATION = ["mut_inversion", "mut_inversion2"]; % mutation operators
 SELECTION = 'sus';   % parent selection algorithm
 SUBPOP = 1;          % Amount of subpopulations
-CUSTOMSTOP = 0;      % Custom stopping criterion on/off
+CUSTOMSTOP = 1;      % Custom stopping criterion on/off
 CUSTOMSS = 0;        % Custom survivor selection on/off
 RUNS = 10;           % Number of ga runs in tests
 
@@ -32,7 +32,7 @@ for ds = 1:Ndatasets
     
     for c = 1:length(CROSSOVER)
         for i = 1:RUNS
-            [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER(c), MUTATION, LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
+            [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST, STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER(c), 'mut_inversion', LOCALLOOP, CUSTOMSTOP, CUSTOMSS, SELECTION, SUBPOP);
             Ngen = find(best, 1, 'last'); B = best(Ngen); M = mean(Ngen); W = worst(Ngen);
             results(ds, :, c) = results(ds, :, c) + [Ngen B M W];
         end

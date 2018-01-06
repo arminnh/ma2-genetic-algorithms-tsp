@@ -8,11 +8,11 @@ CROSSOVER = 'cross_alternating_edges'; % crossover operator
 MUTATION = 'mut_inversion'; % mutation operator
 SELECTION = 'sus';   % parent selection algorithm
 SUBPOP = 1;          % Amount of subpopulations
-CUSTOMSS = 0;        % Custom survivor selection on/off
+CUSTOMSTOP = 1;      % Custom stopping criterion on/off
 RUNS = 10;           % Number of ga runs in tests
 
 ELITIST=[0 0.05];    % percentage of the elite population
-CUSTOMSTOP = [1 1];  % Custom stopping criterion on/off
+CUSTOMSS = [1 1];    % Custom survivor selection on/off
 
 datasetslist = dir('datasets/');
 Ndatasets = size(datasetslist, 1) - 2;
@@ -33,7 +33,7 @@ for ds = 1:Ndatasets
     
     for c = 1:length(ELITIST)
         for i = 1:RUNS
-            [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST(c), STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, MUTATION, LOCALLOOP, CUSTOMSTOP(c), CUSTOMSS, SELECTION, SUBPOP);
+            [best, mean, worst] = run_ga(x, y, NIND, MAXGEN, NVAR, ELITIST(c), STOP_PERCENTAGE, PR_CROSS, PR_MUT, CROSSOVER, MUTATION, LOCALLOOP, CUSTOMSTOP, CUSTOMSS(c), SELECTION, SUBPOP);
             Ngen = find(best, 1, 'last'); B = best(Ngen); M = mean(Ngen); W = worst(Ngen);
             results(ds, :, c) = results(ds, :, c) + [Ngen B M W];
         end

@@ -133,22 +133,23 @@ The impact of the following parameters on the results of the existing genetic al
 	\item probability of mutation (PR\_MUT)
 	\item local loop removal (LOCALLOOP)
 \end{itemize}
-The parameter values were chosen so that evenly spread out options from low to high could be tested. The experiments for this task were executed on a subset of the given datasets to keep the tables readable. The datasets range from ones with a small amount of cities to ones with a large amount of cities. The tables for the results of the experiments can be found in appendix~\ref{app:task2}.
+The parameter values were chosen so that evenly spread out options from low to high could be tested. The experiments for this task were executed on a subset of the given datasets to keep the tables readable. The datasets range from ones with a small amount of cities to ones with a large amount of cities. The tables for the results of the experiments can be found in appendix~\ref{app:task2}. The custom stopping criterion was not used during these experiments, as it is discussed in section~\ref{sec:stopping_criterion}.
 
 \subsection{Individuals}
-The mininum path lengths clearly decrease as the number of individuals increases. This is to be expected, as a larger amount of individuals causes a larger amount of mutations and crossover which can positively impact path lengths. Analogously, the maximum path lengths slightly increase as the number of individuals increases. Because of this effect, the mean path lengths remain relatively constant after 100 individuals.
+The mininum path lengths clearly decrease as the number of individuals increases. This is to be expected, as a larger amount of individuals causes a larger amount of mutations and crossover which can positively impact path lengths. Analogously, the maximum path lengths slightly increase as the number of individuals increases. Because of this effect, the mean path lengths remain relatively constant after 100 individuals. Improvements to the minima are higher when increasing a lower number of individuals than when increasing an already high number of individuals.
 
 \subsection{Generations}
-TODO: COMMENTS
+Increasing the number of generations shows effects similar to the ones of increasing the number of individuals. However, these results show that increasing an already high number of generations improves the minima a relatively equal amount to increasing a lower number of generations. Also, the means and maxima are lower for high numbers of generations than they are for high numbers of individuals. This can be explained by the survivor selection having more opportunities to select better paths when the amount of generations is higher.
+Note that the algorithm stops at around 180 generations for dataset "rondrit016.tsp". This is due to the stopping criterion of the existing algorithm being triggered.
 
 \subsection{Elitism}
-TODO: COMMENTS
+Judging from the jump in results between 0 elitism and all other values for elitism, it is better to have elitism than to not have it at all. The results improve as the elitism grows from low to medium values, but then worsen again as it goes to high values. A percentage of around 30 to 50 performs best. 
 
 \subsection{Crossover}
-TODO: COMMENTS
+The crossover results show that the default very high probability performs poorer than all other options for crossover. Furthermore, it is better to have a probability of crossover greater than zero. Similarly to elitism, the results are best at medium probabilities around 30 to 50 percent. 
 
 \subsection{Mutation}
-TODO: COMMENTS
+The results don't change much for different values of mutation. Judging from the minima, means, and maxima, the best performance again lies around probabilities of 30 to 50 percent.
 
 \subsection{Loop removal}
 See section~\ref{sec:local}
@@ -159,6 +160,7 @@ After some parameter tuning with the above information in mind, we have come up 
 
 
 \section{Task 3: Stopping criterion}
+\label{sec:stopping_criterion}
 To implement a new stopping criterion, we looked at the commonly used termination conditions outlined by the book. There we see the following suggestions:
 \begin{enumerate}
 	\item Maximally allowed CPU time elapses.
