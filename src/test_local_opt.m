@@ -1,5 +1,5 @@
-NIND=50;		% Number of individuals
-MAXGEN=100;		% Maximum no. of generations
+NIND=100;		% Number of individuals
+MAXGEN=250;		% Maximum no. of generations
 NVAR=26;		% No. of variables
 PRECI=1;		% Precision of variables
 ELITIST=0.05;    % percentage of the elite population
@@ -23,8 +23,12 @@ Ndatasets = size(datasetslist, 1) - 2;
 
 results = zeros([Ndatasets 4 2]);
 
-out = fopen('./tablelocalopt.tex', 'w');
-fprintf(out, 'A & B & C & D & E\n\\midrule\n');
+out = fopen('../report/task5_results.tex', 'w');
+fprintf(out, '\\begin{table}[H] \n\\centering \n\\makebox[\\textwidth]{\n');
+fprintf(out, '\\begin{tabular}{l rrrr c rrrr} \n\\toprule\n');
+fprintf(out, '& \\multicolumn{4}{c}{Local optimisation disabled} & \\phantom{abc} & \\multicolumn{4}{c}{Local optimisation enabled}\\\\\n');
+fprintf(out, '\\cmidrule{2-5} \\cmidrule{7-10}\n');
+fprintf(out, 'Dataset & \\# Generations & Min & Mean & Max && \\# Generations & Min & Mean & Max\\\\ \n\\midrule\n');
 
 for LOCALLOOP = 0:1
     for ds = 1:Ndatasets
@@ -53,11 +57,17 @@ for LOCALLOOP = 0:1
 
         results(ds, :, LOCALLOOP + 1) = results(ds, :, LOCALLOOP + 1) / RUNS;
 
-        fprintf(out, '%s & %.1f & %.4f & %.4f & %.4f \\\\\n', datasetslist(ds + 2).name, results(ds, 1, LOCALLOOP + 1), results(ds, 2, LOCALLOOP + 1), results(ds, 3, LOCALLOOP + 1), results(ds, 4, LOCALLOOP + 1));
-
     end
 end
 
+for ds = 1:Ndatasets
+    fprintf(out, '%s & %.1f & %.4f & %.4f & %.4f && %.1f & %.4f & %.4f & %.4f \\\\\n', datasetslist(ds + 2).name, results(ds, 1, 1), results(ds, 2, 1), results(ds, 3, 1), results(ds, 4, 1), results(ds, 1, 2), results(ds, 2, 2), results(ds, 3, 2), results(ds, 4, 2));
+end
+
+fprintf(out, '\\bottomrule \n\\end{tabular} \n}\n');
+fprintf(out, '\\caption{Comparison between local optimisation disabled (left) and local optimisation enabled (right).}\n');
+fprintf(out, '\\label{tab:localopt}\n');	
+fprintf(out, '\\end{table}\n');
 fclose(out);
 
 results

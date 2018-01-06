@@ -159,7 +159,7 @@ After some parameter tuning with the above information in mind, we have come up 
 
 
 \section{Task 3: Stopping criterion}
-To implement a new stopping criterion, we looked at the commonly used termination conditions outlined by the book. There we see the following suggestions:
+To implement a new stopping criterion, we looked at the commonly used termination conditions outlined by the textbook. There we see the following suggestions:
 \begin{enumerate}
 	\item Maximally allowed CPU time elapses.
 	\item Total number of fitness evaluations reaches limit.
@@ -174,39 +174,12 @@ We decided to implement the third criterion. With this condition, termination oc
 
 The results of our experiments with this new termination condition are displayed in Table~\ref{tab:customstop}.
 
-\begin{table}[H]
-	\centering
-	\makebox[\textwidth]{
-		\begin{tabular}{l rrrr c rrrr}
-			\toprule
-			& \multicolumn{4}{c}{Default stopping criterion} & \phantom{abc} &  \multicolumn{4}{c}{Custom stopping criterion} \\
-			\cmidrule{2-5} \cmidrule{7-10}
-			Dataset & \# Generations & Min & Mean & Max && \# Generations & Min & Mean & Max \\
-			\midrule
-			rondrit016.tsp & 60.6000 & 3.8289 & 3.8405 & 4.3167 && 51.9000 & 3.8598 & 4.0645 & 4.9485 \\
-			rondrit018.tsp & 59.9000 & 3.6123 & 3.6526 & 4.3262 && 62.4000 & 3.5116 & 3.7063 & 4.6899 \\
-			rondrit023.tsp & 92.8000 & 3.9902 & 4.2086 & 5.2684 && 77.5000 & 4.3064 & 4.4586 & 5.5427 \\
-			rondrit025.tsp & 82.0000 & 5.3085 & 5.4600 & 6.4753 && 79.2000 & 5.3707 & 5.7207 & 7.3034 \\
-			rondrit048.tsp & 108.7000 & 7.8736 & 8.2540 & 9.5729 && 109.2000 & 8.1605 & 8.9541 & 10.9159 \\
-			rondrit050.tsp & 101.5000 & 12.3558 & 12.9267 & 14.6198 && 104.0000 & 12.0748 & 12.8018 & 14.4246 \\
-			rondrit051.tsp & 109.6000 & 11.8400 & 12.3779 & 13.6785 && 108.9000 & 11.7734 & 12.2508 & 13.6669 \\
-			rondrit067.tsp & 110.0000 & 11.5868 & 12.2748 & 13.8317 && 107.2000 & 11.4511 & 12.4336 & 14.0862 \\
-			rondrit070.tsp & 110.0000 & 17.8292 & 18.6919 & 20.5209 && 109.6000 & 18.3206 & 18.9595 & 20.7340 \\
-			rondrit100.tsp & 110.0000 & 29.6034 & 31.6596 & 34.6374 && 108.7000 & 29.1263 & 30.6127 & 33.1294 \\
-			rondrit127.tsp & 110.0000 & 19.6930 & 20.5928 & 21.9205 && 110.0000 & 19.0723 & 20.0230 & 21.4847 \\
-			\bottomrule
-			\end{tabular}
-		}
-	\caption{Comparison between default and custom stopping criteria.}
-	\label{tab:customstop}
-\end{table}
-
-
+\include{task3_results}
 
 \section{Task 4: Other representation}
 The given project template uses adjacency representation by default for TSP paths. We have chosen to use path representation as the alternative one. Conversion between the two representations was already possible thanks to the 'adj2path' and 'path2adj' functions in the template. To do crossover with path representation, we implemented the Order Crossover method (function 'cross\_order') as described in the textbook. Simple Inversion Mutation, which is a mutation operator for path representation, was already provided in the template ('mut\_inversion'). We have decided to extend this and have added a function for Inversion Mutation ('mut\_inversion2').
 
-Table~\ref{tab:path_repr_crossover} contains the results of experiments with different crossover operators. The 'cross\_alternate\_edges' function implements Alternating Edge Crossover and is provided in the template. It is clear that Order Crossover performs significantly better than Alternating Edge Crossover; all of the path lengths with Order Crossover are lower for every dataset.
+Table~\ref{tab:path_repr_crossover} contains the results of experiments with different crossover operators. The 'cross\_alternating\_edges' function implements Alternating Edge Crossover and is provided in the template. It is clear that Order Crossover performs significantly better than Alternating Edge Crossover; all of the path lengths with Order Crossover are lower for every dataset.
 \input{task4_crossover}
 
 Table~\ref{tab:path_repr_mutation} contains the results of experiments with different mutation operators. The 'mut\_inversion' function implements Simple Inversion Mutation and is provided in the template. There is no clear difference between the two methods in these results.
@@ -223,32 +196,7 @@ For this task, we are testing the local optimization already present in the temp
 
 The results of our experiments with local optimisation disabled and enabled are displayed in Table~\ref{tab:localopt}.
 
-\begin{table}[H]
-	\centering
-	\makebox[\textwidth]{
-		\begin{tabular}{l rrrr c rrrr}
-			\toprule
-			& \multicolumn{4}{c}{Local optimisation disabled} & \phantom{abc} &  \multicolumn{4}{c}{Local optimisation enabled} \\
-			\cmidrule{2-5} \cmidrule{7-10}
-			Dataset & \# Generations & Min & Mean & Max && \# Generations & Min & Mean & Max \\
-			\midrule
-rondrit016.tsp & 108.8 & 3.9087 & 5.3409 & 6.6707 && 63.4 & 3.6923 & 3.7783 & 4.4343 \\
-rondrit018.tsp & 109.0 & 3.8205 & 5.9391 & 7.9101 && 82.7 & 3.2285 & 3.8159 & 4.8886 \\
-rondrit023.tsp & 109.0 & 5.2503 & 8.0243 & 10.4586 && 109.0 & 3.6688 & 6.0516 & 8.2630 \\
-rondrit025.tsp & 109.0 & 6.8383 & 10.5710 & 13.9566 && 109.0 & 4.6353 & 7.9255 & 11.2084 \\
-rondrit048.tsp & 109.0 & 12.9322 & 17.3083 & 21.2216 && 109.0 & 7.4032 & 12.2117 & 15.8290 \\
-rondrit050.tsp & 109.0 & 17.5460 & 23.0187 & 27.4702 && 109.0 & 10.6862 & 16.3413 & 19.9854 \\
-rondrit051.tsp & 109.0 & 17.0520 & 21.6487 & 25.5342 && 109.0 & 9.8788 & 15.0773 & 19.2524 \\
-rondrit067.tsp & 109.0 & 17.2930 & 21.6320 & 25.0256 && 109.0 & 9.4921 & 14.8637 & 18.2992 \\
-rondrit070.tsp & 109.0 & 27.0916 & 33.4376 & 38.6964 && 109.0 & 14.9605 & 22.7446 & 27.9257 \\
-rondrit100.tsp & 109.0 & 41.7305 & 49.6807 & 55.5533 && 109.0 & 22.4411 & 32.7396 & 38.8860 \\
-rondrit127.tsp & 109.0 & 26.5206 & 30.3975 & 33.3563 && 109.0 & 15.3001 & 20.8402 & 24.3830 \\
-			\bottomrule
-		\end{tabular}
-	}
-	\caption{Comparison between local optimisation disabled (left) and local optimisation enabled (right).}
-	\label{tab:localopt}
-\end{table}
+\include{task5_results}
 
 
 \section{Task 7: Optional tasks}

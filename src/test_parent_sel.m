@@ -24,7 +24,7 @@ Ndatasets = size(datasetslist, 1) - 2;
 
 results = zeros([Ndatasets 4 3]);
 
-out = fopen('./tableparentsel.tex', 'w');
+out = fopen('../report/task7a_results.tex', 'w');
 fprintf(out, 'A & B & C & D & E\n\\midrule\n');
 
 for selectionidx = 1:3

@@ -23,7 +23,7 @@ Ndatasets = size(datasetslist, 1) - 2;
 
 results = zeros([Ndatasets 4]);
 
-out = fopen('./tablediversity.tex', 'w');
+out = fopen('../report/task7c_results.tex', 'w');
 fprintf(out, 'A & B & C & D & E\n\\midrule\n');
 
 for SUBPOP = [1 2 5 10 20]
