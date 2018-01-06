@@ -47,6 +47,8 @@ elseif nargin > 3
 end
 
 if (rows/SUBPOP) ~= floor(rows/SUBPOP)
+    rows
+    SUBPOP
     error('OldChrom and SUBPOP disagree'); 
 end
 rows = rows/SUBPOP;  % Compute number of individuals per subpopulation

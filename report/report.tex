@@ -172,9 +172,9 @@ The first and second criteria are useful, either to guarantee the evaluations do
 
 The fourth criterion is also already present in the template and can be adjusted via the GUI. The default value is so strict (95\% equal individuals), it practically is never reached.
 
-We decided to implement the third criterion. With this condition, termination occurs when the fitness of the best individual does not improve above a threshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be a percentage of the specified maximum number of generations. When testing this termination condition, we see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time. Because of the fact that improvements may still happen at a later point in time, the score will be slightly worse with this new condition.
+We decided to implement the third criterion. With this condition, termination occurs when the fitness of the best individual does not improve above a threshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be 10\% of the specified maximum number of generations.
 
-The results of our experiments with this new termination condition are displayed in Table~\ref{tab:customstop}.
+The results of our experiments with this new termination condition are displayed in Table~\ref{tab:customstop}. We clearly see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time. As expected, the achieved score is often slightly worse in comparison to the default stopping criterion. This is because of the fact that improvements may still happen at a much later point in time. With a more strict stopping criterion, we make a trade-off between avoiding almost useless canclulations and the chance for slightly better scores.
 
 \include{task3_results}
 
@@ -291,7 +291,9 @@ Round robin tournament was chosen as the other strategy for survivor selection. 
 \input{task7b}
 
 \subsection{7c: Diversity preservation}
-In order to preserve population diversity, we adapted a few of the functions in the template to work with subpopulations, simulating the island model. The results displayed in Table~\ref{tab:diversity1} through Table~\ref{tab:diversity20} show tests performed with 1, 2, 5, 10 and 20 subpopulations or islands.
+In order to preserve population diversity, we adapted a few of the functions in the template to work with subpopulations, simulating the island model. In addition to the number of supopulations, the number of individuals was also increased from 100 to 315 in these experiments. This way there is a reasonable amount of individuals in each subpopulation for each experiment.
+
+The results displayed in Table~\ref{tab:diversity1} through Table~\ref{tab:diversity20} show tests performed with 1, 2, 5, 10 and 20 subpopulations or islands.
 
 \begin{table}[H]
 	\centering
@@ -302,17 +304,17 @@ In order to preserve population diversity, we adapted a few of the functions in 
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-			rondrit016.tsp & 99.9 & 3.7370 & 5.3014 & 7.3443 \\
-			rondrit018.tsp & 120.7 & 3.4504 & 5.5736 & 7.9594 \\
-			rondrit023.tsp & 124.4 & 4.6149 & 7.6039 & 10.7075 \\
-			rondrit025.tsp & 134.5 & 5.8402 & 9.9015 & 13.9843 \\
-			rondrit048.tsp & 129.7 & 10.9175 & 16.1203 & 21.3953 \\
-			rondrit050.tsp & 194.6 & 14.7423 & 21.4762 & 26.9975 \\
-			rondrit051.tsp & 169.1 & 14.7132 & 20.3833 & 25.4901 \\
-			rondrit067.tsp & 139.0 & 15.3320 & 20.6747 & 25.3712 \\
-			rondrit070.tsp & 187.9 & 23.1837 & 31.6961 & 39.3717 \\
-			rondrit100.tsp & 174.5 & 38.1144 & 48.0221 & 55.8977 \\
-			rondrit127.tsp & 195.0 & 23.8434 & 29.0456 & 33.1707 \\
+rondrit016.tsp & 95.5 & 3.4074 & 4.7767 & 6.6380 \\
+rondrit018.tsp & 115.2 & 3.1761 & 5.0546 & 7.2900 \\
+rondrit023.tsp & 101.9 & 4.0955 & 6.9523 & 10.0988 \\
+rondrit025.tsp & 99.4 & 5.5454 & 9.2036 & 13.2600 \\
+rondrit048.tsp & 111.9 & 10.0535 & 15.0388 & 19.9039 \\
+rondrit050.tsp & 142.2 & 13.7133 & 19.8064 & 25.4397 \\
+rondrit051.tsp & 123.7 & 13.3033 & 18.5275 & 23.2007 \\
+rondrit067.tsp & 149.8 & 13.1947 & 18.4811 & 22.9918 \\
+rondrit070.tsp & 110.0 & 22.0561 & 29.2306 & 35.7109 \\
+rondrit100.tsp & 139.6 & 33.9588 & 43.5204 & 51.1411 \\
+rondrit127.tsp & 144.7 & 21.5389 & 26.3386 & 30.2041 \\
 			\bottomrule
 		\end{tabular}
 	}
@@ -329,17 +331,17 @@ In order to preserve population diversity, we adapted a few of the functions in 
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-			rondrit016.tsp & 118.9 & 4.1112 & 5.6874 & 7.9026 \\
-			rondrit018.tsp & 147.5 & 3.8393 & 6.0843 & 8.5831 \\
-			rondrit023.tsp & 159.4 & 5.0312 & 8.3282 & 11.8303 \\
-			rondrit025.tsp & 152.9 & 6.6344 & 10.9143 & 15.5315 \\
-			rondrit048.tsp & 204.9 & 11.4129 & 17.6468 & 23.8143 \\
-			rondrit050.tsp & 216.0 & 16.5176 & 23.7049 & 29.4113 \\
-			rondrit051.tsp & 168.2 & 16.6110 & 22.5015 & 27.8662 \\
-			rondrit067.tsp & 203.0 & 16.4217 & 22.3292 & 27.4292 \\
-			rondrit070.tsp & 129.3 & 27.3049 & 35.4823 & 42.9792 \\
-			rondrit100.tsp & 251.9 & 40.3992 & 51.8574 & 60.8410 \\
-			rondrit127.tsp & 265.4 & 25.6029 & 31.5892 & 36.3884 \\
+rondrit016.tsp & 86.6 & 3.3963 & 4.7597 & 6.5871 \\
+rondrit018.tsp & 98.2 & 3.1664 & 5.0665 & 7.2148 \\
+rondrit023.tsp & 137.1 & 3.9422 & 6.8060 & 10.1056 \\
+rondrit025.tsp & 103.9 & 5.3210 & 9.2062 & 13.1897 \\
+rondrit048.tsp & 103.0 & 10.0800 & 15.0969 & 19.9683 \\
+rondrit050.tsp & 136.6 & 13.7321 & 19.8016 & 25.0207 \\
+rondrit051.tsp & 141.3 & 13.3589 & 18.6720 & 23.2114 \\
+rondrit067.tsp & 131.9 & 13.5762 & 18.7582 & 23.3741 \\
+rondrit070.tsp & 99.9 & 21.7707 & 29.1058 & 35.0688 \\
+rondrit100.tsp & 94.3 & 35.1090 & 43.9147 & 51.3187 \\
+rondrit127.tsp & 138.8 & 21.6849 & 26.4038 & 30.1507 \\
 			\bottomrule
 		\end{tabular}
 	}
@@ -356,17 +358,17 @@ In order to preserve population diversity, we adapted a few of the functions in 
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-			rondrit016.tsp & 126.6 & 4.1295 & 5.8593 & 7.9499 \\
-			rondrit018.tsp & 121.0 & 4.0043 & 6.2663 & 8.9579 \\
-			rondrit023.tsp & 138.2 & 5.1783 & 8.4623 & 12.0132 \\
-			rondrit025.tsp & 166.0 & 6.4178 & 11.0127 & 15.7281 \\
-			rondrit048.tsp & 117.9 & 12.4779 & 18.4335 & 24.2895 \\
-			rondrit050.tsp & 164.8 & 17.1913 & 24.2682 & 30.5998 \\
-			rondrit051.tsp & 166.4 & 17.3803 & 23.2727 & 28.6140 \\
-			rondrit067.tsp & 225.4 & 16.5562 & 22.6888 & 27.6837 \\
-			rondrit070.tsp & 183.2 & 26.8295 & 35.8003 & 42.9375 \\
-			rondrit100.tsp & 199.2 & 41.8170 & 53.1547 & 62.3695 \\
-			rondrit127.tsp & 218.5 & 26.4587 & 32.1475 & 36.5978 \\
+rondrit016.tsp & 92.5 & 3.3886 & 4.7337 & 6.4869 \\
+rondrit018.tsp & 108.3 & 3.0714 & 4.9820 & 7.2249 \\
+rondrit023.tsp & 120.3 & 4.1053 & 6.8448 & 9.9840 \\
+rondrit025.tsp & 129.1 & 5.0991 & 8.9414 & 12.9755 \\
+rondrit048.tsp & 151.9 & 9.4921 & 14.7340 & 19.6760 \\
+rondrit050.tsp & 136.2 & 13.5967 & 19.7958 & 25.2649 \\
+rondrit051.tsp & 99.2 & 13.6028 & 18.7847 & 23.4240 \\
+rondrit067.tsp & 143.1 & 13.4945 & 18.6712 & 23.2590 \\
+rondrit070.tsp & 142.7 & 21.0303 & 28.8698 & 35.5137 \\
+rondrit100.tsp & 144.7 & 33.5632 & 42.8819 & 50.8222 \\
+rondrit127.tsp & 152.2 & 21.6000 & 26.3773 & 30.1659 \\
 			\bottomrule
 		\end{tabular}
 	}
