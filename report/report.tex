@@ -104,18 +104,18 @@
 \mychapter{0}{Introduction}
 In this report we discuss our solutions and results for the given tasks. For each task, experiments were ran to evaluate our solutions. Unless stated otherwise, the experiments were executed with a certain set of parameters and functions. This was done so that we would have a consistent basis to compare results on. The parameters were also chosen in order to leave enough room for improvement so that the effects of different methods can be compared, while at the same time reducing variation of experiments that are too short or do too little work. The default parameters and functions are as follows:
 \begin{itemize}
-	\item number of individuals = 100
-	\item maximum number of generations = 250
-	\item probability of mutation = 0.05
-	\item probability of crossover = 0.95
-	\item percentage of elite population = 0.05
-	\item subpopulations = 1
-	\item loop detection = off
-	\item parent selection function = sus
-	\item crossover function = cross\_alternating\_edges
-	\item mutation function = mut\_inversion
-	\item custom stopping criterion = on
-	\item custom survivor selection function = off
+	\item \texttt{number of individuals} = 100
+	\item \texttt{maximum number of generations} = 250
+	\item \texttt{probability of mutation} = 0.05
+	\item \texttt{probability of crossover} = 0.95
+	\item \texttt{percentage of elite population} = 0.05
+	\item \texttt{subpopulations} = 1
+	\item \texttt{loop detection} = off
+	\item \texttt{parent selection function} = sus
+	\item \texttt{crossover function} = cross\_alternating\_edges
+	\item \texttt{mutation function} = mut\_inversion
+	\item \texttt{custom stopping criterion} = on
+	\item \texttt{custom survivor selection function} = off
 \end{itemize}
 The results shown in tables are the average results of 10 runs. Every experiment is ran 10 times, so that the effects of local optima would be reduced.
 
@@ -143,19 +143,20 @@ Increasing the number of generations shows effects similar to the ones of increa
 Note that the algorithm stops at around 180 generations for dataset "rondrit016.tsp". This is due to the stopping criterion of the existing algorithm being triggered.
 
 \subsection{Elitism}
-Judging from the jump in results between 0 elitism and all other values for elitism, it is better to have elitism than to not have it at all. The results improve as the elitism grows from low to medium values, but then worsen again as it goes to high values. A percentage of around 30 to 50 performs best. 
+Judging from the jump in results between 0 elitism and all other values for elitism, it is better to have elitism than to not have it at all. The results improve as the elitism grows from low to medium values, but then worsen again as it goes to high values. A percentage of around 30 to 50 performs best. The results become worse again at high values because crossover and mutation happens a lot less at those values.
 
 \subsection{Crossover}
-The crossover results show that the default very high probability performs poorer than all other options for crossover. Furthermore, it is better to have a probability of crossover greater than zero. Similarly to elitism, the results are best at medium probabilities around 30 to 50 percent. 
+The crossover results show that the default very high probability performs poorer than all other options for crossover. Furthermore, it is better to have a probability of crossover greater than zero. Similarly to elitism, the results are best at medium probabilities around 30 to 50 percent. When the probability of crossover is high, many more children are created, which creates a lower probability for good parents to be preserved in later generations.
 
 \subsection{Mutation}
 The results don't change much for different values of mutation. Judging from the minima, means, and maxima, the best performance again lies around probabilities of 30 to 50 percent.
+TODO: test nog eens met lagere crossover?
 
 \subsection{Loop removal}
 See section~\ref{sec:local}
 
 \subsection{Mix}
-After some parameter tuning with the above information in mind, we have come up with a configuration of parameters that performs very well. The results can be seen in table~\ref{tab:existing_tuning}. The parameters were: TODO
+After some parameter tuning with the above information in mind, we have come up with a configuration of parameters that performs very well. The results can be seen in table~\ref{tab:existing_tuning}. The parameters were: \texttt{number of individuals} = 450, \texttt{maximum number of generations} = 400, \texttt{probability of mutation} = 0.4, \texttt{probability of crossover} = 0.5, \texttt{percentage of elite population} = 0.45, \texttt{subpopulations} = 1, \texttt{loop detection} = on, \texttt{selection function} = sus, \texttt{crossover function} = cross\_alternating\_edges, \texttt{mutation function} = mut\_inversion, \texttt{custom stopping criterion} = off, \texttt{custom survivor selection function} = off.
 \input{task2_tuning}
 
 
@@ -176,19 +177,18 @@ The fourth criterion is also already present in the template. The default value 
 We decided to implement the third criterion. With this condition, termination occurs when the fitness of the best individual does not improve above a threshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be 10\% of the specified maximum number of generations.
 
 The results of our experiments with this new termination condition are displayed in Table~\ref{tab:customstop}. We clearly see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time. As expected, the achieved score is often slightly worse in comparison to the default stopping criterion. This is because of the fact that improvements may still happen at a much later point in time. With a more strict stopping criterion, we make a trade-off between avoiding almost useless calculations and the chance for slightly better scores.
-
-\include{task3_results}
+\input{task3_results}
 
 \section{Task 4: Other representation}
-The given project template uses adjacency representation by default for TSP paths. We have chosen to use path representation as the alternative one. Conversion between the two representations was already possible thanks to the 'adj2path' and 'path2adj' functions in the template. To do crossover with path representation, we implemented the Order Crossover method (function 'cross\_order') as described in the textbook. Simple Inversion Mutation, which is a mutation operator for path representation, was already provided in the template ('mut\_inversion'). We have decided to extend this and have added a function for Inversion Mutation ('mut\_inversion2'). Our custom stopping criterion was not used during these experiments in order to allow for the different crossover and mutation operators to have a stronger impact.
+The given project template uses adjacency representation by default for TSP paths. We have chosen to use path representation as the alternative one. Conversion between the two representations was already possible thanks to the \texttt{adj2path} and \texttt{path2adj} functions in the template. To do crossover with path representation, we implemented the Order Crossover method (function \texttt{cross\_order}) as described in the textbook. Simple Inversion Mutation, which is a mutation operator for path representation, was already provided in the template (\texttt{mut\_inversion}). We have decided to extend this and have added a function for Inversion Mutation (\texttt{mut\_inversion2}). Our custom stopping criterion was not used during these experiments in order to allow for the different crossover and mutation operators to have a stronger impact.
 
-Table~\ref{tab:path_repr_crossover} contains the results of experiments with different crossover operators. The function 'cross\_alternating\_edges' implements Alternating Edge Crossover and is provided in the template. Order Crossover performs significantly better than Alternating Edge Crossover; all of the path lengths with Order Crossover are lower for every dataset. Also, the path lengths converged to a value earlier with Order Crossover, which is why the numbers of generations are lower. This can be attributed to \textbf{... ???}
+Table~\ref{tab:path_repr_crossover} contains the results of experiments with different crossover operators. The function \texttt{cross\_alternating\_edges} implements Alternating Edge Crossover and is provided in the template. Order Crossover performs significantly better than Alternating Edge Crossover; all of the path lengths with Order Crossover are lower for every dataset. This can be attributed to Order Crossover retaining longer sequences of genetic material of parents than Alternating Edge Crossover. Also, this results in the path lengths converging to a value earlier, which is why the numbers of generations are lower. 
 \input{task4_crossover}
 
-Table~\ref{tab:path_repr_mutation} contains the results of experiments with different mutation functions. The 'mut\_inversion' function implements Simple Inversion Mutation and is provided in the template. While both functions perform roughly the same, the one provided in the template performs slightly better when looking at the minima, means, and maxima. This is likely due to Inversion Mutation changing genetic material more than Simple Inversion Mutation; moving the randomly chosen subpath to a different position in the path after reversing it is more likely to have a negative effect when the path is near a (local) optimum. 
+Table~\ref{tab:path_repr_mutation} contains the results of experiments with different mutation functions. The function \texttt{mut\_inversion} implements Simple Inversion Mutation and is provided in the template. While both functions perform roughly the same, the one provided in the template performs slightly better when looking at the minima, means, and maxima. This is likely due to Inversion Mutation changing genetic material more than Simple Inversion Mutation; moving the randomly chosen subpath to a different position in the path after reversing it is more likely to have a negative effect when the path is near a (local) optimum. 
 \input{task4_mutation}
 
-Table~\ref{tab:path_repr_tuning} shows results after some parameter tuning with the 'cross\_order' and 'mut\_inversion' operators. The parameters used were: number of individuals = 1000, maximum number of generations = 1000, probability of mutation = 0.30, probability of crossover = 0.50, percentage of elite population = 0, subpopulations = 1, loop detection = on, selection function = sel\_tournament, crossover function = cross\_order, mutation function = mut\_inversion, custom stopping criterion = on, custom survivor selection function = on (round robin tournament).
+Table~\ref{tab:path_repr_tuning} shows results after some parameter tuning with the \texttt{cross\_order} and \texttt{mut\_inversion} operators. The parameters used were: \texttt{number of individuals} = 1000, \texttt{maximum number of generations} = 1000, \texttt{probability of mutation} = 0.30, \texttt{probability of crossover} = 0.50, \texttt{percentage of elite population} = 0, \texttt{subpopulations} = 1, \texttt{loop detection} = on, \texttt{selection function} = sel\_tournament, \texttt{crossover function} = cross\_order, \texttt{mutation function} = mut\_inversion, \texttt{custom stopping criterion} = on, \texttt{custom survivor selection function} = on (round robin tournament).
 \input{task4_tuning}
 
 
@@ -197,14 +197,12 @@ Table~\ref{tab:path_repr_tuning} shows results after some parameter tuning with 
 For this task, we are testing the local optimization already present in the template. This optimization takes a path and tries to remove local loops with a path length of up to 3.
 
 The results of our experiments with local optimisation disabled and enabled are displayed in Table~\ref{tab:localopt}. With default values for other parameters, this results in major improvements to both path lenghts and number of generations needed. This is the case for every single 'rondrit' dataset.
-
-\include{task5_results}
+\input{task5_results}
 
 
 \section{Task 7: Optional tasks}
 \subsection{7a: Parent selection}
-Additional parent selection methods we implemented are Fitness Proportional Selection ('sel\_fit\_prop') and Tournament Selection ('sel\_tournament'). Both of them use the same parameters as the existing implementation of Stochastic Universal Sampling so we could easily swap them in.
-
+Additional parent selection methods we implemented are Fitness Proportional Selection (\texttt{sel\_fit\_prop}) and Tournament Selection (\texttt{sel\_tournament}). Both of them use the same parameters as the existing implementation of Stochastic Universal Sampling so we could easily swap them in.
 The results of our experiments with all three parent selection methods are displayed in Table~\ref{tab:selparentsus}, \ref{tab:selparenttournament} and \ref{tab:selparentfitprop}. For Tournament Selection, the tournament size parameter $k$ was set to 5. We see that the performance degrades a lot when there are more cities. This is not the case for Fitness Proportional Selection. This parent selection method seems to match the Stochastic Universal Sampling in terms of path lengths and number of generations needed.
 
 \begin{table}[H]
@@ -289,7 +287,7 @@ rondrit127.tsp & 114.7 & 22.9952 & 26.8508 & 29.97739386912141 \\
 \end{table}
 
 \subsection{7b: Survivor selection}
-Round robin tournament was chosen as the other strategy for survivor selection. The results for different percentages of elitism for survival selection can be found in the appendix in table~\ref{tab:vary_elitism}. To evaluate how round robin tournament performs compared to the already implemented elitism, the elitism percentage is set to 0\% in an experiment. Also, an experiment is done where round robin tournament is combined with an elitism percentage of 30\%. Table~\ref{tab:survivor_selection} contains the results of the experiments for this task. 
+Round robin tournament was chosen as the other strategy for survivor selection. The results for different percentages of elitism for survival selection can be found in the appendix in table~\ref{tab:vary_elitism}. To evaluate how round robin tournament performs compared to the already implemented elitism, the elitism percentage is set to 0\% in an experiment. Also, an experiment is done where round robin tournament is combined with an elitism percentage of 30\%. Table~\ref{tab:survivor_selection} contains the results of the experiments for this task. The size of the tournaments was set to 10, as recommended by the textbook.
 
 The round robin tournament strategy outperforms every percentage of elitism. Combining round robin tournament with elitism results in longer path lengths overall. This happens because the elitism causes the round robin tournament to be executed on a smaller population. Therefore, it is better to set elitism to zero.
 \input{task7b}
@@ -308,17 +306,17 @@ The results displayed in Table~\ref{tab:diversity1} through Table~\ref{tab:diver
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-rondrit016.tsp & 95.5 & 3.4074 & 4.7767 & 6.6380 \\
-rondrit018.tsp & 115.2 & 3.1761 & 5.0546 & 7.2900 \\
-rondrit023.tsp & 101.9 & 4.0955 & 6.9523 & 10.0988 \\
-rondrit025.tsp & 99.4 & 5.5454 & 9.2036 & 13.2600 \\
-rondrit048.tsp & 111.9 & 10.0535 & 15.0388 & 19.9039 \\
-rondrit050.tsp & 142.2 & 13.7133 & 19.8064 & 25.4397 \\
-rondrit051.tsp & 123.7 & 13.3033 & 18.5275 & 23.2007 \\
-rondrit067.tsp & 149.8 & 13.1947 & 18.4811 & 22.9918 \\
-rondrit070.tsp & 110.0 & 22.0561 & 29.2306 & 35.7109 \\
-rondrit100.tsp & 139.6 & 33.9588 & 43.5204 & 51.1411 \\
-rondrit127.tsp & 144.7 & 21.5389 & 26.3386 & 30.2041 \\
+rondrit016.tsp & 87.3 & 3.3789 & 4.8268 & 6.8628 \\
+rondrit018.tsp & 92.0 & 3.0807 & 5.1325 & 7.5719 \\
+rondrit023.tsp & 132.2 & 3.8457 & 6.8379 & 10.2530 \\
+rondrit025.tsp & 117.7 & 4.9808 & 9.0435 & 13.4739 \\
+rondrit048.tsp & 158.8 & 8.7074 & 14.5176 & 19.8265 \\
+rondrit050.tsp & 105.7 & 13.6085 & 20.0173 & 25.5480 \\
+rondrit051.tsp & 117.9 & 12.9100 & 18.5933 & 23.6349 \\
+rondrit067.tsp & 102.1 & 13.5305 & 18.8152 & 23.4651 \\
+rondrit070.tsp & 129.1 & 20.1628 & 28.6489 & 35.5801 \\
+rondrit100.tsp & 121.7 & 33.4117 & 43.3215 & 52.2091 \\
+rondrit127.tsp & 139.6 & 20.8300 & 26.1699 & 30.2266 \\
 			\bottomrule
 		\end{tabular}
 	}
@@ -335,17 +333,17 @@ rondrit127.tsp & 144.7 & 21.5389 & 26.3386 & 30.2041 \\
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-rondrit016.tsp & 86.6 & 3.3963 & 4.7597 & 6.5871 \\
-rondrit018.tsp & 98.2 & 3.1664 & 5.0665 & 7.2148 \\
-rondrit023.tsp & 137.1 & 3.9422 & 6.8060 & 10.1056 \\
-rondrit025.tsp & 103.9 & 5.3210 & 9.2062 & 13.1897 \\
-rondrit048.tsp & 103.0 & 10.0800 & 15.0969 & 19.9683 \\
-rondrit050.tsp & 136.6 & 13.7321 & 19.8016 & 25.0207 \\
-rondrit051.tsp & 141.3 & 13.3589 & 18.6720 & 23.2114 \\
-rondrit067.tsp & 131.9 & 13.5762 & 18.7582 & 23.3741 \\
-rondrit070.tsp & 99.9 & 21.7707 & 29.1058 & 35.0688 \\
-rondrit100.tsp & 94.3 & 35.1090 & 43.9147 & 51.3187 \\
-rondrit127.tsp & 138.8 & 21.6849 & 26.4038 & 30.1507 \\
+rondrit016.tsp & 86.5 & 3.7069 & 5.3631 & 7.6527 \\
+rondrit018.tsp & 104.1 & 3.3891 & 5.6142 & 8.1424 \\
+rondrit023.tsp & 119.4 & 4.2318 & 7.5442 & 11.2955 \\
+rondrit025.tsp & 172.2 & 5.1527 & 9.7101 & 14.4419 \\
+rondrit048.tsp & 109.0 & 10.6332 & 16.4698 & 22.6468 \\
+rondrit050.tsp & 130.0 & 14.5412 & 21.7655 & 27.6456 \\
+rondrit051.tsp & 163.0 & 13.6866 & 20.2262 & 25.9560 \\
+rondrit067.tsp & 145.5 & 14.3458 & 20.4498 & 25.6300 \\
+rondrit070.tsp & 141.1 & 22.5607 & 31.5559 & 39.1275 \\
+rondrit100.tsp & 128.5 & 36.5586 & 47.6320 & 57.1317 \\
+rondrit127.tsp & 153.6 & 22.8718 & 28.8169 & 33.7587 \\
 			\bottomrule
 		\end{tabular}
 	}
@@ -362,17 +360,17 @@ rondrit127.tsp & 138.8 & 21.6849 & 26.4038 & 30.1507 \\
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-rondrit016.tsp & 92.5 & 3.3886 & 4.7337 & 6.4869 \\
-rondrit018.tsp & 108.3 & 3.0714 & 4.9820 & 7.2249 \\
-rondrit023.tsp & 120.3 & 4.1053 & 6.8448 & 9.9840 \\
-rondrit025.tsp & 129.1 & 5.0991 & 8.9414 & 12.9755 \\
-rondrit048.tsp & 151.9 & 9.4921 & 14.7340 & 19.6760 \\
-rondrit050.tsp & 136.2 & 13.5967 & 19.7958 & 25.2649 \\
-rondrit051.tsp & 99.2 & 13.6028 & 18.7847 & 23.4240 \\
-rondrit067.tsp & 143.1 & 13.4945 & 18.6712 & 23.2590 \\
-rondrit070.tsp & 142.7 & 21.0303 & 28.8698 & 35.5137 \\
-rondrit100.tsp & 144.7 & 33.5632 & 42.8819 & 50.8222 \\
-rondrit127.tsp & 152.2 & 21.6000 & 26.3773 & 30.1659 \\
+rondrit016.tsp & 96.7 & 3.7377 & 5.3840 & 7.5751 \\
+rondrit018.tsp & 110.8 & 3.3874 & 5.6606 & 8.4666 \\
+rondrit023.tsp & 149.4 & 4.2469 & 7.5998 & 11.2493 \\
+rondrit025.tsp & 166.8 & 5.4264 & 9.9891 & 14.8461 \\
+rondrit048.tsp & 150.1 & 10.2174 & 16.3796 & 22.4803 \\
+rondrit050.tsp & 116.8 & 15.0743 & 22.0950 & 28.6421 \\
+rondrit051.tsp & 125.3 & 14.4879 & 20.6224 & 26.1835 \\
+rondrit067.tsp & 113.1 & 14.9047 & 20.8687 & 26.0722 \\
+rondrit070.tsp & 128.7 & 23.1888 & 32.0881 & 39.9062 \\
+rondrit100.tsp & 107.8 & 38.2434 & 48.5536 & 57.3213 \\
+rondrit127.tsp & 176.2 & 22.6508 & 28.8988 & 33.6638 \\
 			\bottomrule
 		\end{tabular}
 	}
@@ -389,22 +387,49 @@ rondrit127.tsp & 152.2 & 21.6000 & 26.3773 & 30.1659 \\
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-			rondrit016.tsp & 97.4 & 4.1405 & 5.5019 & 7.7501 \\
-			rondrit018.tsp & 140.1 & 3.8233 & 5.5875 & 8.1174 \\
-			rondrit023.tsp & 180.4 & 4.7633 & 7.8333 & 11.6950 \\
-			rondrit025.tsp & 186.0 & 6.1102 & 10.4032 & 15.4008 \\
-			rondrit048.tsp & 276.3 & 10.6240 & 17.0398 & 23.1415 \\
-			rondrit050.tsp & 245.8 & 15.9304 & 22.8300 & 29.9988 \\
-			rondrit051.tsp & 190.7 & 16.0860 & 21.8967 & 27.5143 \\
-			rondrit067.tsp & 254.4 & 15.8431 & 21.9523 & 27.1892 \\
-			rondrit070.tsp & 272.4 & 24.4098 & 33.8360 & 41.4091 \\
-			rondrit100.tsp & 250.7 & 39.4631 & 51.1833 & 61.1145 \\
-			rondrit127.tsp & 282.1 & 25.3591 & 31.1691 & 36.3321 \\
+rondrit016.tsp & 101.6 & 3.7363 & 5.4124 & 7.7952 \\
+rondrit018.tsp & 113.0 & 3.4010 & 5.6424 & 8.4560 \\
+rondrit023.tsp & 134.2 & 4.3630 & 7.7145 & 11.3325 \\
+rondrit025.tsp & 117.1 & 5.7916 & 10.2213 & 14.8791 \\
+rondrit048.tsp & 162.2 & 9.8346 & 16.3824 & 22.4776 \\
+rondrit050.tsp & 135.3 & 14.4837 & 22.0135 & 28.4629 \\
+rondrit051.tsp & 133.6 & 14.3287 & 20.6799 & 26.4687 \\
+rondrit067.tsp & 183.9 & 13.6331 & 20.3402 & 25.7013 \\
+rondrit070.tsp & 128.9 & 22.9472 & 32.1190 & 39.3304 \\
+rondrit100.tsp & 151.4 & 36.4110 & 47.9459 & 57.1262 \\
+rondrit127.tsp & 189.3 & 22.6947 & 28.9111 & 33.7984 \\
 			\bottomrule
 		\end{tabular}
 	}
 	\caption{Results when using ten subpopulations.}
 	\label{tab:diversity10}
+\end{table}
+
+\begin{table}[H]
+\centering
+\makebox[\textwidth]{
+	\begin{tabular}{l rrrr}
+		\toprule
+		& \multicolumn{4}{c}{\# subpopulations = 20} \\
+		\cmidrule{2-5}
+		Dataset & \# Generations & Min & Mean & Max \\
+		\midrule
+rondrit016.tsp & 97.1 & 3.7418 & 5.4420 & 7.7813 \\
+rondrit018.tsp & 101.2 & 3.4532 & 5.7598 & 8.4451 \\
+rondrit023.tsp & 120.9 & 4.4710 & 7.7258 & 11.2595 \\
+rondrit025.tsp & 138.6 & 5.5890 & 10.2273 & 15.0354 \\
+rondrit048.tsp & 128.2 & 10.4201 & 16.5968 & 22.4393 \\
+rondrit050.tsp & 133.5 & 14.9730 & 22.1471 & 28.3386 \\
+rondrit051.tsp & 140.1 & 14.3330 & 20.6143 & 26.3868 \\
+rondrit067.tsp & 135.2 & 14.8073 & 20.9061 & 26.2982 \\
+rondrit070.tsp & 142.1 & 23.0770 & 32.1201 & 39.8267 \\
+rondrit100.tsp & 144.2 & 36.8373 & 48.0742 & 57.2916 \\
+rondrit127.tsp & 136.0 & 23.5869 & 29.2883 & 34.0429 \\
+		\bottomrule
+	\end{tabular}
+}
+\caption{Results when using twenty subpopulations.}
+\label{tab:diversity20}
 \end{table}
 
 \section{Task 6: Benchmark problems}
@@ -414,7 +439,7 @@ The parameters and methods used were as follows:
 	\item TODO
 \end{itemize}
 The results are shown in table~\ref{tab:benchmark}. Judging from the relative errors, we can conclude that our solutions are TODO
-\input{task6_benchmark}
+%\input{task6_benchmark}
 
 \mychapter{4}{Appendix}
 \section{Tables}
