@@ -175,14 +175,14 @@ The fourth criterion is also already present in the template. The default value 
 
 We decided to implement the third criterion. With this condition, termination occurs when the fitness of the best individual does not improve above a threshold for a given period of time. This period of time is expressed in terms of a certain number of generations. We chose to define this number of generations to be 10\% of the specified maximum number of generations.
 
-The results of our experiments with this new termination condition are displayed in Table~\ref{tab:customstop}. We clearly see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time. As expected, the achieved score is often slightly worse in comparison to the default stopping criterion. This is because of the fact that improvements may still happen at a much later point in time. With a more strict stopping criterion, we make a trade-off between avoiding almost useless canclulations and the chance for slightly better scores.
+The results of our experiments with this new termination condition are displayed in Table~\ref{tab:customstop}. We clearly see that it does succeed in avoiding computation of useless generations where the fitness does not improve for a long time. As expected, the achieved score is often slightly worse in comparison to the default stopping criterion. This is because of the fact that improvements may still happen at a much later point in time. With a more strict stopping criterion, we make a trade-off between avoiding almost useless calculations and the chance for slightly better scores.
 
 \include{task3_results}
 
 \section{Task 4: Other representation}
 The given project template uses adjacency representation by default for TSP paths. We have chosen to use path representation as the alternative one. Conversion between the two representations was already possible thanks to the 'adj2path' and 'path2adj' functions in the template. To do crossover with path representation, we implemented the Order Crossover method (function 'cross\_order') as described in the textbook. Simple Inversion Mutation, which is a mutation operator for path representation, was already provided in the template ('mut\_inversion'). We have decided to extend this and have added a function for Inversion Mutation ('mut\_inversion2'). Our custom stopping criterion was not used during these experiments in order to allow for the different crossover and mutation operators to have a stronger impact.
 
-Table~\ref{tab:path_repr_crossover} contains the results of experiments with different crossover operators. The function 'cross\_alternating\_edges' implements Alternating Edge Crossover and is provided in the template. Order Crossover performs significantly better than Alternating Edge Crossover; all of the path lengths with Order Crossover are lower for every dataset. Also, the path lengths converted to a value earlier with Order Crossover, which is why the numbers of generations are lower. This can be attributed to \textbf{... ???}
+Table~\ref{tab:path_repr_crossover} contains the results of experiments with different crossover operators. The function 'cross\_alternating\_edges' implements Alternating Edge Crossover and is provided in the template. Order Crossover performs significantly better than Alternating Edge Crossover; all of the path lengths with Order Crossover are lower for every dataset. Also, the path lengths converged to a value earlier with Order Crossover, which is why the numbers of generations are lower. This can be attributed to \textbf{... ???}
 \input{task4_crossover}
 
 Table~\ref{tab:path_repr_mutation} contains the results of experiments with different mutation functions. The 'mut\_inversion' function implements Simple Inversion Mutation and is provided in the template. While both functions perform roughly the same, the one provided in the template performs slightly better when looking at the minima, means, and maxima. This is likely due to Inversion Mutation changing genetic material more than Simple Inversion Mutation; moving the randomly chosen subpath to a different position in the path after reversing it is more likely to have a negative effect when the path is near a (local) optimum. 
@@ -194,9 +194,9 @@ Table~\ref{tab:path_repr_tuning} shows results after some parameter tuning with 
 
 \section{Task 5: Local optimisation}
 \label{sec:local}
-For this task, we are testing the local optimization already present in the template. This optimization takes a path and tries to remove local loops with a path length of up to 3. With default values for other parameters, this results in major improvements to the score.
+For this task, we are testing the local optimization already present in the template. This optimization takes a path and tries to remove local loops with a path length of up to 3.
 
-The results of our experiments with local optimisation disabled and enabled are displayed in Table~\ref{tab:localopt}.
+The results of our experiments with local optimisation disabled and enabled are displayed in Table~\ref{tab:localopt}. With default values for other parameters, this results in major improvements to both path lenghts and number of generations needed. This is the case for every single 'rondrit' dataset.
 
 \include{task5_results}
 
@@ -204,6 +204,8 @@ The results of our experiments with local optimisation disabled and enabled are 
 \section{Task 7: Optional tasks}
 \subsection{7a: Parent selection}
 Additional parent selection methods we implemented are Fitness Proportional Selection ('sel\_fit\_prop') and Tournament Selection ('sel\_tournament'). Both of them use the same parameters as the existing implementation of Stochastic Universal Sampling so we could easily swap them in.
+
+The results of our experiments with all three parent selection methods are displayed in Table~\ref{tab:selparentsus}, \ref{tab:selparenttournament} and \ref{tab:selparentfitprop}. For Tournament Selection, the tournament size parameter $k$ was set to 5. We see that the performance degrades a lot when there are more cities. This is not the case for Fitness Proportional Selection. This parent selection method seems to match the Stochastic Universal Sampling in terms of path lengths and number of generations needed.
 
 \begin{table}[H]
 	\centering
