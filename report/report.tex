@@ -205,7 +205,7 @@ The results of our experiments with local optimisation disabled and enabled are 
 \subsection{7a: Parent selection}
 Additional parent selection methods we implemented are Fitness Proportional Selection ('sel\_fit\_prop') and Tournament Selection ('sel\_tournament'). Both of them use the same parameters as the existing implementation of Stochastic Universal Sampling so we could easily swap them in.
 
-The results of our experiments with all three parent selection methods are displayed in Table~\ref{tab:selparentsus}, \ref{tab:selparenttournament} and \ref{tab:selparentfitprop}. For Tournament Selection, the tournament size parameter $k$ was set to 5. We see that the performance degrades a lot when there are more cities. This is not the case for Fitness Proportional Selection. This parent selection method seems to match the Stochastic Universal Sampling in terms of path lengths and number of generations needed.
+The results of our experiments with all three parent selection methods are displayed in Table~\ref{tab:selparentsus}, \ref{tab:selparenttournament} and \ref{tab:selparentfitprop}. For Tournament Selection, the tournament size parameter $k$ was set to 5. We see that it achieves much better path lengths than SUS, especially when dealing with a higher number of cities. The number of generations needed is quite a bit higher so it seems that SUS gets stuck some local optimum while tournament is able to select better parents for future generations. This is not the case for Fitness Proportional Selection. This parent selection method seems to match the Stochastic Universal Sampling in terms of path lengths and number of generations needed.
 
 \begin{table}[H]
 	\centering
@@ -216,17 +216,17 @@ The results of our experiments with all three parent selection methods are displ
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-rondrit016.tsp & 76.5 & 3.5071 & 4.7287 & 6.29733152234251 \\
-rondrit018.tsp & 112.0 & 3.2458 & 4.9674 & 6.91548211300174 \\
-rondrit023.tsp & 89.8 & 4.3998 & 6.9255 & 9.64269815478443 \\
-rondrit025.tsp & 81.6 & 5.8037 & 9.2203 & 12.46022806183646 \\
-rondrit048.tsp & 115.7 & 10.5298 & 15.0273 & 18.93401510803271 \\
-rondrit050.tsp & 74.1 & 15.5617 & 20.4526 & 24.58418303604441 \\
-rondrit051.tsp & 101.3 & 14.7763 & 19.2497 & 23.21947103058057 \\
-rondrit067.tsp & 98.2 & 14.7791 & 19.1254 & 22.65609716605926 \\
-rondrit070.tsp & 117.4 & 22.9912 & 29.3627 & 34.87830719868566 \\
-rondrit100.tsp & 91.4 & 37.0343 & 44.2892 & 51.06123059198230 \\
-rondrit127.tsp & 120.9 & 22.9939 & 26.6807 & 30.08382590490890 \\
+rondrit016.tsp & 76.5 & 3.5071 & 4.7287 & 6.2973 \\
+rondrit018.tsp & 112.0 & 3.2458 & 4.9674 & 6.9154 \\
+rondrit023.tsp & 89.8 & 4.3998 & 6.9255 & 9.6426 \\
+rondrit025.tsp & 81.6 & 5.8037 & 9.2203 & 12.4602 \\
+rondrit048.tsp & 115.7 & 10.5298 & 15.0273 & 18.9340\\
+rondrit050.tsp & 74.1 & 15.5617 & 20.4526 & 24.5841\\
+rondrit051.tsp & 101.3 & 14.7763 & 19.2497 & 23.2194\\
+rondrit067.tsp & 98.2 & 14.7791 & 19.1254 & 22.6560\\
+rondrit070.tsp & 117.4 & 22.9912 & 29.3627 & 34.8783\\
+rondrit100.tsp & 91.4 & 37.0343 & 44.2892 & 51.0612\\
+rondrit127.tsp & 120.9 & 22.9939 & 26.6807 & 30.0838\\
 			\bottomrule
 		\end{tabular}
 	}
@@ -243,17 +243,17 @@ rondrit127.tsp & 120.9 & 22.9939 & 26.6807 & 30.08382590490890 \\
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-rondrit016.tsp & 47.6 & 3.4307 & 3.4489 & 4.11682588428370 \\
-rondrit018.tsp & 69.8 & 3.0751 & 3.1000 & 3.94962726552862 \\
-rondrit023.tsp & 97.2 & 3.4223 & 3.4448 & 4.36636737136705 \\
-rondrit025.tsp & 107.1 & 4.2080 & 4.2289 & 5.22930916811214 \\
-rondrit048.tsp & 220.2 & 5.2384 & 5.3288 & 6.70164030513469 \\
-rondrit050.tsp & 228.5 & 7.4060 & 7.4469 & 8.74950293351244 \\
-rondrit051.tsp & 223.4 & 7.7256 & 7.8091 & 9.00104215733518 \\
-rondrit067.tsp & 246.7 & 6.5806 & 6.6540 & 7.79291635925291 \\
-rondrit070.tsp & 250.0 & 10.4302 & 11.1550 & 14.05669608369397 \\
-rondrit100.tsp & 241.3 & 18.2543 & 19.2141 & 22.21694990667605 \\
-rondrit127.tsp & 250.0 & 13.2633 & 13.8539 & 15.84629676598155 \\
+rondrit016.tsp & 47.6 & 3.4307 & 3.4489 & 4.1168\\
+rondrit018.tsp & 69.8 & 3.0751 & 3.1000 & 3.9496\\
+rondrit023.tsp & 97.2 & 3.4223 & 3.4448 & 4.3663\\
+rondrit025.tsp & 107.1 & 4.2080 & 4.2289 & 5.2293\\
+rondrit048.tsp & 220.2 & 5.2384 & 5.3288 & 6.7016\\
+rondrit050.tsp & 228.5 & 7.4060 & 7.4469 & 8.7495\\
+rondrit051.tsp & 223.4 & 7.7256 & 7.8091 & 9.0010\\
+rondrit067.tsp & 246.7 & 6.5806 & 6.6540 & 7.7929\\
+rondrit070.tsp & 250.0 & 10.4302 & 11.1550 & 14.0566\\
+rondrit100.tsp & 241.3 & 18.2543 & 19.2141 & 22.2169\\
+rondrit127.tsp & 250.0 & 13.2633 & 13.8539 & 15.8462\\
 			\bottomrule
 		\end{tabular}
 	}
