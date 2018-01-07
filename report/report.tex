@@ -77,7 +77,7 @@
 	\begin{center}
 		\begin{minipage}[t]{\textwidth}
 			\begin{center}
-				\LARGE{\rm{\textbf{\uppercase{Project}}}}\\
+				\LARGE{\rm{\textbf{\uppercase{Project: TSP}}}}\\
 				\Large{\rm{Genetic Algorithms and Evolutionary Computing (B-KUL-H02D1A) }}\\
 				\vspace{0.5cm}
 
@@ -102,7 +102,7 @@
 \newpage
 
 \mychapter{0}{Introduction}
-In this report we discuss our solutions and results for the given tasks. For each task, experiments were ran to evaluate our solutions. Unless stated otherwise, the experiments were executed with a certain set of parameters and functions. This was done so that we would have a consistent basis to compare results on. The parameters were also chosen in order to leave enough room for improvement so that the effects of different methods can be compared, while at the same time reducing variation of experiments that are too short or do too little work. The default parameters and functions are as follows:
+In this report we discuss our solutions and results for the given tasks. We ran experiments for each task to evaluate our solutions. Unless stated otherwise, the experiments were executed with a certain set of parameters and functions. This was done so that we would have a consistent basis to compare results on. The parameters were also chosen in order to leave enough room for improvement so that the effects of different methods can be compared, while at the same time reducing variation of experiments that are too short or do too little work. The default parameters and functions are as follows:
 \begin{itemize}
 	\item \texttt{number of individuals} = 100
 	\item \texttt{maximum number of generations} = 250
@@ -117,9 +117,9 @@ In this report we discuss our solutions and results for the given tasks. For eac
 	\item \texttt{custom stopping criterion} = on
 	\item \texttt{custom survivor selection function} = off
 \end{itemize}
-The results shown in tables are the average results of 10 runs. Every experiment is ran 10 times, so that the effects of local optima would be reduced.
+The results shown in all tables except for the benchmarks of task 6 are the average results of 10 runs. Every experiment is ran 10 times so that the effects of local optima would be reduced.
 
-The appendix includes tables that contain results of experiments and our code that is relevant to the tasks.
+The appendix includes extra tables that contain results of experiments and our code that is relevant to the tasks.
 
 \mychapter{1}{Tasks}
 
@@ -133,7 +133,7 @@ The impact of the following parameters on the results of the existing genetic al
 	\item probability of mutation (PR\_MUT)
 	\item local loop removal (LOCALLOOP)
 \end{itemize}
-The parameter values were chosen so that evenly spread out options from low to high could be tested. The experiments for this task were executed on a subset of the given datasets to keep the tables readable. The datasets range from ones with a small amount of cities to ones with a large amount of cities. The tables for the results of the experiments can be found in appendix~\ref{app:task2}. The custom stopping criterion was not used during these experiments, as it is discussed in section~\ref{sec:stopping_criterion}.
+The parameter values were chosen so that evenly spread out values from low to high could be tested. The experiments for this task were executed on a subset of the given datasets to keep the tables readable. The datasets range from ones with a small amount of cities to ones with a large amount of cities. The tables for the results of the experiments can be found in appendix~\ref{app:task2}. The custom stopping criterion was not used during these experiments, as it is discussed in section~\ref{sec:stopping_criterion}.
 
 \subsection{Individuals}
 The mininum path lengths clearly decrease as the number of individuals increases. This is to be expected, as a larger amount of individuals causes a larger amount of mutations and crossover which can positively impact path lengths. Analogously, the maximum path lengths slightly increase as the number of individuals increases. Because of this effect, the mean path lengths remain relatively constant after 100 individuals. Improvements to the minima are higher when increasing a lower number of individuals than when increasing an already high number of individuals.
@@ -170,7 +170,7 @@ To implement a new stopping criterion, we looked at the commonly used terminatio
 	\item Fitness improvement remains under threshold for a given period of time.
 	\item Population diversity drops under threshold.
 \end{enumerate}
-The first and second criteria are useful, either to guarantee the evaluations do not go on forever, or when there is some kind of constraint on system resource usage. In the project template, we already have the guarantee of eventual termination because of the limit on the number of generations, and we do not have to account for system resource constraints.
+The first and second criteria are useful, either to guarantee the evaluations do not go on forever, or when there is some kind of constraint on system resource usage. In the project template, we already have the guarantee of eventual termination because of the limit on the number of generations, and we do not have to account for system resource constraints in this context.
 
 The fourth criterion is also already present in the template. The default value is so strict (95\% equal individuals), it practically is never reached.
 
@@ -188,6 +188,7 @@ Table~\ref{tab:path_repr_crossover} contains the results of experiments with dif
 Table~\ref{tab:path_repr_mutation} contains the results of experiments with different mutation functions. The function \texttt{mut\_inversion} implements Simple Inversion Mutation and is provided in the template. While both functions perform roughly the same, the one provided in the template performs slightly better when looking at the minima, means, and maxima. This is likely due to Inversion Mutation changing genetic material more than Simple Inversion Mutation; moving the randomly chosen subpath to a different position in the path after reversing it is more likely to have a negative effect when the path is near a (local) optimum. 
 \input{task4_mutation}
 
+
 Table~\ref{tab:path_repr_tuning} shows results after some parameter tuning with the \texttt{cross\_order} and \texttt{mut\_inversion} operators. The parameters used were: \texttt{number of individuals} = 1000, \texttt{maximum number of generations} = 1000, \texttt{probability of mutation} = 0.30, \texttt{probability of crossover} = 0.50, \texttt{percentage of elite population} = 0, \texttt{subpopulations} = 1, \texttt{loop detection} = on, \texttt{selection function} = sel\_tournament, \texttt{crossover function} = cross\_order, \texttt{mutation function} = mut\_inversion, \texttt{custom stopping criterion} = on, \texttt{custom survivor selection function} = on (round robin tournament).
 \input{task4_tuning}
 
@@ -196,14 +197,15 @@ Table~\ref{tab:path_repr_tuning} shows results after some parameter tuning with 
 \label{sec:local}
 For this task, we are testing the local optimization already present in the template. This optimization takes a path and tries to remove local loops with a path length of up to 3.
 
-The results of our experiments with local optimisation disabled and enabled are displayed in Table~\ref{tab:localopt}. With default values for other parameters, this results in major improvements to both path lenghts and number of generations needed. This is the case for every single 'rondrit' dataset.
+The results of our experiments with local optimisation disabled and enabled are displayed in Table~\ref{tab:localopt}. With default values for other parameters, this results in major improvements to both path lenghts and number of generations needed. This is the case for every single dataset.
 \input{task5_results}
 
 
 \section{Task 7: Optional tasks}
 \subsection{7a: Parent selection}
 Additional parent selection methods we implemented are Fitness Proportional Selection (\texttt{sel\_fit\_prop}) and Tournament Selection (\texttt{sel\_tournament}). Both of them use the same parameters as the existing implementation of Stochastic Universal Sampling so we could easily swap them in.
-The results of our experiments with all three parent selection methods are displayed in Table~\ref{tab:selparentsus}, \ref{tab:selparenttournament} and \ref{tab:selparentfitprop}. For Tournament Selection, the tournament size parameter $k$ was set to 5. We see that the performance degrades a lot when there are more cities. This is not the case for Fitness Proportional Selection. This parent selection method seems to match the Stochastic Universal Sampling in terms of path lengths and number of generations needed.
+
+The results of our experiments with all three parent selection methods are displayed in Table~\ref{tab:selparentsus}, \ref{tab:selparenttournament}, and \ref{tab:selparentfitprop}. For Tournament Selection, the tournament size parameter $k$ was set to 5. We see that it achieves much better path lengths than SUS, especially when dealing with a high number of cities. The number of generations needed is quite a bit higher so it seems that SUS gets stuck in local optima while tournament selection is able to select better parents for future generations. This is not the case for Fitness Proportional Selection. This parent selection method seems to match the Stochastic Universal Sampling in terms of path lengths and number of generations needed. This is probably because the methods are very similar to each other.
 
 \begin{table}[H]
 	\centering
@@ -214,17 +216,17 @@ The results of our experiments with all three parent selection methods are displ
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-rondrit016.tsp & 76.5 & 3.5071 & 4.7287 & 6.29733152234251 \\
-rondrit018.tsp & 112.0 & 3.2458 & 4.9674 & 6.91548211300174 \\
-rondrit023.tsp & 89.8 & 4.3998 & 6.9255 & 9.64269815478443 \\
-rondrit025.tsp & 81.6 & 5.8037 & 9.2203 & 12.46022806183646 \\
-rondrit048.tsp & 115.7 & 10.5298 & 15.0273 & 18.93401510803271 \\
-rondrit050.tsp & 74.1 & 15.5617 & 20.4526 & 24.58418303604441 \\
-rondrit051.tsp & 101.3 & 14.7763 & 19.2497 & 23.21947103058057 \\
-rondrit067.tsp & 98.2 & 14.7791 & 19.1254 & 22.65609716605926 \\
-rondrit070.tsp & 117.4 & 22.9912 & 29.3627 & 34.87830719868566 \\
-rondrit100.tsp & 91.4 & 37.0343 & 44.2892 & 51.06123059198230 \\
-rondrit127.tsp & 120.9 & 22.9939 & 26.6807 & 30.08382590490890 \\
+rondrit016.tsp & 76.5 & 3.5071 & 4.7287 & 6.2973 \\
+rondrit018.tsp & 112.0 & 3.2458 & 4.9674 & 6.9154 \\
+rondrit023.tsp & 89.8 & 4.3998 & 6.9255 & 9.6426 \\
+rondrit025.tsp & 81.6 & 5.8037 & 9.2203 & 12.4602 \\
+rondrit048.tsp & 115.7 & 10.5298 & 15.0273 & 18.9340\\
+rondrit050.tsp & 74.1 & 15.5617 & 20.4526 & 24.5841\\
+rondrit051.tsp & 101.3 & 14.7763 & 19.2497 & 23.2194\\
+rondrit067.tsp & 98.2 & 14.7791 & 19.1254 & 22.6560\\
+rondrit070.tsp & 117.4 & 22.9912 & 29.3627 & 34.8783\\
+rondrit100.tsp & 91.4 & 37.0343 & 44.2892 & 51.0612\\
+rondrit127.tsp & 120.9 & 22.9939 & 26.6807 & 30.0838\\
 			\bottomrule
 		\end{tabular}
 	}
@@ -241,17 +243,17 @@ rondrit127.tsp & 120.9 & 22.9939 & 26.6807 & 30.08382590490890 \\
 			\cmidrule{2-5}
 			Dataset & \# Generations & Min & Mean & Max \\
 			\midrule
-rondrit016.tsp & 47.6 & 3.4307 & 3.4489 & 4.11682588428370 \\
-rondrit018.tsp & 69.8 & 3.0751 & 3.1000 & 3.94962726552862 \\
-rondrit023.tsp & 97.2 & 3.4223 & 3.4448 & 4.36636737136705 \\
-rondrit025.tsp & 107.1 & 4.2080 & 4.2289 & 5.22930916811214 \\
-rondrit048.tsp & 220.2 & 5.2384 & 5.3288 & 6.70164030513469 \\
-rondrit050.tsp & 228.5 & 7.4060 & 7.4469 & 8.74950293351244 \\
-rondrit051.tsp & 223.4 & 7.7256 & 7.8091 & 9.00104215733518 \\
-rondrit067.tsp & 246.7 & 6.5806 & 6.6540 & 7.79291635925291 \\
-rondrit070.tsp & 250.0 & 10.4302 & 11.1550 & 14.05669608369397 \\
-rondrit100.tsp & 241.3 & 18.2543 & 19.2141 & 22.21694990667605 \\
-rondrit127.tsp & 250.0 & 13.2633 & 13.8539 & 15.84629676598155 \\
+rondrit016.tsp & 47.6 & 3.4307 & 3.4489 & 4.1168\\
+rondrit018.tsp & 69.8 & 3.0751 & 3.1000 & 3.9496\\
+rondrit023.tsp & 97.2 & 3.4223 & 3.4448 & 4.3663\\
+rondrit025.tsp & 107.1 & 4.2080 & 4.2289 & 5.2293\\
+rondrit048.tsp & 220.2 & 5.2384 & 5.3288 & 6.7016\\
+rondrit050.tsp & 228.5 & 7.4060 & 7.4469 & 8.7495\\
+rondrit051.tsp & 223.4 & 7.7256 & 7.8091 & 9.0010\\
+rondrit067.tsp & 246.7 & 6.5806 & 6.6540 & 7.7929\\
+rondrit070.tsp & 250.0 & 10.4302 & 11.1550 & 14.0566\\
+rondrit100.tsp & 241.3 & 18.2543 & 19.2141 & 22.2169\\
+rondrit127.tsp & 250.0 & 13.2633 & 13.8539 & 15.8462\\
 			\bottomrule
 		\end{tabular}
 	}
@@ -293,9 +295,12 @@ The round robin tournament strategy outperforms every percentage of elitism. Com
 \input{task7b}
 
 \subsection{7c: Diversity preservation}
-In order to preserve population diversity, we adapted a few of the functions in the template to work with subpopulations, simulating the island model. In addition to the number of supopulations, the number of individuals was also increased from 100 to 315 in these experiments. This way there is a reasonable amount of individuals in each subpopulation for each experiment.
+In order to preserve population diversity, we adapted a few of the functions in the template to work with subpopulations, simulating the island model. In addition to the number of supopulations, the number of individuals was also increased from 100 to 800 in these experiments. This way there is a reasonable amount of individuals in each subpopulation for each experiment. 
 
-The results displayed in Table~\ref{tab:diversity1} through Table~\ref{tab:diversity20} show tests performed with 1, 2, 5, 10 and 20 subpopulations or islands.
+The results displayed in Table~\ref{tab:diversity1} through Table~\ref{tab:diversity20} show tests performed with 1, 2, 5, 10 and 20 subpopulations or islands. The results show a clear downwards trend in terms of path length when increasing the number of subpopulations. When the number of subpopulations is high, the number of individuals decreases enough to negatively impact path length. When the number of subpopulations is slightly inceased (e.g. 2 or 5) the formance is comparable to results of experiments performed for task 2 with the corresponding number of individuals in a single subpopulation.
+
+
+We did not implement any of the communication mechanisms between subpopulations. We suspect that the addition of migration might improve the results we observed.
 
 \begin{table}[H]
 	\centering
@@ -440,6 +445,18 @@ The parameters and methods used were as follows:
 \end{itemize}
 The results are shown in table~\ref{tab:benchmark}. Judging from the relative errors, we can conclude that our solutions are TODO
 %\input{task6_benchmark}
+
+
+\section{Conclusion}
+
+For this project, we ran and evaluated many experiments. In task 2, we looked at the effects of parameter tuning on the `bare' genetic algorithm. We mainly noticed that by themselves, the parameters all have a relatively small impact, except for adding a little elitism when there is no other survivor selection mechanism. But tuning them together can give some good results on the datasets.
+
+The new stopping criterion developed for task 3 allows us to gain on computation time while sacrificing a bit in minimal path length. Task 4 showed us that Order Crossover on chromosomes in path representation outperforms Alternating Edge Crossover for every dataset, and that Inversion Mutation is not really better than its Simple version in this case. Also, local loop removal is a must according to the experiments we performed for task 5. It decreases both path length and number of generations required.
+
+For the optional tasks, we decided to implement Fitness Proportional Selection and Tournament Selection for task 7a, where we saw that only tournament selection had an impact on performance. We also implemented RR Tournament survivor selection which had a positive effect when used by itself, but this effect decreased when used with other survivor selection mechanisms like elitism. Lastly, we did some less successful experiments where we used multiple subpopulations to try and avoid premature convergence.
+
+We put the knowledge gained from doing all these tasks to the test when tuning the final parameters for the benchmark tests.
+
 
 \mychapter{4}{Appendix}
 \section{Tables}

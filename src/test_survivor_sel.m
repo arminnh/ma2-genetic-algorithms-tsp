@@ -42,7 +42,7 @@ for ds = 1:Ndatasets
     fprintf(out, '%s & %.1f & %.2f & %.2f & %.2f && %.1f & %.2f & %.2f & %.2f \\\\\n', datasetslist(ds + 2).name, results(ds, 1, 1), results(ds, 2, 1), results(ds, 3, 1), results(ds, 4, 1), results(ds, 1, 2), results(ds, 2, 2), results(ds, 3, 2), results(ds, 4, 2));
 end
 fprintf(out, '\\bottomrule \n\\end{tabular} \n}\n');
-fprintf(out, '\\caption{Results for the already implemented elitism and our round robin tournament survivor selection.}\n');
+fprintf(out, '\\caption{Results for the already implemented elitism combined with our round robin tournament survivor selection.}\n');
 fprintf(out, '\\label{tab:survivor_selection}\n');	
 fprintf(out, '\\end{table}\n');
 fclose(out);

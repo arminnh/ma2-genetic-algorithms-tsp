@@ -62,7 +62,7 @@ for selectionidx = 1:3
 
         results(ds, :, selectionidx) = results(ds, :, selectionidx) / RUNS;
 
-        fprintf(out, '%s & %.1f & %.4f & %.4f & %.14f \\\\\n', datasetslist(ds + 2).name, results(ds, 1, selectionidx), results(ds, 2, selectionidx), results(ds, 3, selectionidx), results(ds, 4, selectionidx));
+        fprintf(out, '%s & %.1f & %.4f & %.4f & %.4f \\\\\n', datasetslist(ds + 2).name, results(ds, 1, selectionidx), results(ds, 2, selectionidx), results(ds, 3, selectionidx), results(ds, 4, selectionidx));
 
     end
 end
