@@ -1,18 +1,17 @@
 NIND=1000;           % Number of individuals
 MAXGEN=1000;         % Maximum no. of generations
-ELITIST=0;           % percentage of the elite population
+ELITIST=0.05;           % percentage of the elite population
 STOP_PERCENTAGE=.95; % percentage of equal fitness individuals for stopping
-PR_CROSS=.50;        % probability of crossover
-PR_MUT=.30;          % probability of mutation
+PR_CROSS=.75;        % probability of crossover
+PR_MUT=.15;          % probability of mutation
 LOCALLOOP=1;         % local loop removal
 CROSSOVER = 'cross_order'; % crossover operators
 MUTATION = 'mut_inversion'; % mutation operators
 SELECTION = 'sel_tournament'; % parent selection algorithm
 SUBPOP = 1;          % Amount of subpopulations
-SCALING = 1;         % City location scaling on/off
-CUSTOMSTOP = 1;      % Custom stopping criterion on/off
+CUSTOMSTOP = 0;      % Custom stopping criterion on/off
 CUSTOMSS = 1;        % Custom survivor selection on/off
-RUNS = 2;           % Number of ga runs in tests
+RUNS = 1;           % Number of ga runs in tests
 
 datasetslist = dir('tsp-benchmark-problems/');
 Ndatasets = size(datasetslist, 1) - 2;

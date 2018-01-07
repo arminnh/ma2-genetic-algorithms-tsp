@@ -295,9 +295,12 @@ The round robin tournament strategy outperforms every percentage of elitism. Com
 \input{task7b}
 
 \subsection{7c: Diversity preservation}
-In order to preserve population diversity, we adapted a few of the functions in the template to work with subpopulations, simulating the island model. In addition to the number of supopulations, the number of individuals was also increased from 100 to 800 in these experiments. This way there is a reasonable amount of individuals in each subpopulation for each experiment. We decided to not implement any of the communication mechanisms between subpopulations for these experiments. However, having multiple subpopulations still helps prevent premature convergence on a local optimum by strictly separating the subpopulations.
+In order to preserve population diversity, we adapted a few of the functions in the template to work with subpopulations, simulating the island model. In addition to the number of supopulations, the number of individuals was also increased from 100 to 800 in these experiments. This way there is a reasonable amount of individuals in each subpopulation for each experiment. 
 
-The results displayed in Table~\ref{tab:diversity1} through Table~\ref{tab:diversity20} show tests performed with 1, 2, 5, 10 and 20 subpopulations or islands.
+The results displayed in Table~\ref{tab:diversity1} through Table~\ref{tab:diversity20} show tests performed with 1, 2, 5, 10 and 20 subpopulations or islands. The results show a clear downwards trend in terms of path length when increasing the number of subpopulations. When the number of subpopulations is high, the number of individuals decreases enough to negatively impact path length. When the number of subpopulations is slightly inceased (e.g. 2 or 5) the formance is comparable to experiments performed for task 2 with the corresponding number of individuals in a single subpopulation.
+
+
+We did not implement any of the communication mechanisms between subpopulations. We suspect that the addition of migration might improve the results we observed.
 
 \begin{table}[H]
 	\centering
