@@ -5,11 +5,11 @@
 \toprule
 Dataset & Optimal length & \# Generations & Min & Mean & Max && Error Min & Error Mean & Error Max\\ 
 \midrule
-bcl380.tsp & 1621 & 1000.0 & 1981.15 & 1986.89 & 2146.88 && 22.22\% & 22.57\% & 132.38\% \\
-belgiumtour.tsp & 1 & 1000.0 & 685.21 & 689.14 & 834.59 && 68420.99\% & 68814.05\% & 83358.71\% \\
-rbx711.tsp & 3115 & 1000.0 & 5068.84 & 5079.83 & 5273.07 && 62.72\% & 63.08\% & 169.25\% \\
-xqf131.tsp & 564 & 1000.0 & 627.53 & 629.57 & 723.34 && 11.26\% & 11.63\% & 128.07\% \\
-xql662.tsp & 2513 & 1000.0 & 3883.25 & 3889.57 & 4110.53 && 54.53\% & 54.78\% & 163.53\% \\
+bcl380.tsp & 1621 & 1000.0 & 1857.22 & 1864.74 & 1997.17 && 14.57\% & 15.04\% & 123.14\% \\
+belgiumtour.tsp & 1 & 1000.0 & 669.45 & 675.28 & 794.65 && 66844.63\% & 67428.29\% & 79364.54\% \\
+rbx711.tsp & 3115 & 1000.0 & 4800.95 & 4808.46 & 4910.42 && 54.12\% & 54.36\% & 157.61\% \\
+xqf131.tsp & 564 & 1000.0 & 606.72 & 609.36 & 705.40 && 7.57\% & 8.04\% & 124.89\% \\
+xql662.tsp & 2513 & 1000.0 & 3734.04 & 3740.67 & 3935.87 && 48.59\% & 48.85\% & 156.58\% \\
 \bottomrule 
 \end{tabular} 
 }
@@ -20,10 +20,10 @@ xql662.tsp & 2513 & 1000.0 & 3883.25 & 3889.57 & 4110.53 && 54.53\% & 54.78\% & 
 parameters:
 NIND=1000;           % Number of individuals
 MAXGEN=1000;         % Maximum no. of generations
-ELITIST=0;           % percentage of the elite population
+ELITIST=0.10;        % percentage of the elite population
 STOP_PERCENTAGE=.95; % percentage of equal fitness individuals for stopping
-PR_CROSS=.50;        % probability of crossover
-PR_MUT=.30;          % probability of mutation
+PR_CROSS=.35;        % probability of crossover
+PR_MUT=.50;          % probability of mutation
 LOCALLOOP=1;         % local loop removal
 CROSSOVER = 'cross_order'; % crossover operators
 MUTATION = 'mut_inversion'; % mutation operators
@@ -31,4 +31,4 @@ SELECTION = 'sel_tournament'; % parent selection algorithm
 SUBPOP = 1;          % Amount of subpopulations
 CUSTOMSTOP = 0;      % Custom stopping criterion on/off
 CUSTOMSS = 1;        % Custom survivor selection on/off
-RUNS = 3;           % Number of ga runs in tests
+RUNS = 2;            % Number of ga runs in tests
