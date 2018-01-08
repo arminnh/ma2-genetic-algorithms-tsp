@@ -319,7 +319,7 @@ The new stopping criterion developed for task 3 allows us to gain on computation
 
 For the optional tasks, we decided to implement Fitness Proportional Selection and Tournament Selection for task 7a, where we saw that only tournament selection had an impact on performance. Furthermore, we implemented RR Tournament survivor selection for task 7b. It had a positive effect when used by itself, but this effect decreased when used with the already implemented elitism. Lastly, we experimented with multiple subpopulations for task 7c in an attempt to avoid premature convergence, but it ended up not being helpful in the context of this project.
 
-We put the knowledge gained from doing all these tasks to the test when tuning the final parameters for the benchmark tests, and achieved ... TODO resultaten.
+We put the knowledge gained from doing all these tasks to the test when tuning the final parameters for the benchmark problems for task 6.
 
 \mychapter{4}{Appendix}
 \section{Tables}
@@ -381,6 +381,7 @@ We put the knowledge gained from doing all these tasks to the test when tuning t
 	\label{tab:diversity}
 \end{table}
 
+\newpage
 \section{Code}
 \lstinputlisting[language=matlab,captionpos=t,caption=The main algorithm - src/run\_ga.m]{../src/run_ga.m}
 \lstinputlisting[language=matlab,captionpos=t,caption=Order crossover for task 4-  src/cross\_order.m]{../src/cross_order.m}
