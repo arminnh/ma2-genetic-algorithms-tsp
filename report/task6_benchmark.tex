@@ -5,11 +5,11 @@
 \toprule
 Dataset & Optimal length & \# Generations & Min & Mean & Max && Error Min & Error Mean & Error Max\\ 
 \midrule
-bcl380.tsp & 1621 & 1000.0 & 1857.22 & 1864.74 & 1997.17 && 14.57\% & 15.04\% & 123.14\% \\
+bcl380.tsp & 1621 & 1000.0 & 1852.19 & 1860.16 & 2023.90 && 14.26\% & 14.75\% & 124.79\% \\
 belgiumtour.tsp & 1 & 1000.0 & 669.45 & 675.28 & 794.65 && 66844.63\% & 67428.29\% & 79364.54\% \\
-rbx711.tsp & 3115 & 1000.0 & 4800.95 & 4808.46 & 4910.42 && 54.12\% & 54.36\% & 157.61\% \\
-xqf131.tsp & 564 & 1000.0 & 606.72 & 609.36 & 705.40 && 7.57\% & 8.04\% & 124.89\% \\
-xql662.tsp & 2513 & 1000.0 & 3734.04 & 3740.67 & 3935.87 && 48.59\% & 48.85\% & 156.58\% \\
+rbx711.tsp & 3115 & 1000.0 & 4634.19 & 4646.41 & 4825.60 && 48.77\% & 49.16\% & 154.88\% \\
+xqf131.tsp & 564 & 1000.0 & 602.35 & 605.50 & 689.35 && 6.80\% & 7.36\% & 122.05\% \\
+xql662.tsp & 2513 & 1000.0 & 3602.92 & 3621.99 & 3777.70 && 43.37\% & 44.13\% & 150.29\% \\
 \bottomrule 
 \end{tabular} 
 }
@@ -31,4 +31,4 @@ SELECTION = 'sel_tournament'; % parent selection algorithm
 SUBPOP = 1;          % Amount of subpopulations
 CUSTOMSTOP = 0;      % Custom stopping criterion on/off
 CUSTOMSS = 1;        % Custom survivor selection on/off
-RUNS = 2;            % Number of ga runs in tests
+RUNS = 5;            % Number of ga runs in tests

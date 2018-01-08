@@ -61,7 +61,6 @@ for subpop = 1:SUBPOP
         if row == rows
             NewChrom((subpop-1)*rows + row, :) = SubChrom(rows, :);
         elseif rand < PR_CROSS
-            % TODO: adapt crossover functions so that feval can be used with all of them
             if strcmp(CROSS_F, 'cross_alternating_edges')
                 NewChrom((subpop-1)*rows + row,:) = cross_alternating_edges([ SubChrom(row,:) ; SubChrom(row+1,:) ]);
                 NewChrom((subpop-1)*rows + row + 1,:) = cross_alternating_edges([ SubChrom(row+1,:) ; SubChrom(row,:) ]);
