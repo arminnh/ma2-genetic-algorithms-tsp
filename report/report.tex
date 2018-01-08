@@ -150,7 +150,6 @@ The crossover results show that the default very high probability performs poore
 
 \subsection{Mutation}
 The results don't change much for different values of mutation. Judging from the minima, means, and maxima, the best performance again lies around probabilities of 30 to 50 percent.
-TODO: test nog eens met lagere crossover?
 
 \subsection{Loop removal}
 See section~\ref{sec:local}
@@ -305,13 +304,13 @@ We did not implement any communication mechanisms between subpopulations. We sus
 \section{Task 6: Benchmark problems}
 For this task, we have selected a set of parameters and methods based on all of the results above. Our algorithm is evaluated by running it on the given benchmark problems and calculating the relative error of the results of the algorithm to the known optimal paths of the benchmark problems. 
 
-The parameters used were: \texttt{number of individuals} = 1000, \texttt{maximum number of generations} = 1000, \texttt{probability of mutation} = ???, \texttt{probability of crossover} = ???, \texttt{percentage of elite population} = ???, \texttt{subpopulations} = 1, \texttt{loop detection} = 1, \texttt{selection function} = sel\_tournament, \texttt{crossover function} = cross\_order, \texttt{mutation function} = mut\_inversion, \texttt{custom stopping criterion} = off, \texttt{custom survivor selection function} = on (round robin tournament).
+The parameters used were: \texttt{number of individuals} = 1000, \texttt{maximum number of generations} = 1000, \texttt{probability of mutation} = 0.5, \texttt{probability of crossover} = 0.35, \texttt{percentage of elite population} = 0, \texttt{subpopulations} = 1, \texttt{loop detection} = 1, \texttt{selection function} = sel\_tournament, \texttt{crossover function} = cross\_order, \texttt{mutation function} = mut\_inversion, \texttt{custom stopping criterion} = off, \texttt{custom survivor selection function} = on (round robin tournament).
 
-The results are shown in table~\ref{tab:benchmark}. Table\ref{tab:benchmark_defaults} contains results for the benchmark problems when using the default parameters mentioned in the introduction. Judging from the relative errors, we can conclude that our solutions are TODO
-%\input{task6_benchmark}
-%\input{task6_benchmark_defaults}
+The results are shown in table~\ref{tab:benchmark}. Table\ref{tab:benchmark_defaults} contains results for the benchmark problems when using the default parameters mentioned in the introduction, but with \texttt{number of individuals} = 1000 and \texttt{maximum number of generations} = 1000. Judging from the relative errors, we can conclude that our final algorithm performs much better. The algorithm achieves lower relative errors on datasets with lower amounta of cities (xqf131 and bcl380). The relative errors for datasets with higher amounts of cities lie a bit higher.
+\input{task6_benchmark}
+\input{task6_benchmark_defaults}
 
-
+\newpage
 \section{Conclusion}
 
 For this project, we ran and evaluated many experiments. In task 2, we looked at the effects of parameter tuning on the `bare' genetic algorithm. We mainly noticed that by themselves, the parameters all have a relatively small impact. However, tuning the parameters together can give much better results on the datasets.

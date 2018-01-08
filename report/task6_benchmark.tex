@@ -5,30 +5,14 @@
 \toprule
 Dataset & Optimal length & \# Generations & Min & Mean & Max && Error Min & Error Mean & Error Max\\ 
 \midrule
-bcl380.tsp & 1621 & 1000.0 & 1896.69 & 1904.51 & 2051.59 && 17.01\% & 17.49\% & 126.50\% \\
-belgiumtour.tsp & 1 & 1000.0 & 682.82 & 688.46 & 825.21 && 68182.28\% & 68746.22\% & 82421.11\% \\
-rbx711.tsp & 3115 & 1000.0 & 4472.28 & 4481.97 & 4688.02 && 43.57\% & 43.88\% & 150.47\% \\
-xqf131.tsp & 564 & 1000.0 & 598.65 & 601.90 & 663.49 && 6.14\% & 6.72\% & 117.46\% \\
-xql662.tsp & 2513 & 1000.0 & 3535.07 & 3538.77 & 3692.50 && 40.67\% & 40.82\% & 146.90\% \\
+bcl380.tsp & 1621 & 1000.0 & 1896.69 & 1904.51 & 2051.59 && 17.01\% & 17.49\% & 26.56\% \\
+belgiumtour.tsp & ? & 1000.0 & 682.82 & 688.46 & 825.21 && ? & ? & ? \\
+rbx711.tsp & 3115 & 1000.0 & 4472.28 & 4481.97 & 4688.02 && 43.57\% & 43.88\% & 50.49\% \\
+xqf131.tsp & 564 & 1000.0 & 598.65 & 601.90 & 663.49 && 6.14\% & 6.72\% & 17.64\% \\
+xql662.tsp & 2513 & 1000.0 & 3535.07 & 3538.77 & 3692.50 && 40.67\% & 40.82\% & 46.94\% \\
 \bottomrule 
 \end{tabular} 
 }
 \caption{Results for benchmark problems with our final algorithm.}
 \label{tab:benchmark}
 \end{table}
-
-parameters:
-NIND=1000;           % Number of individuals
-MAXGEN=1000;         % Maximum no. of generations
-ELITIST=0;           % percentage of the elite population
-STOP_PERCENTAGE=.95; % percentage of equal fitness individuals for stopping
-PR_CROSS=.35;        % probability of crossover
-PR_MUT=.50;          % probability of mutation
-LOCALLOOP=1;         % local loop removal
-CROSSOVER = 'cross_order'; % crossover operators
-MUTATION = 'mut_inversion'; % mutation operators
-SELECTION = 'sel_tournament'; % parent selection algorithm
-SUBPOP = 1;          % Amount of subpopulations
-CUSTOMSTOP = 0;      % Custom stopping criterion on/off
-CUSTOMSS = 1;        % Custom survivor selection on/off
-RUNS = 5;            % Number of ga runs in tests
